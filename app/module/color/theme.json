@@ -1,0 +1,15 @@
+{
+	"label": "Color",
+	"type": "theme",
+	"id": "com.moviemasher.theme.color",
+	"properties": { 
+		"color": { "type": "rgb", "value": "rbg(255,255,0)" }
+	},
+	"filters": [{
+		"id": "color",
+		"parameters":[{
+			"name": "color",
+			"value":"color"
+		}]
+	}]
+}

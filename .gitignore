@@ -1,0 +1,10 @@
+logs/*
+!.gitkeep
+node_modules/
+app/bower_components/grunt*
+app/bower_components/jshint*
+app/bower_components/jquery*
+app/user/
+tmp
+.DS_Store
+.idea
