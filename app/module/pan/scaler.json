@@ -9,33 +9,31 @@
 	"filters": [
 		{
 			"id": "crop",
-			"description": "crop down to square if needed", 
+			"description": "crop down diagonals and center", 
 			"parameters": [
 				{
 					"name": "out_w",
-					"value":[
+					"value": [
 						{
-							"description": "portrait/square input or non-diagonal direction",
-							"condition": "(mm_input_width <= mm_input_height) or (direction < 4)",
+							"condition": "direction < 4",
 							"value": "mm_input_width"
-						},{
-							"description": "otherwise",
+						},
+						{
 							"condition": "true",
-							"value": "mm_input_height"
-						}							
+							"value": "mm_horz(scale, true) / mm_max(mm_horz(scale, true) / mm_input_width, mm_vert(scale, true) / mm_input_height)"
+						}
 					]
 				},{
 					"name": "out_h",
 					"value":[
 						{
-							"description": "landscape/square input or non-diagonal direction",
-							"condition": "(mm_input_height <= mm_input_width) or (direction < 4)",
+							"condition": "direction < 4",
 							"value": "mm_input_height"
-						},{
-							"description": "otherwise",
+						},
+						{
 							"condition": "true",
-							"value": "mm_input_width"
-						}							
+							"value": "mm_vert(scale, true) / mm_max(mm_horz(scale, true) / mm_input_width, mm_vert(scale, true) / mm_input_height)"
+						}
 					]
 				}, {
 					"name": "x",
@@ -48,20 +46,36 @@
 		},
 		{
 			"id": "scale",
-			"description": "scale (hopefully down)", 
+			"description": "scale (proudly for diagonals)", 
 			"parameters": [
 				{
 					"name": "w",
-					"value":"scale * mm_in_w * mm_max(mm_height / mm_in_h, mm_width / mm_in_w)"
+					"value":[
+						{
+							"condition": "direction < 4",
+							"value": "mm_input_width * mm_max(mm_horz(scale) / mm_input_width, mm_vert(scale) / mm_input_height)"
+						},{
+							"condition": "true",
+							"value": "mm_horz(scale, true)"
+						}							
+					]
 				},{
 					"name": "h",
-					"value":"scale * mm_in_h * mm_max(mm_height / mm_in_h, mm_width / mm_in_w)"
+					"value":[
+						{
+							"condition": "direction < 4",
+							"value": "mm_input_height * mm_max(mm_horz(scale) / mm_input_width, mm_vert(scale) / mm_input_height)"
+						},{
+							"condition": "true",
+							"value": "mm_vert(scale, true)"
+						}							
+					]
 				}
 			]
 		},
 		{
 			"id": "crop",
-			"description": "crop and position over time",
+			"description": "crop down and position over time",
 			"parameters": [
 				{
 					"name": "w",
