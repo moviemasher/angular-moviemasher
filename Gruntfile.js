@@ -47,9 +47,6 @@ module.exports = function(grunt) {
 			},
 			moviemasher: {
 				src: '<%= concat.moviemasher.dest %>'
-			},
-			app: {
-				src: 'app/app.js'
 			}
 		},
 		uglify: {

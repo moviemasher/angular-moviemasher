@@ -211,7 +211,7 @@ function api_job_render($inputs, $output, $config) {
 			'type' => $type,
 			'extension' => $decoder_extension,
 			'error' => '{job.error}',
-			'log' => '{log}',
+			'log' => '{job.log}',
 			'commands' => '{job.commands}',
 		);
 		$destination = array();
@@ -370,7 +370,7 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 			'type' => $type,
 			'label' => $label,
 			'error' => '{job.error}',
-			'log' => '{log}',
+			'log' => '{job.log}',
 			'commands' => '{job.commands}',
 			'no_audio' => '{job.inputs.0.no_audio}',
 			'no_video' => '{job.inputs.0.no_video}',

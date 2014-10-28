@@ -1,4 +1,4 @@
-[![Image](https://github.com/moviemasher/angular-moviemasher/blob/master/README/logo-120x60.png "MovieMasher.com")](http://moviemasher.com)
+[![Image](https://github.com/moviemasher/angular-moviemasher/raw/master/README/logo-120x60.png "MovieMasher.com")](http://moviemasher.com)
 **[moviemasher.js](https://github.com/moviemasher/moviemasher.js "stands below angular-moviemasher, providing audiovisual playback handling and edit support in a web browser") | angular-moviemasher | [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb "sits behind angular-moviemasher, providing processor intensive video transcoding services through a simple API")**
 
 *Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP*
@@ -53,7 +53,7 @@ It's important to remember this project is just an *example* deployment and not 
 - Font.js
 - moviemasher.js
 
-### Developer Steps
+### Developer Setup
 1. install git, npm, bower and grunt
 2. npm install
 3. bower install
