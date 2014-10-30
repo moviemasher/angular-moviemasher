@@ -59,12 +59,18 @@ It's important to remember this project is just an *example* deployment and not 
 3. bower install
 4. grunt
 
-##### Known issues in Version 1.0.01
+##### Known issues in Version 1.0.02
 - timeline allows clips to be positioned atop one another
 - uploads can only be dragged into browser panel
 - freeze frame not yet supported
 - cut/copy/paste not yet supported
 
-
-
-
+##### Migrating from Version 1.0.01
+- The `begin` key in video clips has been renamed `first`.
+- The `length` key in clips has been renamed `frames`.
+- The `audio` and `video` keys in mash tracks have been moved to mash.
+- The `tracks` key in mashes has been removed. 
+- The `fps` key in job outputs has been renamed `video_rate`.
+- The `export_fps` key in moviemasher.ini has been renamed `export_video_rate`.
+- The `audio_frequency` key in job outputs has been renamed `audio_rate`.
+- The `export_audio_frequency` key in moviemasher.ini has been renamed `export_audio_rate`.

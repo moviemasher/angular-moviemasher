@@ -38,7 +38,7 @@ function api_import_data($response = array(), $config = array()) {
 		if (! ($id && $uid)) $err = 'Parameters id, uid required';
 	}
 	if (! $err) { // pull in other configuration and check for required input
-		$import_fps = $config['import_fps'];
+		$import_video_rate = $config['import_video_rate'];
 		$import_extension = $config['import_extension'];
 		$media_url = '/' . $config['user_media_url'] . $uid . '/';
 		if ($config['file'] != 'local') $media_url = 'http://' . $config['user_media_host'] . $media_url;
@@ -48,7 +48,7 @@ function api_import_data($response = array(), $config = array()) {
 		$type = (empty($response['type']) ? '' : $response['type']);
 		switch ($type) {
 			case 'image': {
-				$import_fps = '1';
+				$import_video_rate = '1';
 				$import_extension = $media_extension;
 				break;
 			}
@@ -67,7 +67,7 @@ function api_import_data($response = array(), $config = array()) {
 		$media_data['label'] = $label;
 		// add source with original for rendering
 		$media_data['source'] = $media_url . $id . '/' . $config['import_original_basename'] . '.' . $media_extension;
-		$frame_path = $media_url . $id . '/' . $config['import_dimensions'] . 'x' . $import_fps . '/';
+		$frame_path = $media_url . $id . '/' . $config['import_dimensions'] . 'x' . $import_video_rate . '/';
 		$audio = 1;
 		$did_icon = 0;
 		$did_url = 0;
@@ -82,10 +82,10 @@ function api_import_data($response = array(), $config = array()) {
 				$audio = ! ((empty($response['no_audio']) || ('false' == $response['no_audio'])) ? '' : $response['no_audio']);
 				$video = ! ((empty($response['no_video']) || ('false' == $response['no_video'])) ? '' : $response['no_video']);
 				if ($video) {
-					$frames = floor($duration * $import_fps);
+					$frames = floor($duration * $import_video_rate);
 					$zero_padding = strlen($frames);
 					$media_data['url'] = $frame_path;
-					$media_data['fps'] = $import_fps;
+					$media_data['video_rate'] = $import_video_rate;
 					$media_data['pattern'] = '%.' . $import_extension;
 					$media_data['icon'] = $frame_path . str_pad(ceil($frames / 2), $zero_padding, '0', STR_PAD_LEFT) . '.' . $import_extension;
 					$did_icon = 1;
@@ -181,14 +181,12 @@ function api_job_render($inputs, $output, $config) {
 		$type = (empty($output['type']) ? 'video' : $output['type']);
 		$title = (empty($output['title']) ? '' : $output['title']);
 		if ($type == 'video') {
-			$decoder_extension = $config['export_extension'];
-			$decoder_input_switches = $config['export_input_switches'];
-			$decoder_audio_codec = $config['export_audio_codec'];
+			$export_extension = $config['export_extension'];
+			$export_audio_codec = $config['export_audio_codec'];
 		} else {
 			$type = 'audio';
-			$decoder_extension = $config['export_audio_extension'];
-			$decoder_input_switches = $config['export_audio_switches'];
-			$decoder_audio_codec = $config['export_audio_codec_audio'];
+			$export_extension = $config['export_audio_extension'];
+			$export_audio_codec = $config['export_audio_codec_audio'];
 		}
 		$found_audio = (empty($output['has_audio']) ? true : $output['has_audio']);
 		$found_video = (empty($output['has_video']) ? ($type == 'video') : $output['has_video']);
@@ -209,7 +207,7 @@ function api_job_render($inputs, $output, $config) {
 			'id' => $id,
 			'uid' => $user_id,
 			'type' => $type,
-			'extension' => $decoder_extension,
+			'extension' => $export_extension,
 			'error' => '{job.error}',
 			'log' => '{job.log}',
 			'commands' => '{job.commands}',
@@ -242,7 +240,7 @@ function api_job_render($inputs, $output, $config) {
 					'parameters' => array(
 						'id' => $id,
 						'type' => $type,
-						'extension' => $decoder_extension,
+						'extension' => $export_extension,
 						'uid' => $user_id,
 						'job' => '{job.id}'
 					),
@@ -314,22 +312,20 @@ function api_job_render($inputs, $output, $config) {
 		$result['destination'] = $destination;
 		// add Output for rendered video or audio file, with no transfer tag of its own
 		$job_output = array('type' => $type);
-		$job_output['extension'] = $decoder_extension;
+		$job_output['extension'] = $export_extension;
 		$job_output['name'] = (empty($config["export_{$type}_basename"]) ? '{job.id}' : $config["export_{$type}_basename"]);
-		$job_output['switches'] = $config['export_switches'];
-		$job_output['input_switches'] = $decoder_input_switches;
-		if ($config['export_meta_title'] && $title) $job_output['output_switches'] = '-metadata ' . $config['export_meta_title'] . '="' . $title . '"';
+		if ($config['export_meta_title'] && $title) $job_output['metadata'] = $config['export_meta_title'] . '="' . $title . '"';
 		if ($type == 'video') {
 			$job_output['video_codec'] = $config['export_video_codec'];
-			$job_output['video_bitrate'] = $config['export_video_bitratre'];
-			$job_output['fps'] = $config['export_fps'];
+			$job_output['video_bitrate'] = $config['export_video_bitrate'];
+			$job_output['video_rate'] = $config['export_video_rate'];
 			$job_output['dimensions'] = $config['export_dimensions'];
 		}
 		else $job_output['no_video'] = '1';
 		if ($found_audio) {
-			$job_output['audio_codec'] = $decoder_audio_codec;
+			$job_output['audio_codec'] = $export_audio_codec;
 			$job_output['audio_bitrate'] = $config['export_audio_bitrate'];
-			$job_output['frequency'] = $config['export_audio_frequency'];
+			$job_output['audio_rate'] = $config['export_audio_rate'];
 		}
 		else $job_output['no_audio'] = '1';
 		$result['outputs'][] = $job_output;
@@ -481,7 +477,7 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 				'audio_bitrate' => $config['import_audio_bitrate'], 
 				'name' => $config['import_audio_basename'], 
 				'extension' => $config['import_audio_extension'], 
-				'frequency' => $config['import_audio_frequency'],
+				'frequency' => $config['import_audio_rate'],
 			);
 			
 			
@@ -499,11 +495,10 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 			// add output for sequence files
 			$result['outputs'][] = array(
 				'type' => 'sequence', 
-				'fps' => $config['import_fps'], 
+				'video_rate' => $config['import_video_rate'], 
 				'quality' => $config['import_image_quality'], 
 				'extension' => $config['import_extension'], 
 				'dimensions' => $config['import_dimensions'],
-				'name' => '{output.sequence}',
 				'path' => '{output.dimensions}x{output.fps}',
 			);
 		}
@@ -595,7 +590,6 @@ function api_queue_job($data, $config = array()) {
 function __api_about_mash($mash){
 	$result = array('error' => '', 'duration' => 0, 'has_audio' => 0, 'has_video' => 0, 'label' => '');
 	if (empty($mash)) $result['error'] = 'mash is empty';
-	if ((! $result['error']) && empty($mash['tracks'])) $result['error'] = 'mash tracks is empty';
 	if (! $result['error']) {
 		$types = array('audio', 'video');
 		$media = (empty($mash['media']) ? array() : $mash['media']);
@@ -604,30 +598,28 @@ function __api_about_mash($mash){
 		$quantize = (empty($mash['quantize']) ? 10 : $mash['quantize']);
 		if (! empty($mash['label'])) $result['label'] = $mash['label'];
 		foreach($types as $type){
-			if (! (empty($mash['tracks'][$type]))) { 
-				$tracks = $mash['tracks'][$type];
-				$y = sizeof($tracks);
-				for ($j = 0; $j < $y; $j++) {
-					$track = $tracks[$j];
-					$z = sizeof($track['clips']);
-					for ($i = 0; $i < $z; $i++){
-						$clip = $track['clips'][$i];
-						$media = (empty($medias[$clip['id']]) ? $clip : $medias[$clip['id']]);
-						$media_type = (empty($media['type']) ? '' : $media['type']);
-						switch($media_type){
-							case 'audio':
-								if (__api_clip_has_audio($clip, $media)) $result['has_audio'] = true;
-								else continue; // completely ignore muted audio
-								break;
-							case 'video':
-								if (__api_clip_has_audio($clip, $media)) $result['has_audio'] = true;
-								// fall through to default, for visuals
-							default:
-								$result['has_video'] = true;
-								break;
-						}	
-						$result['duration'] = max($result['duration'], ($clip['frame'] + $clip['length']) / $quantize);
-					}
+			$tracks = (empty($mash[$type]) ? array() : $mash[$type]);
+			$y = sizeof($tracks);
+			for ($j = 0; $j < $y; $j++) {
+				$track = $tracks[$j];
+				$z = sizeof($track['clips']);
+				for ($i = 0; $i < $z; $i++){
+					$clip = $track['clips'][$i];
+					$media = (empty($medias[$clip['id']]) ? $clip : $medias[$clip['id']]);
+					$media_type = (empty($media['type']) ? '' : $media['type']);
+					switch($media_type){
+						case 'audio':
+							if (__api_clip_has_audio($clip, $media)) $result['has_audio'] = true;
+							else continue; // completely ignore muted audio
+							break;
+						case 'video':
+							if (__api_clip_has_audio($clip, $media)) $result['has_audio'] = true;
+							// fall through to default, for visuals
+						default:
+							$result['has_video'] = true;
+							break;
+					}	
+					$result['duration'] = max($result['duration'], ($clip['frame'] + $clip['frames']) / $quantize);
 				}
 			}
 		}

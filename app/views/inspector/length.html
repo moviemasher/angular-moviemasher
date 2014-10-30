@@ -1,6 +1,0 @@
-<div>
-	<label>Frames:</label>
-	({{ $amm.player.selectedClip.length | secondsFromFrames : $amm.player.mash.quantize | displaySeconds  : $amm.player.mash.quantize}})
-	<br />
-	<input type='number' min="1" step="1" size="3" class='form-input' ng-change="$amm.player.change('length')" ng-model="$amm.player.selectedClip.length" />
-</div>

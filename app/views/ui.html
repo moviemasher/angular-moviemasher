@@ -137,11 +137,11 @@
 				</div>
 				<div class='amm-timeline'>
 					<amm-timeline-track-controls>
-						<amm-timeline-track ng-repeat="track in $amm.player.mash.tracks.video | orderBy : 'index' : true" class="amm-border-right amm-border-bottom">
+						<amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-right amm-border-bottom">
 							<i class="glyphicon" ng-class="{'glyphicon-tasks':track.index, 'glyphicon-facetime-video':!track.index}"></i>
 							{{track.index}}				
 						</amm-timeline-track>
-						<amm-timeline-track ng-repeat="track in $amm.player.mash.tracks.audio" class="amm-border-right amm-border-bottom">
+						<amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-right amm-border-bottom">
 							<i class="glyphicon glyphicon-music"></i>
 							{{track.index}}
 						</amm-timeline-track>
@@ -149,10 +149,10 @@
 					<div>
 						<div class='amm-timeline-drop'></div>
 						<amm-timeline-tracks>
-							<amm-timeline-track ng-repeat="track in $amm.player.mash.tracks.video | orderBy : 'index' : true" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
+							<amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
 								<amm-timeline-clip ng-repeat="clip in track.clips" />
 							</amm-timeline-track>
-							<amm-timeline-track ng-repeat="track in $amm.player.mash.tracks.audio" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
+							<amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
 								<amm-timeline-clip ng-repeat="clip in track.clips" />
 							</amm-timeline-track>
 						</amm-timeline-tracks>

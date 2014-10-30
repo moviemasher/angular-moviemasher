@@ -1,4 +1,4 @@
-/*! angular-moviemasher - v1.0.1 - 2014-10-27
+/*! angular-moviemasher - v1.0.02 - 2014-10-30
 * Copyright (c) 2014 Movie Masher; Licensed  */
 /*globals MovieMasher:true,angular:true*/
 (function(){
@@ -898,7 +898,7 @@
 				$scope.amm_style_clip = function(clip, track){
 					var ob = {};
 					var media = $amm.player.media(clip);
-					ob.width = __pixels_from_frame(clip.length, 'floor') + 'px';
+					ob.width = __pixels_from_frame(clip.frames, 'floor') + 'px';
 					ob['z-index'] = (('transition' === media.type) ? 10 : 1) * 100 + track.clips.indexOf(clip);
 					ob.left = __pixels_from_frame(clip.frame, 'floor') + 'px';
 					ob.position = 'absolute';
@@ -928,7 +928,7 @@
 						drop_effect = eventObject.dataTransfer.dropEffect;
 						//console.log('amm-timeline-tracks drop', drop_effect, eventObject);
 						controller.timeline_drag_data(); // to clear highlights
-						container = $amm.player.mash.tracks[data.track.type];
+						container = $amm.player.mash[data.track.type];
 						track_index = data.track.index;
 						if (('video' === data.track.type) && (! track_index)) {
 							frame_or_index = (data.clip ? data.track.clips.indexOf(data.clip) : data.track.clips.length);
@@ -981,7 +981,6 @@
 					if ($event.stopPropagation) $event.stopPropagation();
 				} );
 			});
-			
 			element.bind("dragstart", function(eventObject) {
 				//console.log('dragstart', eventObject);
 				if ($amm.player.selected(scope.clip)) {

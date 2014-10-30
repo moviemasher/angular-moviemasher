@@ -20,14 +20,12 @@
 			 -o-user-select: none;
 					user-select: none;
 }
-
 .amm-player{
 	position:absolute;
 	width: 256px;
 	height: 144px;
 	top:34px;
 }
-
 .amm-browser,
 .amm-inspector,
 .amm-timeline {
@@ -54,7 +52,6 @@
 	overflow-y: auto;
 	-webkit-overflow-y-scrolling: none;
 }
-
 .amm-browser-media {
 	display:inline-block;
 	position:relative;
@@ -154,7 +151,6 @@ amm-timeline-track-controls {
 amm-timeline-track.amm-drop-dragover {
 	border: 1px solid red;
 }
-
 amm-timeline-track {
 	height: 64px;
 	padding:2px;
@@ -209,8 +205,6 @@ amm-timeline-track-controls amm-timeline-track {
 	height:5px;
 	background-color:darkgray;
 }
-
-
 .amm-timeline-clip {
 	display:inline-block;
 	position:relative;
@@ -223,7 +217,6 @@ amm-timeline-track-controls amm-timeline-track {
 .amm-timeline-clip:hover {
 	border: solid 2px darkgray;
 }
-
 .amm-timeline-clip-icon {
 	display:inline-block;
 	width: 120px;
@@ -246,9 +239,7 @@ amm-timeline-track-controls amm-timeline-track {
 	overflow-x:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-								
-								
+}								
 .amm-container{
 	position:relative;
 	height:100%;
@@ -317,7 +308,7 @@ amm-timeline-track-controls amm-timeline-track {
 .amm-colorpicker {
 	position:relative;
 	display:inline;
-	margin-left: 3px;
+	margin-left: 10px;
 }
 .amm-colorpicker-background {
 	display:inline-block;
@@ -403,7 +394,26 @@ amm-timeline-track-controls amm-timeline-track {
 	margin-top:-3px;
 }
 
-input, textarea{
-    color:#555;
-   /*background-color: #EEE;*/
+.amm-inspector-row {
+    margin-bottom: 6px;
+    clear: right;	
 }
+.amm-inspector-row > input,
+.amm-inspector-row > textarea {
+	width: 120px;
+    color:#555;
+    float: right;
+}
+.amm-inspector-row > select {
+    float: right;
+    width: 200px;
+}
+.amm-inspector-row > input[type="range"],
+.amm-inspector-row > input[type="text"],
+.amm-inspector-row > textarea {
+	width: 200px;
+}
+.amm-inspector-row > input[type="number"] {
+	width: 80px;
+}
+

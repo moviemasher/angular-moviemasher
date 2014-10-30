@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			options: {
-				"-W086": true, /* allow fall through in switches */
+				"-W086": true, /* allow fall through in switch statements */
 				curly: false,
 				eqeqeq: true,
 				immed: true,

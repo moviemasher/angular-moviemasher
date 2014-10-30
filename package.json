@@ -1,7 +1,7 @@
 {
 	"name": "angular-moviemasher",
 	"description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
-	"version": "1.0.1",
+	"version": "1.0.02",
 	"author": {
 		"name": "Movie Masher",
 		"email": "support@moviemasher.com"
