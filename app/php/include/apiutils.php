@@ -156,7 +156,7 @@ function api_job_export($input = array(), $output = array(), $config = array()) 
 	if (! $err) { // build inputs and job request
 		$inputs = array();
 		$type = ($about_mash['has_video'] ? 'video' : 'audio');
-		$input_mash = array('type' => 'mash', 'source' => $input_mash);
+		$input_mash = array('type' => 'mash', 'mash' => $input_mash);
 		$inputs[] = $input_mash;
 		$output['type'] = $type;
 		$output['has_audio'] = $about_mash['has_audio'];

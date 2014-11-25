@@ -1,6 +1,6 @@
 logs/*
 !.gitkeep
-node_modules/
+node_modules*
 app/bower_components/grunt*
 app/bower_components/jshint*
 app/bower_components/jquery*

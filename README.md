@@ -10,7 +10,7 @@ Use angular-moviemasher to integrate audio/video editing features into your exis
 - **integrate** with your existing authentication and storage mechanisms
 - **customize** the user interface, workflow and available media
 
-![Image](https://github.com/moviemasher/angular-moviemasher/blob/master/README/ui.jpg "User Interfacee")
+![Image](https://github.com/moviemasher/angular-moviemasher/raw/master/README/ui.jpg "User Interfacee")
 
 The project includes an AngularJS module that manifests a time-based video editing interface, as well as a set of server-side PHP scripts it interacts with. Both the client and server sides are effectively abstractions, sheltering you from the complexity of the underlying moviemasher.js and moviemasher.rb projects respectively. 
 
@@ -26,7 +26,7 @@ Additionally, the Movie Masher AMI is available in Marketplace and includes all 
 
 ### How to Install on Your Web Host
 
-It's important to remember this project is just an *example* deployment and not intended to be a fully functional user-driven site out of the box. For instance, by default it uses HTTP authentication that accepts any username and password combination - hardly a reccommended mechanism! It also stores all data locally in JSON files instead of using a database or other mechanism. 
+It's important to remember this project is just an *example* deployment and not intended to be a fully functional user-driven site out of the box. For instance, by default it uses HTTP authentication that accepts any username and password combination - hardly a recommended mechanism! It also stores all data locally in JSON files instead of using a database or other mechanism. 
 
 1. edit the config/moviemasher.ini file and place outside your web root directory
 2. add its parent directory to PHP's include_path configuration option somehow or edit app/php/include/authutils.php to specify its full path
@@ -74,3 +74,6 @@ It's important to remember this project is just an *example* deployment and not 
 - The `export_fps` key in moviemasher.ini has been renamed `export_video_rate`.
 - The `audio_frequency` key in job outputs has been renamed `audio_rate`.
 - The `export_audio_frequency` key in moviemasher.ini has been renamed `export_audio_rate`.
+- The new `mash` key in mash inputs should be used for embedded mashes
+- The `source` key in mash inputs should only contain a source object
+
