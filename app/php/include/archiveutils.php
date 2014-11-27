@@ -16,7 +16,7 @@ function archive_extract($path, $archive_dir, $config = array())
 	$result = FALSE;
 	if (class_exists('Archive_Tar'))
 	{
-		if (file_safe($archive_dir . 'file.txt', $config)) 
+		if (file_safe(path_concat($archive_dir, 'file.txt'), $config)) 
 		{
 			$tar = new Archive_Tar($path);
 			$tar->extract($archive_dir);

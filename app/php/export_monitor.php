@@ -36,7 +36,7 @@ if (! $err) {
 	if (! $job) $err = 'Parameter job required';
 }
 if (! $err) { // get job progress
-	$progress_file = $config['temporary_directory'] . $job . '.json';
+	$progress_file = path_concat($config['temporary_directory'], $job . '.json');
 	$json_str = file_get($progress_file);
 	if (! $json_str) { // no progress file created yet
 		$response['completed'] = 0.01;

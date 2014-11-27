@@ -23,7 +23,7 @@ function file_dir_delete_recursive($path)
 		}
 		if (file_exists($path) && is_dir($path))
 		{
-			$path = config_path($path);
+			$path = path_add_slash_end($path);
 			
 			if ($handle = opendir($path)) 
 			{
@@ -79,8 +79,8 @@ function file_move_extension($extension, $archive_path, $media_path, $config = a
 	// make sure parameters are defined
 	if ($extension && $archive_path && $media_path)
 	{
-		$archive_path = config_path($archive_path);
-		$media_path = config_path($media_path);
+		$archive_path = path_add_slash_end($archive_path);
+		$media_path = path_add_slash_end($media_path);
 		
 		// make sure archive path exists
 		if (file_exists($archive_path))
@@ -118,7 +118,7 @@ function file_move($from, $to){
 function file_write_temporary($path, $data, $config = array()){
 	$result = FALSE;
 	if (! $config) $config = config_get();
-	if (! config_error($config)) $result = file_put($config['temporary_directory'] . $path, $data, $config);
+	if (! config_error($config)) $result = file_put(path_concat($config['temporary_directory'], $path), $data, $config);
 	return $result;
 }
 function file_put($path, $data, $config = array()) {
@@ -168,7 +168,7 @@ function files_in_dir($dir, $just_names = FALSE, $filter = 'files')
 	$result = FALSE;
 	if ($dir && is_dir($dir))
 	{
-		$dir = config_path($dir);
+		$dir = path_add_slash_end($dir);
 		if ($handle = opendir($dir)) 
 		{
 			$result = array();

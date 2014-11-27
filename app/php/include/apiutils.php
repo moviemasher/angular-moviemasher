@@ -40,8 +40,8 @@ function api_import_data($response = array(), $config = array()) {
 	if (! $err) { // pull in other configuration and check for required input
 		$import_video_rate = $config['import_video_rate'];
 		$import_extension = $config['import_extension'];
-		$media_url = '/' . $config['user_media_url'] . $uid . '/';
-		if ($config['file'] != 'local') $media_url = 'http://' . $config['user_media_host'] . $media_url;
+		$media_url = path_concat($config['user_media_url'], $uid);
+		if ($config['file'] != 'local') $media_url = path_concat('http://' . $config['user_media_host'], $media_url);
 	}
 	if (! $err) {
 		$media_extension = (empty($response['extension']) ? '' : $response['extension']);
@@ -66,8 +66,8 @@ function api_import_data($response = array(), $config = array()) {
 		$media_data['id'] = $id;
 		$media_data['label'] = $label;
 		// add source with original for rendering
-		$media_data['source'] = $media_url . $id . '/' . $config['import_original_basename'] . '.' . $media_extension;
-		$frame_path = $media_url . $id . '/' . $config['import_dimensions'] . 'x' . $import_video_rate . '/';
+		$media_data['source'] = path_concat(path_concat($media_url, $id), $config['import_original_basename'] . '.' . $media_extension);
+		$frame_path = path_concat(path_concat($media_url, $id), $config['import_dimensions'] . 'x' . $import_video_rate);
 		$audio = 1;
 		$did_icon = 0;
 		$did_url = 0;
@@ -92,7 +92,7 @@ function api_import_data($response = array(), $config = array()) {
 				} else {
 					$type = 'audio';
 					$did_url = 1;
-					$media_data['url'] = $media_url . $id . '/' . $config['import_audio_basename'] . '.' . $config['import_audio_extension'];		
+					$media_data['url'] = path_concat(path_concat($media_url, $id), $config['import_audio_basename'] . '.' . $config['import_audio_extension']);		
 				}
 				// intentional fall through to audio
 			}
@@ -101,8 +101,8 @@ function api_import_data($response = array(), $config = array()) {
 				else {
 					$media_data['duration'] = $duration;
 					if ($audio) {
-						if (! $did_url) $media_data['audio'] = $media_url . $id . '/' . $config['import_audio_basename'] . '.' . $config['import_audio_extension'];
-						$media_data['wave'] = $media_url . $id . '/' . $config['import_waveform_basename'] . '.' . $config['import_waveform_extension'];
+						if (! $did_url) $media_data['audio'] = path_concat(path_concat($media_url, $id), $config['import_audio_basename'] . '.' . $config['import_audio_extension']);
+						$media_data['wave'] = path_concat(path_concat($media_url, $id), $config['import_waveform_basename'] . '.' . $config['import_waveform_extension']);
 						if (! $did_icon) $media_data['icon'] = $media_data['wave'];
 					} else $media_data['audio'] = '0'; // put in a zero to indicate that there is no audio
 				}
@@ -127,10 +127,10 @@ function api_export_data($response = array(), $config = array()) {
 		if (! ($id && $extension && $type && $job && $uid)) $err = 'Parameters uid, job, id, extension, type required';
 	}
 	if (! $err) { // pull in other configuration and check for required input
-		$media_url = '/' . $config['user_media_url'] . $uid . '/';
-		if ($config['file'] != 'local') $media_url = 'http://' . $config['user_media_host'] . $media_url;
+		$media_url = path_concat($config['user_media_url'], $uid);
+		if ($config['file'] != 'local') $media_url = path_concat('http://' . $config['user_media_host'], $media_url);
 		$export_data['id'] = $id;
-		$export_data['source'] = $media_url . $id . '/' . ($config["export_{$type}_basename"] ? $config["export_{$type}_basename"] : $job) . '.' . $extension;
+		$export_data['source'] = path_concat(path_concat($media_url, $id), ($config["export_{$type}_basename"] ? $config["export_{$type}_basename"] : $job) . '.' . $extension);
 	}
 	if ($err) $export_data['error'] = $err;
 	return $export_data;
@@ -191,13 +191,10 @@ function api_job_render($inputs, $output, $config) {
 		$found_audio = (empty($output['has_audio']) ? true : $output['has_audio']);
 		$found_video = (empty($output['has_video']) ? ($type == 'video') : $output['has_video']);
 	
-		$path_media = $config['user_media_directory'];
-		$path_media_url = $config['user_media_url'];
 		$user_id = (isset($output['UserID']) ? $output['UserID'] : auth_userid());
-		if ($user_id) {
-			$path_media .= $user_id . '/';
-			$path_media_url .= $user_id . '/';
-		}
+		$path_media = path_concat($config['user_media_directory'], $user_id);
+		$path_media_url = path_concat($config['user_media_url'], $user_id);
+		
 		$progress_callback_payload = array(
 			'job' => '{job.id}',
 			'progress' => '{job.progress}',
@@ -219,7 +216,7 @@ function api_job_render($inputs, $output, $config) {
 				'type' => 's3',
 				'bucket' => $config['s3_bucket'],
 				'region' => $config['s3_region'],
-				'path' => $path_media_url . $id,
+				'path' => path_concat($path_media_url, $id),
 			);
 		}
 		else { // file is local
@@ -229,14 +226,14 @@ function api_job_render($inputs, $output, $config) {
 					'type' => 'file',
 					'method' => 'move',
 					'directory' => $config['web_root_directory'],
-					'path' => $path_media . $id,
+					'path' => path_concat($path_media, $id),
 				);
 			}
 			else {
 				$destination = auth_data(array(
 					'type' => 'http',
 					'host' => $config['callback_host'],
-					'key' => $config['callback_directory'] . 'export_transfer.php',
+					'path' => path_concat($config['callback_directory'], 'export_transfer.php'),
 					'parameters' => array(
 						'id' => $id,
 						'type' => $type,
@@ -248,12 +245,13 @@ function api_job_render($inputs, $output, $config) {
 			}
 		}
 		if ($config['client'] == 'local') { 
-			if ($config['file'] == 'local') { 
-				// media source is absolute url if file is s3
+			if ($config['file'] == 'local') {
 				$base_path = '';
-				$len = strlen($config['user_media_url']);
-				if ($config['user_media_url'] == substr($config['user_media_directory'], -$len)) {
-					$base_path = substr($config['user_media_directory'], 0, -$len);
+				$media_url = path_strip_slashes($config['user_media_url']);
+				$media_dir = path_strip_slashes($config['user_media_directory']);
+				$len = strlen($media_url);
+				if ($media_url == substr($media_dir, -$len)) {
+					$base_path = substr($media_dir, 0, -$len);
 				}
 				$result['base_source'] = array(
 					'directory' => $config['web_root_directory'],
@@ -298,14 +296,14 @@ function api_job_render($inputs, $output, $config) {
 				'host' => $config['callback_host'], 
 				'type' => 'http', 
 				'trigger' => 'progress',
-				'path' => $config['callback_directory'] . 'export_progress.php',
+				'path' => path_concat($config['callback_directory'], 'export_progress.php'),
 				'data' => $progress_callback_payload,
 			), $config);
 			$result['callbacks'][] = auth_data(array(
 				'host' => $config['callback_host'], 
 				'type' => 'http', 
 				'trigger' => 'complete',
-				'path' => $config['callback_directory'] . 'export_complete.php',
+				'path' => path_concat($config['callback_directory'], 'export_complete.php'),
 				'data' => $complete_callback_payload,
 			), $config);
 		}
@@ -339,13 +337,10 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 	$err = config_error($config);
 	
 	if (! $err) { // check for required input
-		$path_media = $config['user_media_directory'];
-		$path_media_url = $config['user_media_url'];
 		$user_id = (isset($output['UserID']) ? $output['UserID'] : auth_userid());
-		if ($user_id) {
-			$path_media .= $user_id . '/';
-			$path_media_url .= $user_id . '/';
-		}
+		$path_media = path_concat($config['user_media_directory'], $user_id);
+		$path_media_url = path_concat($config['user_media_url'], $user_id);
+
 		// make sure required input parameters have been set
 		$id = (empty($input['id']) ? '' : $input['id']);
 		$extension = (empty($input['extension']) ? '' : $input['extension']);
@@ -382,7 +377,7 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 				'type' => 's3',
 				'bucket' => $config['s3_bucket'],
 				'region' => $config['s3_region'],
-				'path' => $path_media_url . $id,
+				'path' => path_concat($path_media_url, $id),
 			);
 		} 
 		else { // file is local
@@ -391,14 +386,14 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 					'type' => 'file',
 					'method' => 'move',
 					'directory' => $config['web_root_directory'],
-					'path' => $path_media . $id,
+					'path' => path_concat($path_media, $id),
 				);
 			} 
 			else {
 				$destination = auth_data(array(
 					'type' => 'http',
 					'host' => $config['callback_host'],
-					'path' => $config['callback_directory'] . 'import_transfer.php',
+					'path' => path_concat($config['callback_directory'], 'import_transfer.php'),
 					'archive' => 'tgz', 
 					'parameters' => array(
 						'id' => $id,
@@ -433,14 +428,14 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 				'host' => $config['callback_host'], 
 				'type' => 'http', 
 				'trigger' => 'progress',
-				'path' => $config['callback_directory'] . 'import_progress.php',
+				'path' => path_concat($config['callback_directory'], 'import_progress.php'),
 				'data' => $progress_callback_payload,
 			), $config);
 			$result['callbacks'][] = auth_data(array(
 				'host' => $config['callback_host'], 
 				'type' => 'http', 
 				'trigger' => 'complete',
-				'path' => $config['callback_directory'] . 'import_complete.php',
+				'path' => path_concat($config['callback_directory'], 'import_complete.php'),
 				'data' => $complete_callback_payload,
 			), $config);
 		}
@@ -449,11 +444,11 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 			$source['type'] = 'file';
 			$source['method'] = 'symlink';
 			$source['directory'] = $config['web_root_directory'];
-			$source['path'] = $path_media . $id;
+			$source['path'] = path_concat($path_media, $id);
 		} 
 		else { 
 			$source['host'] = $config['user_media_host'];
-			$source['path'] = $path_media_url . $id;
+			$source['path'] = path_concat($path_media_url, $id);
 		}
 		$input['source'] = $source;
 		$result['inputs'][] = $input;
@@ -573,7 +568,7 @@ function api_queue_job($data, $config = array()) {
 		} 
 		else { // local
 			$result['id'] = id_unique();
-			$job_path = $config['queue_directory'] . $result['id'] . '.json';
+			$job_path = path_concat($config['queue_directory'], $result['id'] . '.json');
 			$data['id'] = $result['id'];
 			$json_str = @json_encode($data);
 			if (! $json_str) $result['error'] = 'could not encode json';

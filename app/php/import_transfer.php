@@ -46,10 +46,10 @@ if (! $err) { // make sure file extension is valid
 	if ($file_ext != 'tgz') $err = 'Unsupported extension: ' . $file_ext;
 }
 if (! $err) { // check that we can extract the archive to temp directory
-	$media_dir = $config['web_root_directory'] . $config['user_media_directory'] . $uid . '/' . $id . '/';	
+	$media_dir = path_concat(path_concat(path_concat($config['web_root_directory'], $config['user_media_directory']), $uid), $id);	
 	set_time_limit(0);
-	$tmp_path = $config['temporary_directory'] . id_unique();
-	$archive_dir = $tmp_path . '/';
+	$tmp_path = path_concat($config['temporary_directory'], id_unique());
+	$archive_dir = $tmp_path;
 	if (! archive_extract($file['tmp_name'], $archive_dir, $config)) $err = 'Could not extract to ' . $archive_dir;
 }
 if (! $err) { // move select files from the archive to media directory
@@ -58,18 +58,17 @@ if (! $err) { // move select files from the archive to media directory
 		case 'video': {
 			// move any soundtrack
 			$frag = $config['import_audio_basename'] . '.' . $config['import_audio_extension'];
-			$media_path = $media_dir . $frag;
-			$archive_path = $archive_dir . $frag;
+			$media_path = path_concat($media_dir, $frag);
+			$archive_path = path_concat($archive_dir, $frag);
 			if (file_exists($archive_path)) {
 				if (! file_safe($media_path, $config)) $err = 'Could not create directories for ' . $media_path;
 				elseif (! @rename($archive_path, $media_path)) $err = 'Could not move audio file from ' . $archive_path . ' to ' . $media_path;
 				else {
 					// move any soundtrack waveform graphic
 					$frag = $config['import_waveform_basename'] . '.' . $config['import_waveform_extension'];
-					$archive_path = $archive_dir . $frag;
-					$media_path = $media_dir . $frag;
-					if (file_exists($archive_path))
-					{
+					$archive_path = path_concat($archive_dir, $frag);
+					$media_path = path_concat($media_dir, $frag);
+					if (file_exists($archive_path)) {
 						if (! @rename($archive_path, $media_path)) $err = 'Could not move audio file from ' . $archive_path . ' to ' . $media_path;
 					}
 				}
@@ -86,9 +85,9 @@ if (! $err) { // move select files from the archive to media directory
 				$encoder_fps = $config['import_fps'];
 				if ($type == 'image') $encoder_fps = '1';
 				// move any frames
-				$archive_path = $archive_dir . $config['import_dimensions'] . 'x' . $encoder_fps;
+				$archive_path = path_concat($archive_dir, $config['import_dimensions'] . 'x' . $encoder_fps);
 				if (file_exists($archive_path)) {
-					$media_path = $media_dir . $config['import_dimensions'] . 'x' . $encoder_fps;
+					$media_path = path_concat($media_dir, $config['import_dimensions'] . 'x' . $encoder_fps);
 					if (! file_move_extension($frame_extension, $archive_path, $media_path, $config)) $err = 'Could not move ' . $frame_extension . ' files from ' . $archive_path . ' to ' . $media_path;
 				}
 				break;

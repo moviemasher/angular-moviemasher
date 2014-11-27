@@ -15,8 +15,8 @@ if (! function_exists('data_save')) {
 			if (! $id) $err = 'data must contain an id key';
 		}
 		if (! $err) {
-			$path_data = $config['user_data_directory'] . $userid . '/';
-			$media_file_json_path = $config['web_root_directory'] . $path_data . 'media_' . $type . '.json';
+			$path_data = path_concat($config['user_data_directory'], $userid);
+			$media_file_json_path = path_concat($config['web_root_directory'], path_concat($path_data, 'media_' . $type . '.json'));
 			$media_file_existed = file_exists($media_file_json_path);
 			if ($media_file_existed) $json_str = file_get($media_file_json_path);
 			else $json_str = '[]';
@@ -52,8 +52,8 @@ if (! function_exists('data_save_mash')) {
 		$id = (empty($data['id']) ? '' : $data['id']);
 		if (! $id) $err = 'Parameter id required';
 		if (! $err) {
-			$path_data = $config['user_data_directory'] . $userid . '/';
-			$file_json_path = $config['web_root_directory'] . $path_data . $id . '.json';
+			$path_data = path_concat($config['user_data_directory'], $userid);
+			$file_json_path = path_concat(path_concat($config['web_root_directory'], $path_data), $id . '.json');
 			$json_str = json_encode($data);
 			// write file
 			if (! file_put($file_json_path, $json_str, $config)) $err = 'Problem writing ' . $file_json_path;
@@ -93,13 +93,13 @@ if (! function_exists('data_mash')) {
 			$err = config_error($config);
 		}
 		if (! $err) {
-			$path = $config['web_root_directory'] . $config['user_data_directory'] . $userid . '/' . $id . '.json';
-			$str = file_get($path);
-			if (! $str) $err = 'Could not load ' . $path;
+			$mash_path = path_concat(path_concat(path_concat($config['web_root_directory'], $config['user_data_directory']), $userid), $id . '.json');
+			$str = file_get($mash_path);
+			if (! $str) $err = 'Could not load ' . $mash_path;
 		}
 		if (! $err) {
 			$decoded = @json_decode($str, TRUE);
-			if (! $decoded) $err = 'Could not parse ' . $path;
+			if (! $decoded) $err = 'Could not parse ' . $mash_path;
 			else $response = $decoded;
 		}
 		if ($err) $response['error'] = $err;
@@ -114,9 +114,7 @@ if (! function_exists('data_search')) {
 		if (! $config) $config = config_get();
 		if (! config_error($config)) {
 			$dir_host = $config['web_root_directory'];
-			$module_dir = $config['module_directory'] . 'module/';
-			$path_json = $config['user_data_directory'];
-			$path = $dir_host;
+			$module_dir = path_concat(path_concat($dir_host, $config['module_directory']), 'module');
 			$userid = (empty($options['userid']) ? '' : $options['userid']);
 			$group = (empty($options['group']) ? '' : $options['group']);
 			$index = (empty($options['index']) ? 0 : $options['index']);
@@ -129,22 +127,23 @@ if (! function_exists('data_search')) {
 					case 'audio':
 					case 'image': {
 						if ($userid) {
-							$path .= $path_json . $userid . '/media_' . $group . '.json';
+							$path = path_concat(path_concat(path_concat($dir_host, $config['user_data_directory']), $userid), 'media_' . $group . '.json');
 							if (file_exists($path)) $json_obs = array_merge(json_array(file_get($path)), $json_obs);
 						}
 						break;
 					}
 					default: { // modules
 						// look for filenames ending in $group.json in first and second tiers of module directory
-						$glob_path = "{$dir_host}{$module_dir}*/*{$group}.json";
+						$base_path = path_add_slash_end($module_dir) . '*/*';
+						$glob_path = $base_path . $group . '.json';
 						$glob_files = glob($glob_path);
-						$glob_path = "{$dir_host}{$module_dir}*/*/*{$group}.json";
+						$glob_path = $base_path .  '/*' . $group . '.json';
 						$glob_files = array_merge($glob_files, glob($glob_path));
 						foreach ($glob_files as $file_path) {
 							$obs = json_array(file_get($file_path));
 							$html_path = str_replace('.json', '.html', $file_path);
 							if (file_exists($html_path)) {
-								$html_path = substr($html_path, strlen($dir_host) - 1);
+								$html_path = substr($html_path, strlen(path_add_slash_end($dir_host)) - 1);
 								for ($i = 0; $i < sizeof($obs); $i++){
 									$obs[$i]['html'] = $html_path;
 								}

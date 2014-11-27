@@ -5,6 +5,7 @@ ini_set('display_errors', 0);
 
 include_once(dirname(__FILE__) . '/httputils.php');
 include_once(dirname(__FILE__) . '/logutils.php');
+include_once(dirname(__FILE__) . '/pathutils.php');
 
 if (! function_exists('config_defaults')) {
 	function config_defaults($config = array()) {
@@ -25,9 +26,9 @@ if (! function_exists('config_defaults')) {
 		$config['export_meta_title'] = (empty($config['export_meta_title']) ? '' : $config['export_meta_title']);
 		$config['export_video_bitrate'] = (empty($config['export_video_bitrate']) ? '2000' : $config['export_video_bitrate']);
 		$config['export_video_codec'] = (empty($config['export_video_codec']) ? 'libx264' : $config['export_video_codec']);
-		$config['web_root_directory'] = config_path(empty($config['web_root_directory']) ? $_SERVER['DOCUMENT_ROOT'] : $config['web_root_directory']);
-		$config['temporary_directory'] = config_path(empty($config['temporary_directory']) ? sys_get_temp_dir() : $config['temporary_directory']);
-		$config['queue_directory'] = config_path(empty($config['queue_directory']) ? $config['temporary_directory'] . 'queue' : $config['queue_directory']);
+		$config['web_root_directory'] = (empty($config['web_root_directory']) ? $_SERVER['DOCUMENT_ROOT'] : $config['web_root_directory']);
+		$config['temporary_directory'] = (empty($config['temporary_directory']) ? sys_get_temp_dir() : $config['temporary_directory']);
+		$config['queue_directory'] = (empty($config['queue_directory']) ? path_concat($config['temporary_directory'], 'queue') : $config['queue_directory']);
 		$config['import_audio_bitrate'] = (empty($config['import_audio_bitrate']) ? '128' : $config['import_audio_bitrate']);
 		$config['import_audio_extension'] = (empty($config['import_audio_extension']) ? 'mp3' : $config['import_audio_extension']);
 		$config['import_audio_basename'] = (empty($config['import_audio_basename']) ? 'audio' : $config['import_audio_basename']);
@@ -53,11 +54,11 @@ if (! function_exists('config_defaults')) {
 		$config['max_meg_image'] = (empty($config['max_meg_image']) ? '' : $config['max_meg_image']);
 		$config['max_meg_video'] = (empty($config['max_meg_video']) ? '' : $config['max_meg_video']);
 		$config['log_file'] = (empty($config['log_file']) ? '' : $config['log_file']);
-		$config['callback_directory'] = config_path(empty($config['callback_directory']) ? substr(dirname(dirname(__FILE__)), strlen($config['web_root_directory'])) : $config['callback_directory']);
-		$config['user_media_directory'] = config_path(! isset($config['user_media_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen($config['web_root_directory'])) . '/user' : $config['user_media_directory']);
+		$config['callback_directory'] = (empty($config['callback_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end($config['web_root_directory']))) : $config['callback_directory']);
+		$config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
 		$config['user_media_url'] = (isset($config['user_media_url']) ? $config['user_media_url'] : $config['user_media_directory']);
-		$config['user_data_directory'] = config_path(empty($config['user_data_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen($config['web_root_directory'])) . '/user' : $config['user_data_directory']);
-		$config['module_directory'] = (empty($config['module_directory']) ? '' : config_path($config['module_directory']));
+		$config['user_data_directory'] = (isset($config['user_data_directory']) ? $config['user_data_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
+		$config['module_directory'] = (empty($config['module_directory']) ? '' : $config['module_directory']);
 		$config['s3_bucket'] = (empty($config['s3_bucket']) ? '' : $config['s3_bucket']);
 		$config['s3_region'] = (empty($config['s3_region']) ? '' : $config['s3_region']);
 		$config['sqs_queue_url'] = (empty($config['sqs_queue_url']) ? '' : $config['sqs_queue_url']);

@@ -72,11 +72,10 @@ if (! $err) {
 	if ('s3' == $config['file']) {
 		$s3_options = array();
 		$s3_options['bucket'] = $config['s3_bucket'];
-		$path_media_url = $config['user_media_directory'];
+		$path_media_url = path_strip_slash_start($config['user_media_directory']);
 		// remove bucket name from url if it's there
 		if (substr($path_media_url, 0, strlen($config['s3_bucket'])) == $config['s3_bucket']) $path_media_url = substr($path_media_url, strlen($config['s3_bucket']) + 1);
-		$path_media_url .=  auth_userid() . '/';
-		$s3_options['path'] = $path_media_url . $id . '/' . $config['import_original_basename'] . '.' . $extension;
+		$s3_options['path'] = path_concat(path_concat(path_concat($path_media_url, auth_userid()), $id), $config['import_original_basename'] . '.' . $extension);
 		$s3_options['mime'] = $mime;
 		$s3_options['size'] = $file_size;
 		$s3data = sig_s3_post($config['aws_secret_access_key'], $s3_options);
@@ -85,8 +84,7 @@ if (! $err) {
 		$response['endpoint'] = 'https://s3' . ($config['s3_region'] ? '-' . $config['s3_region'] : '') . '.amazonaws.com/'. $config['s3_bucket'];
 		
 	} else {
-		// relative url from path site to path cgi - we assume the later is within the former!
-		$response['endpoint'] = '/' . $config['callback_directory'] . 'import_upload.php';
+		$response['endpoint'] = path_concat($config['callback_directory'], 'import_upload.php');
 		$response['data']['id'] = $id;
 		$response['data']['type'] = $type;
 		$response['data']['extension'] = $extension;

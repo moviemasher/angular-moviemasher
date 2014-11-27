@@ -26,7 +26,6 @@ if (! $err) { // see if the user is authenticated (does not redirect or exit)
 	if (! auth_ok()) $err = 'Unauthenticated access';
 }
 if (! $err) { // make sure required parameters have been set
-	$path_media = $config['user_media_directory'];
 	$id = (empty($_REQUEST['id']) ? '' : $_REQUEST['id']);
 	$uid = auth_userid();
 	$type = (empty($_REQUEST['type']) ? '' : $_REQUEST['type']);
@@ -95,8 +94,8 @@ if (! $err) { // enforce size limit from configuration, if defined
 	}
 }
 if (! $err) { // try to move upload into its media directory and change permissions
-	$path_media .=  $uid . '/';
-	$path = $config['web_root_directory'] . $path_media . $id . '/' . $config['import_original_basename'] . '.' .  $file_extension;
+	
+	$path = path_concat(path_concat(path_concat(path_concat($config['web_root_directory'], $config['user_media_directory']), $uid), $id), $config['import_original_basename'] . '.' .  $file_extension);
 	if (! file_safe($path, $config)) $err = 'Problem creating media directory';
 	else if (! file_move_upload($file['tmp_name'], $path)) $err = 'Problem moving file';
 	else if (! file_mode($path, $config)) $err = 'Problem setting permissions of media: ' . $path;
