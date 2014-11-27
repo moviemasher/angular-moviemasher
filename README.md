@@ -50,7 +50,7 @@ It's important to remember this project is just an *example* deployment and not 
 - angular-file-upload
 - angular-resource
 - bootstrap
-- Font.js
+- opentype.js
 - moviemasher.js
 
 ### Developer Setup
@@ -59,13 +59,13 @@ It's important to remember this project is just an *example* deployment and not 
 3. bower install
 4. grunt
 
-##### Known issues in Version 1.0.02
+##### Known issues in this version
 - timeline allows clips to be positioned atop one another
 - uploads can only be dragged into browser panel
 - freeze frame not yet supported
 - cut/copy/paste not yet supported
 
-##### Migrating from Version 1.0.01
+##### Migrating from Version 1.0.1
 - The `begin` key in video clips has been renamed `first`.
 - The `length` key in clips has been renamed `frames`.
 - The `audio` and `video` keys in mash tracks have been moved to mash.
