@@ -9,12 +9,12 @@ when callbacks are being generated for inclusion in the job XML for the transcod
 include_once(dirname(__FILE__) . '/configutils.php');
 
 if (! function_exists('auth_challenge')) {
-	function auth_challenge($realm = 'Any username and password will work for this example!', $msg = '') {
+	function auth_challenge($config) {
+		$realm = (empty($config['authentication_prompt']) ? 'Any username and password will work for this example!' : $config['authentication_prompt']);		
 		// in this example we use HTTP authentication
 		// if using sessions, you'll probably want to redirect to login page instead
 		header('WWW-Authenticate: Basic realm="' . $realm . '"');
 		header('HTTP/1.0 401 Unauthorized');
-		if ($msg) print $msg;
 		exit;
 	}
 }

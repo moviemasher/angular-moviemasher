@@ -73,7 +73,7 @@ function api_import_data($response = array(), $config = array()) {
 		$did_url = 0;
 		switch($type) {
 			case 'image': {
-				$frame_path .= '0.' . $import_extension;
+				$frame_path = path_concat($frame_path, '0.' . $import_extension);
 				$media_data['url'] = $frame_path;
 				$media_data['icon'] = $frame_path;
 				break;
@@ -84,10 +84,10 @@ function api_import_data($response = array(), $config = array()) {
 				if ($video) {
 					$frames = floor($duration * $import_video_rate);
 					$zero_padding = strlen($frames);
-					$media_data['url'] = $frame_path;
+					$media_data['url'] = path_add_slash_end($frame_path);
 					$media_data['video_rate'] = $import_video_rate;
 					$media_data['pattern'] = '%.' . $import_extension;
-					$media_data['icon'] = $frame_path . str_pad(ceil($frames / 2), $zero_padding, '0', STR_PAD_LEFT) . '.' . $import_extension;
+					$media_data['icon'] = path_concat($frame_path, str_pad(ceil($frames / 2), $zero_padding, '0', STR_PAD_LEFT) . '.' . $import_extension);
 					$did_icon = 1;
 				} else {
 					$type = 'audio';
@@ -494,7 +494,7 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 				'quality' => $config['import_image_quality'], 
 				'extension' => $config['import_extension'], 
 				'dimensions' => $config['import_dimensions'],
-				'path' => '{output.dimensions}x{output.fps}',
+				'path' => '{output.dimensions}x{output.video_rate}',
 			);
 		}
 	}

@@ -1,6 +1,6 @@
 {
   "name": "es5-shim",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "description": "ECMAScript 5 compatibility shims for legacy JavaScript engines",
   "homepage": "http://github.com/es-shims/es5-shim/",
   "contributors": [
@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "jasmine-node": "~1.14.5",
-    "jscs": "~1.5.8",
-    "uglify-js": "~2.4.14"
+    "jscs": "~1.8.0",
+    "uglify-js": "~2.4.15"
   },
   "engines": {
     "node": ">=0.4.0"

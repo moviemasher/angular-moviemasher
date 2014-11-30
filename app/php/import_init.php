@@ -29,7 +29,7 @@ if (! $err) { // pull in configuration so we can log other errors
 	$log_responses = $config['log_response'];
 }
 // autheticate the user (will exit if not possible)
-if ((! $err) && (! auth_ok())) auth_challenge();
+if ((! $err) && (! auth_ok())) auth_challenge($config);
 
 if (! $err) { // pull in other configuration and check for required input
 	if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';

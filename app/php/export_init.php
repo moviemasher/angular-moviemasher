@@ -18,7 +18,7 @@ if (! $err) { // pull in configuration so we can log other errors
 	$err = config_error($config);
 	$log_responses = $config['log_response'];
 }
-if ((! $err) && (! auth_ok())) auth_challenge(); // autheticate the user (will exit if not possible)
+if ((! $err) && (! auth_ok())) auth_challenge($config); // autheticate the user (will exit if not possible)
 if (! $err) { // pull in other configuration and check for required input
 	if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
 	else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';

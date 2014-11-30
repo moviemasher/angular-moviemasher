@@ -4,7 +4,7 @@
 *Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP*
 #angular-moviemasher
 
-Use angular-moviemasher to integrate audio/video editing features into your existing web site or as a starting point for further development. It builds upon both the moviemasher.js and moviemasher.rb projects, as well as the popular PHP middleware layer and AngularJS+Bootstrap for the UI (only Bootstrap's CSS is used).
+Use angular-moviemasher to integrate audio/video editing features into your existing web site or as a starting point for further development. It builds upon both the moviemasher.js and moviemasher.rb projects, as well as the popular PHP middleware layer and AngularJS+Bootstrap for the UI (only Bootstrap's CSS is used, so no reliance on jQuery).
 
 - **empower** your site visitors to edit high quality video and audio
 - **integrate** with your existing authentication and storage mechanisms
@@ -12,16 +12,36 @@ Use angular-moviemasher to integrate audio/video editing features into your exis
 
 ![Image](https://github.com/moviemasher/angular-moviemasher/raw/master/README/ui.jpg "User Interfacee")
 
+### Overview
 The project includes an AngularJS module that manifests a time-based video editing interface, as well as a set of server-side PHP scripts it interacts with. Both the client and server sides are effectively abstractions, sheltering you from the complexity of the underlying moviemasher.js and moviemasher.rb projects respectively. 
+
+- **Docker Image:** `moviemasher/angular-moviemasher` [(Dockerfile)](Dockerfile)
 
 The client module wraps around a player object instanced from moviemasher.js, which provides the preview and maintains undo/redo history. The module adds familiar play/pause, volume and associated controls to the player as well as constructing a media browser, timeline and inspector panel. Files from the user's machine can be dropped into the media browser to initiate uploading and preprocessing, and there is a render button that will initiate encoding of the mash into true video format. 
 
 The PHP scripts wrap around and monitor the API provided by moviemasher.rb, which handles processor intensive transcode operations like preprocessing of uploads and rendering of mashes. The scripts add basic content management functionality, first authenticating users then storing and retrieving their data. 
 
-### Amazon Web Services Integration
-There are optional PHP configuration settings that support two specfic AWS offerings: S3 for media storage and SQS for job queueing. If set to use an S3 bucket then users will securely upload files directly there without stressing your web server - each request is signed with your key so the bucket can remain read-only to the public. If set to use an SQS queue then jobs are placed in them instead of written to the local queue directory. Callbacks are also added to the job description so job progress can be monitored. 
+### AWS Integration
+The system *optionally* supports [Amazon Web Services](http://aws.amazon.com) for media storage and job queueing, through several PHP configuration settings. If set to use an S3 bucket then users will securely upload files directly there without stressing your web server - each request is signed with your key so the bucket can remain read-only to the public. If set to use an SQS queue then jobs are placed in them instead of written to the local queue directory. Callbacks are also added to the job description so job progress can be monitored. 
 
 Additionally, the Movie Masher AMI is available in Marketplace and includes all three projects preconfigured to run together as a standalone deployment for testing and building upon. Launching it from their console is by far the simplest way to see the whole system in action - no coding or set up required. It can also be launched with user data in a headless mode with only moviemasher.rb configured to process jobs found in an SQS queue. This allows the AMI to be used in a pooled cluster that can automatically scale up and down depending on the number of jobs pending in the SQS queue. 
+
+### Docker Usage
+The [`moviemasher/angular-moviemasher`](https://registry.hub.docker.com/u/moviemasher/angular-moviemasher/) image on [docker.com](https://docker.com) is based off the official [`php:apache`](https://registry.hub.docker.com/_/php/) image, adding some configuration and copying this project into web root. The Dockerfile contains a **VOLUME** instruction for each directory it works with.
+
+- To make the web site available at your docker IP on port 8080:
+    
+    `docker run -d -p 8080:80 --name=angular moviemasher/angular-moviemasher`
+    
+    You'll need to subsequently execute `docker stop angular` and `docker rm angular` to stop serving the web site and remove the container created.    
+    
+All functions should be available at this juncture, except uploading and rendering which will trigger the saving of a job description file into **queue_directory**. Because there is a **VOLUME** instruction for this directory, it can be mounted by other containers - we'll attach it to one run from the [`moviemasher/moviemasher.rb`](https://registry.hub.docker.com/u/moviemasher/moviemasher.rb/) image which will handle the actual transcoding operation. 
+
+- To process queued jobs using shared volumes:
+
+	`docker run -d --volumes-from=angular moviemasher/moviemasher.rb process_loop`
+  
+  You'll need to subsequently execute `docker stop moviemasher` and `docker rm moviemasher` to stop queue processing and remove the container created. See the [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb) project for other ways to run its image. 
 
 
 ### How to Install on Your Web Host
@@ -52,6 +72,12 @@ It's important to remember this project is just an *example* deployment and not 
 - bootstrap
 - opentype.js
 - moviemasher.js
+
+### User Feedback
+If any problems arise while utilizing this repository, a [GitHub Issue Ticket](https://github.com/moviemasher/angular-moviemasher/issues) should be filed. Please include the job or mash description that's causing problems and any relevant log or console entries - issues with callbacks can typically be resolved faster after seeing entries from the receiving web server's log. Please post your issue ticket in the appropriate repository and refrain from cross posting - all projects are monitored with equal zeal. 
+
+### Contributing
+Please join in the shareable economy by gifting your efforts towards improving this project in any way you feel inclined. Pull requests for fixes, features and refactorings are always appreciated, as are documentation updates. Creative help with graphics, video and the web site is also needed. Please contact through [MovieMasher.com](https://moviemasher.com) to discuss your ideas. 
 
 ### Developer Setup
 1. install git, npm, bower and grunt

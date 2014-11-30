@@ -20,7 +20,7 @@ if (! $err) { // pull in configuration so we can log other errors
 	$err = config_error($config);
 }
 // autheticate the user (will exit if not possible)
-if ((! $err) && (! auth_ok())) auth_challenge();
+if ((! $err) && (! auth_ok())) auth_challenge($config);
 
 if (! $err) { 
 	$id = (empty($_GET['id']) ? 0 : $_GET['id']);

@@ -1,9 +1,0 @@
-[
-{
-	"label": "Kiri",
-	"id":"ttf.kiri",
-	"type":"font",
-	"source": "module/font/kiri/kirifont/KiriFont.ttf",
-	"family": "KiriFont"
-}
-]

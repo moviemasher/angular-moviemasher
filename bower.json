@@ -4,14 +4,14 @@
 	"homepage": "http://www.moviemasher.com",
 	"authors": [ {"name": "Movie Masher", "email": "support@moviemasher.com" }],
 	"description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"dependencies": {
 		"angular": "~1.2.26",
 		"angular-resource": "~1.2.26",
 		"angular-file-upload": "~1.1.1",
 		"bootstrap": "~3.2.0",
 		"angular-bootstrap-colorpicker": "~3.0.8",
-		"moviemasher.js": "4.0.9"
+		"moviemasher.js": "4.0.10"
 	},
 	"devDependencies": {
 		"grunt": "^0.4.5",

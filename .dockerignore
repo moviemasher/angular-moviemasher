@@ -1,0 +1,12 @@
+.DS_Store
+node_modules*
+app/user*
+app/bower_components/grunt*
+app/bower_components/jshint*
+app/bower_components/jquery*
+.git/*
+source/*
+*.eot
+*.svg
+*.vfb
+*.markdown

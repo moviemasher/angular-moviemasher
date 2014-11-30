@@ -1,4 +1,4 @@
-/*! angular-moviemasher - v1.0.2 - 2014-11-26
+/*! angular-moviemasher - v1.0.4 - 2014-11-30
 * Copyright (c) 2014 Movie Masher; Licensed  */
 /*globals MovieMasher:true,angular:true*/
 (function(){
@@ -457,7 +457,11 @@
 							__uploads.unshift(upload);
 							__update_import_completed();
 							console.log('calling AmmRestImport.init', post_data);
-								
+							var __problem_upload = function(upload, status){
+								upload.completed = -1;
+								upload.status = status;
+								__update_import_completed();
+							};
 							AmmRestImport.init(post_data, function(import_init_response){
 								console.log('AmmRestImport.init', import_init_response);
 								if (import_init_response.ok){
@@ -466,11 +470,10 @@
 									upload.api = import_init_response.api;
 									item.url = import_init_response.endpoint;
 									item.upload();
-								} else { // problem with file
-									upload.completed = -1;
-									upload.status = (import_init_response.error || __php_parsed_error(import_init_response));
-									__update_import_completed();
-								}
+								} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
+							}, function() {
+								console.error('upload', arguments);
+								__problem_upload(upload, 'error');
 							});
 						};
 						
