@@ -30,7 +30,7 @@ if (! function_exists('path_concat')) {
 }
 if (! function_exists('path_strip_slashes')) {
 	function path_strip_slashes($s) {
-		return path_strip_slash_start(path_strip_slash_end(s));
+		return path_strip_slash_start(path_strip_slash_end($s));
 	}
 }
 
