@@ -252,7 +252,7 @@ function api_job_render($inputs, $output, $config) {
 				$len = strlen($media_url);
 				if ($media_url == substr($media_dir, -$len)) {
 					$base_path = substr($media_dir, 0, -$len);
-				}
+				} else $base_path = $media_dir;
 				$result['base_source'] = array(
 					'directory' => $config['web_root_directory'],
 					'path' => $base_path,
