@@ -5,6 +5,13 @@
 	"authors": [ {"name": "Movie Masher", "email": "support@moviemasher.com" }],
 	"description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
 	"version": "1.0.5",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
 	"dependencies": {
 		"angular": "~1.2.26",
 		"angular-resource": "~1.2.26",
