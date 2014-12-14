@@ -1,4 +1,4 @@
-/*globals MovieMasher:true,angular:true*/
+/*globals MovieMasher:true, angular:true*/
 (function(){
 	'use strict';
 	//console.log('evaluating angular-moviemasher.js', module);
@@ -13,7 +13,6 @@
 		}
 		return values.join('');
 	};
-
 	var __globalx_to_local = function(x, element) {
 		return x - element[0].getBoundingClientRect().left;
 	};
@@ -37,6 +36,68 @@
 		}
 		return target;
 	};
+	var __default_config = {
+		rest: {
+			media: {
+				search: {
+					url: 'php/media.php?group=:group',
+					params: {group: '@group'},
+					method: 'get',
+					isArray: true,
+				},
+			},
+			module: {
+				search: {
+					url: 'php/media.php?group=:group',
+					params: {group: '@group'},
+					method: 'get',
+					isArray: true,
+				},
+			},
+			mash: {
+				search: {
+					url: 'php/media.php?group=mash',
+					method: 'get',
+					isArray: true,
+				},
+				data: {
+					url: 'php/mash.php?id=:id',
+					params: {id: '@id'},
+					method: 'get',
+				},
+				save: {
+					url: 'php/save.php?id=:id',
+					params: {id: '@id'},
+					method: 'post',
+				},
+			},
+			import: {
+				api: {
+					url: 'php/import_api.php',
+					method: 'post',
+				},
+				init: {
+					url: 'php/import_init.php',
+					method: 'post',
+				},
+				monitor: {
+					url: 'php/import_monitor.php',
+					method: 'post',
+				},
+			},
+			export: {
+				init: {
+					url: 'php/export_init.php',
+					method: 'post',
+				},
+				monitor: {
+					url: 'php/export_monitor.php',
+					method: 'post',
+				},
+			},
+		}
+	};
+	
 	var module = angular.module('angular.moviemasher', [
 		'ngResource',
 		'colorpicker.module',
@@ -50,34 +111,30 @@
 			//delete $httpProvider.defaults.headers.common['X-Requested-With'];
 		}
 	]);// CONFIG CORS
-	module.factory('AmmRestMedia', ['$resource', function($resource) {
-		//console.log('factory AmmRestMedia');
-		return $resource('php/media.php?group=:group', {'group': '@group'}, {
-			'search': { method: 'GET', isArray: true},
-		});
-	}]); // AmmRestMedia
-	module.factory('AmmRestMash', ['$resource', function($resource) {
-		//console.log('factory AmmRestMash');
-		return $resource('', {'id': '@id'}, {
-			'data': {url: 'php/mash.php?id=:id', method: 'GET', isArray: false},
-			'save': {url: 'php/save.php?id=:id', method: 'POST', isArray: false},
-		});
-	}]); // AmmRestMash
-	module.factory('AmmRestExport', ['$resource', function($resource) {
-		//console.log('factory AmmRestExport');
-		return $resource('', {}, {
-			'init': { method: 'POST', url: 'php/export_init.php'},
-			'monitor': { method: 'POST', url: 'php/export_monitor.php'},
-		});
-	}]); // AmmRestExport
-	module.factory('AmmRestImport', ['$resource', function($resource) {
-		//console.log('factory AmmRestMedia');
-		return $resource('', {}, {
-			'init': { method: 'POST', url: 'php/import_init.php'},
-			'api': { method: 'POST', url: 'php/import_api.php'},
-			'monitor': { method: 'POST', url: 'php/import_monitor.php'},
-		});
-	}]); // AmmRestImport
+	module.constant('amm_resources', {});
+	var __init_rest = function(config, amm_resources, $resource){
+		if (! config) config = __default_config;
+		var action_config, action, actions, service_id, default_config, override_config;
+		for (service_id in __default_config.rest) {
+			default_config = __default_config.rest[service_id];
+			override_config = config.rest[service_id];
+			if ((default_config === override_config) || (true === override_config)) override_config = default_config;
+			if (override_config) {
+				actions = {};
+				for (action in override_config) {
+					
+					console.log(action, default_config[action]);
+					action_config = {};
+					if (default_config[action].isArray) action_config.isArray = true;
+					action_config.method = default_config[action].method;
+					action_config.url = override_config[action].url;
+					if (override_config[action].params) action_config.params = override_config[action].params;
+					actions[action] = action_config;
+				}
+				amm_resources[service_id] = $resource(null, null, actions);
+			} 
+		}
+	};
 	module.config([
 		'$provide',
 		function ($provide) {
@@ -112,12 +169,14 @@
 			$provide.service('$amm', service);
 		}
 	]); // $amm
-	module.directive('ammUi', ['$amm', function($amm){
+	module.directive('ammUi', ['$amm', 'amm_resources', '$resource', function($amm, amm_resources, $resource){
 		return {
+			templateUrl: 'views/ui.html',
 			restrict: 'AEC',
 			controller: [
-				'$scope', 'AmmRestMedia', 'AmmRestMash', 'AmmRestExport', '$window', '$interval',
-				function($scope, AmmRestMedia, AmmRestMash, AmmRestExport, $window, $interval) {
+				'$scope', '$window', '$interval', 'amm_resources',
+				function($scope, $window, $interval, amm_resources) {
+					$scope.amm_resources = amm_resources;
 					var __action_index = -1;
 					$amm.player.did = function(removed_count){
 						// callback for whenever action redone or undone
@@ -139,9 +198,9 @@
 						interval_id = $interval(function() {
 							if (! requested) {
 								requested = true;
-								//console.log('Calling AmmRestExport.monitor', monitor);
-								AmmRestExport.monitor(monitor, function(export_monitor_response){
-									//console.log('AmmRestExport.monitor', export_monitor_response);
+								//console.log('Calling export.monitor', monitor);
+								amm_resources.export.monitor(monitor, function(export_monitor_response){
+									//console.log('export.monitor', export_monitor_response);
 									requested = false;
 									if (export_monitor_response.ok) {
 										if ((export_monitor_response.completed > 0) && (export_monitor_response.completed < 1)) {
@@ -162,7 +221,7 @@
 										$interval.cancel(interval_id);
 									}
 								}, function(export_err_response){
-									console.error('AmmRestExport.monitor', export_err_response);
+									console.error('export.monitor', export_err_response);
 									$scope.amm_export_status = 'error response from export monitor';
 									$scope.amm_export_completed = -1;
 									$interval.cancel(interval_id);
@@ -172,51 +231,55 @@
 					};
 					$amm.render = function(){
 						var rendering_mash_id = $amm.mash_id;
-						$scope.amm_export_completed = 0.01;
-						AmmRestExport.init({id: rendering_mash_id}, function(export_init_response){
-							//console.log('AmmRestExport.init', export_init_response);
-							if (export_init_response.ok) {
-								$scope.amm_export_completed = 0.02;
-								__monitor_export(export_init_response, rendering_mash_id);
-							} else {
-								$scope.amm_export_status = (export_init_response.error || __php_parsed_error(export_init_response));
-								$scope.amm_export_completed = -1;
-							}
-						});
+						if (amm_resources.export) {
+							$scope.amm_export_completed = 0.01;
+							amm_resources.export.init({id: rendering_mash_id}, function(export_init_response){
+								//console.log('export.init', export_init_response);
+								if (export_init_response.ok) {
+									$scope.amm_export_completed = 0.02;
+									__monitor_export(export_init_response, rendering_mash_id);
+								} else {
+									$scope.amm_export_status = (export_init_response.error || __php_parsed_error(export_init_response));
+									$scope.amm_export_completed = -1;
+								}
+							});
+						}
 					};
 					$amm.can = function(action){
 						var could = false;
 						switch(action){
 							case 'render': {
-								could = ($amm.player.duration && (! $amm.can('save')));
+								could = (amm_resources.export && $amm.player.duration && (! $amm.can('save')));
 								break;
 							}
 							case 'save': {
-								could = (__action_index !== $amm.player.action_index);
+								could = (amm_resources.mash && amm_resources.mash.save && (__action_index !== $amm.player.action_index));
 								break;
 							}
 						}
 						return could;
 					};
 					$amm.save = function(and_load_mash_id){
-						var saving_mash_id = $amm.mash_id;
-						var action_index = $amm.player.action_index;
-						//console.log('calling AmmRestMash.save', saving_mash_id, $amm.player.mash);
-						AmmRestMash.save({id: saving_mash_id}, $amm.player.mash, function(save_response){
-							//console.log('AmmRestMash.save', save_response);
-							if (save_response.ok) {
-								if (saving_mash_id === $amm.mash_id) {
-									__action_index = action_index;
-									if (__unsaved_mashes[saving_mash_id]) delete __unsaved_mashes[saving_mash_id];
-									var m = __mash_for_id(saving_mash_id);
-									if (m) m.label = $amm.player.mash.label;
-									if (and_load_mash_id) {
-										$amm.mash_id = and_load_mash_id;
-	 									$amm.mash_id_change();
+						if (amm_resources.mash && amm_resources.mash.save){
+							var saving_mash_id = $amm.mash_id;
+							var action_index = $amm.player.action_index;
+							//console.log('calling mash.save', saving_mash_id, $amm.player.mash);
+							amm_resources.mash.save({id: saving_mash_id}, $amm.player.mash, function(save_response){
+								//console.log('mash.save', save_response);
+								if (save_response.ok) {
+									if (saving_mash_id === $amm.mash_id) {
+										__action_index = action_index;
+										if (__unsaved_mashes[saving_mash_id]) delete __unsaved_mashes[saving_mash_id];
+										var m = __mash_for_id(saving_mash_id);
+										if (m) m.label = $amm.player.mash.label;
+										if (and_load_mash_id) {
+											$amm.mash_id = and_load_mash_id;
+		 									$amm.mash_id_change();
+										}
 									}
-								}
-							} else $window.alert(save_response.error || __php_parsed_error(save_response));
-						});
+								} else $window.alert(save_response.error || __php_parsed_error(save_response));
+							});
+						}
 					};
 					var __mash_for_id = function(id){
 						var i, z = $amm.mashes.length;
@@ -247,8 +310,8 @@
 									mash.label = m.label;
 									mash.id = selected_mash_id;
 									if (! __unsaved_mashes[selected_mash_id]) {
-										AmmRestMash.data({id: selected_mash_id}, function(mash_data_response){
-											//console.log('AmmRestMash.data', mash_data_response);
+										if (amm_resources.mash) amm_resources.mash.data({id: selected_mash_id}, function(mash_data_response){
+											//console.log('mash.data', mash_data_response);
 											if (mash_data_response.ok) {
 												if (selected_mash_id === $amm.mash_id){
 													__action_index = -1;
@@ -275,7 +338,7 @@
 					};
 					$amm.mashes = [];
 					$amm.mash_id = 0;
-					AmmRestMedia.search({group:'mash'}, function(mash_search_response) {
+					if (amm_resources.mash) amm_resources.mash.search({}, function(mash_search_response) {
 						if (mash_search_response.length) {
 							angular.forEach(mash_search_response, function(mash){
 								$amm.mashes.push(mash);
@@ -310,12 +373,42 @@
 						return style;
 					};
 				}
-			]			
+			],
+			link: function(scope, element, attributes){
+				var ob, i, z, bit, bits, key, prop, normalized, config;
+				
+				for (key in attributes.$attr){
+					switch(key){
+						case 'class':
+						case 'ammUi': break;
+						default: {
+							normalized = attributes.$attr[key];
+							prop = attributes[key];
+							bits = normalized.split('-');
+							if ('amm' === bits.shift()){
+								z = bits.length;
+								if (! config) config = {};
+								ob = config;
+								for (i = 0; i < z; i++){
+									bit = bits[i];
+									if (! ob[bit]) {
+										if (i === z - 1) ob[bit] = prop;
+										else ob[bit] = {};
+									}
+									ob = ob[bit];
+								}
+							}
+						}
+					}
+				}
+				__init_rest(config, amm_resources, $resource);
+			},
 		};
 	}]); // amm-ui
 	module.directive('ammPlayer', [
 		'$window', '$amm', 
 		function($window, $amm) {
+			console.log('module.directive ammPlayer');
 			//console.log('amm-player');
 			return {
 				restrict: 'AEC',
@@ -340,9 +433,8 @@
 		}
 	]); // ammPlayer
 	module.directive('ammBrowser', [
-		'$timeout', '$interval', '$amm', 'AmmRestImport', 'AmmRestMedia', 
-		function($timeout, $interval, $amm, AmmRestImport, AmmRestMedia) {
-			//console.log('amm-browser', AmmRestMedia);
+		'$timeout', '$interval', '$amm', 'amm_resources', 
+		function($timeout, $interval, $amm, amm_resources) {
 			return {
 				restrict: 'AEC',
 				replace: false,
@@ -393,9 +485,9 @@
 							upload.interval_id = $interval(function(){
 								if (! requested) {
 									requested = true;
-									console.log('Calling AmmRestImport.monitor', upload.monitor);
-									AmmRestImport.monitor(upload.monitor, function(import_monitor_response){
-										console.log('AmmRestImport.monitor', import_monitor_response);
+									console.log('Calling import.monitor', upload.monitor);
+									amm_resources.import.monitor(upload.monitor, function(import_monitor_response){
+										console.log('import.monitor', import_monitor_response);
 										requested = false;
 										if (import_monitor_response.ok) {
 											if ((import_monitor_response.completed > 0) && (import_monitor_response.completed < 1)) {
@@ -420,7 +512,7 @@
 										}
 										__update_import_completed();
 									}, function(import_err_response){
-										console.error('AmmRestImport.monitor', import_err_response);
+										console.error('import.monitor', import_err_response);
 										upload.status = 'error getting response from monitor cgi';
 										upload.completed = -1;
 										$interval.cancel(upload.interval_id);
@@ -428,120 +520,129 @@
 									});
 								}
 							}, 5 * 1000);
-						
 						};
-
-					
-						// REGISTER HANDLERS: afteraddingfile, afteraddingall, beforeupload, progress, success, cancel, error, complete
-						uploader.onProgressItem = function (item, percent_done) {
-							var upload = __upload_for_item(item);
-							if (upload) {
-								upload.completed = Math.max(0.03, percent_done / 200);
+						if (amm_resources.import) {
+							// REGISTER HANDLERS: afteraddingfile, afteraddingall, beforeupload, progress, success, cancel, error, complete
+							uploader.onProgressItem = function (item, percent_done) {
+								var upload = __upload_for_item(item);
+								if (upload) {
+									upload.completed = Math.max(0.03, percent_done / 200);
+									__update_import_completed();
+								} else console.error('could not find upload for item', item);
+							};
+							// selected file for upload
+							uploader.onAfterAddingFile = function (item) {
+								//console.info('After adding a file', item);
+								var post_data = {};
+								post_data.file = item.file.name;
+								post_data.size = item.file.size;
+								post_data.type = item.file.type;
+								var upload = {};
+								upload.uploading = true;
+								upload.upload = item;
+								upload.completed = 0.01;
+								upload.name = post_data.name;
+								__uploads.unshift(upload);
 								__update_import_completed();
-							} else console.error('could not find upload for item', item);
-						};
-						// selected file for upload
-						uploader.onAfterAddingFile = function (item) {
-							//console.info('After adding a file', item);
-							var post_data = {};
-							post_data.file = item.file.name;
-							post_data.size = item.file.size;
-							post_data.type = item.file.type;
-							var upload = {};
-							upload.uploading = true;
-							upload.upload = item;
-							upload.completed = 0.01;
-							upload.name = post_data.name;
-							__uploads.unshift(upload);
-							__update_import_completed();
-							console.log('calling AmmRestImport.init', post_data);
-							var __problem_upload = function(upload, status){
-								upload.completed = -1;
-								upload.status = status;
+								console.log('calling import.init', post_data);
+								var __problem_upload = function(upload, status){
+									upload.completed = -1;
+									upload.status = status;
+									__update_import_completed();
+								};
+								amm_resources.import.init(post_data, function(import_init_response){
+									console.log('import.init', import_init_response);
+									if (import_init_response.ok){
+										upload.completed = 0.02;
+										item.formData.push(import_init_response.data);
+										upload.api = import_init_response.api;
+										item.url = import_init_response.endpoint;
+										item.upload();
+									} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
+								}, function() {
+									console.error('upload', arguments);
+									__problem_upload(upload, 'error');
+								});
+							};
+						
+							// successfully uploaded actual file
+							uploader.onSuccessItem = function (item, import_upload_response) {
+								//console.info('uploaded', arguments);
+								var upload;
+								upload = __upload_for_item(item);
+								if (upload) {
+									if (import_upload_response.error) {
+										// we might get this is file is local on server
+										upload.status = import_upload_response.error;
+										upload.completed = -1;
+									} else { // assume everything was okay anyway
+										if (upload.api) {
+											upload.completed = 0.5;
+											if (amm_resources.import.api) $timeout(function(){
+												console.log('Calling import.api', upload.api);
+												amm_resources.import.api(upload.api, function(api_response){
+													console.log('import.api', api_response);
+								
+													if (api_response.ok && amm_resources.import.monitor) {
+														upload.monitor = api_response.monitor;
+														upload.completed = 0.51;
+														__monitor_import(upload);
+													} else {
+														upload.status = (api_response.error || __php_parsed_error(api_response));
+														upload.completed = -1;
+													}
+													__update_import_completed();
+												});
+											}, 20);
+										} else console.error('upload had no api key?', upload);
+									}
+								} else console.error('could not find upload for item?', item);
 								__update_import_completed();
 							};
-							AmmRestImport.init(post_data, function(import_init_response){
-								console.log('AmmRestImport.init', import_init_response);
-								if (import_init_response.ok){
-									upload.completed = 0.02;
-									item.formData.push(import_init_response.data);
-									upload.api = import_init_response.api;
-									item.url = import_init_response.endpoint;
-									item.upload();
-								} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
-							}, function() {
-								console.error('upload', arguments);
-								__problem_upload(upload, 'error');
-							});
-						};
-						
-						// successfully uploaded actual file
-						uploader.onSuccessItem = function (item, import_upload_response) {
-							//console.info('uploaded', arguments);
-							var upload;
-							upload = __upload_for_item(item);
-							if (upload) {
-								if (import_upload_response.error) {
-									// we might get this is file is local on server
-									upload.status = import_upload_response.error;
+							uploader.onErrorItem = function (item) {
+								console.error('uploading file', arguments);
+								var upload = __upload_for_item(item);
+								if (upload) {
+									upload.status = 'problem uploading ' + upload.file;
 									upload.completed = -1;
-								} else { // assume everything was okay anyway
-									if (upload.api) {
-										upload.completed = 0.5;
-										$timeout(function(){
-											console.log('Calling AmmRestImport.api', upload.api);
-											AmmRestImport.api(upload.api, function(api_response){
-												console.log('AmmRestImport.api', api_response);
-								
-												if (api_response.ok) {
-													upload.monitor = api_response.monitor;
-													upload.completed = 0.51;
-													__monitor_import(upload);
-												} else {
-													upload.status = (api_response.error || __php_parsed_error(api_response));
-													upload.completed = -1;
-												}
-												__update_import_completed();
-												
-											});
-										}, 20);
-									} else console.error('upload had no api key?', upload);
-								}
-							} else console.error('could not find upload for item?', item);
-							__update_import_completed();
-						};
-						uploader.onErrorItem = function (item) {
-							console.error('uploading file', arguments);
-							var upload = __upload_for_item(item);
-							if (upload) {
-								upload.status = 'problem uploading ' + upload.file;
-								upload.completed = -1;
-								__update_import_completed();
-							} else console.error('could not find upload for item', item);
-					   };
+									__update_import_completed();
+								} else console.error('could not find upload for item', item);
+						   };
+					   }
 					}
 				],
 				link: function(scope) {
 					var __media = {};
 					$amm.MovieMasher.configure({mash: { default: {quantize:10} } });
-					
-					AmmRestMedia.search({group:'font'}, function(response) {
-						$amm.MovieMasher.register('font', response);
-					});
-					AmmRestMedia.search({group:'scaler'}, function(response) {
-						$amm.MovieMasher.register('scaler', response);
-					});
-					AmmRestMedia.search({group:'merger'}, function(response) {
-						$amm.MovieMasher.register('merger', response);
-					});
-					scope.amm_browser_group = 'theme';
+					if (amm_resources.module && amm_resources.module.search) {
+						amm_resources.module.search({group:'font'}, function(response) {
+							$amm.MovieMasher.register('font', response);
+						});
+						amm_resources.module.search({group:'scaler'}, function(response) {
+							$amm.MovieMasher.register('scaler', response);
+						});
+						amm_resources.module.search({group:'merger'}, function(response) {
+							$amm.MovieMasher.register('merger', response);
+						});
+						scope.amm_browser_group = 'theme';
+					} else scope.amm_browser_group = 'video';
 					scope.amm_browser_group_change = function(new_group){
 						if (new_group){
 							scope.amm_browser_group = new_group;
 							if (__media[scope.amm_browser_group]) delete __media[scope.amm_browser_group];
 						}
 						if (! __media[scope.amm_browser_group]) {
-							__media[scope.amm_browser_group] = AmmRestMedia.search({group: scope.amm_browser_group});
+							switch(scope.amm_browser_group){
+								case 'image':
+								case 'video':
+								case 'audio': {
+									if (amm_resources.media) __media[scope.amm_browser_group] = amm_resources.media.search({group: scope.amm_browser_group});
+									break;
+								}
+								default: {
+									if (amm_resources.module) __media[scope.amm_browser_group] = amm_resources.module.search({group: scope.amm_browser_group});
+								}
+							}
 						}
 						scope.amm_media = __media[scope.amm_browser_group];
 					};
@@ -1016,7 +1117,7 @@
 		},
 	};}]); // ammTimelineClip
 	module.directive('ammCanvasContainer', [
-		'$amm', 'AmmRestMedia', 
+		'$amm', 
 		function($amm) {
 			//console.log('amm-canvas-container');
 			return {
