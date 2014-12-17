@@ -108,7 +108,6 @@ if (! function_exists('data_mash')) {
 }
 if (! function_exists('data_search')) {
 	function data_search($options = array(), $config = array()) {
-		//print_r($options);
 		$found_obs = array();
 		$json_obs = array();
 		if (! $config) $config = config_get();

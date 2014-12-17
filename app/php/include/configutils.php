@@ -58,7 +58,7 @@ if (! function_exists('config_defaults')) {
 		$config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
 		$config['user_media_url'] = (isset($config['user_media_url']) ? $config['user_media_url'] : $config['user_media_directory']);
 		$config['user_data_directory'] = (isset($config['user_data_directory']) ? $config['user_data_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
-		$config['module_directory'] = (empty($config['module_directory']) ? '' : $config['module_directory']);
+		$config['module_directory'] = (empty($config['module_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['module_directory']);
 		$config['s3_bucket'] = (empty($config['s3_bucket']) ? '' : $config['s3_bucket']);
 		$config['s3_region'] = (empty($config['s3_region']) ? '' : $config['s3_region']);
 		$config['sqs_queue_url'] = (empty($config['sqs_queue_url']) ? '' : $config['sqs_queue_url']);

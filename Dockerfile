@@ -19,9 +19,9 @@ COPY config/docker/php.ini /usr/local/etc/php/conf.d/moviemasher.ini
 # install our movie masher configuration
 COPY config/moviemasher.ini /var/www/config/moviemasher.ini
 
-# install just our web application
-COPY app/ /var/www/html/
+# install entire project
+COPY . /var/www/html/
 
 # create user data/media directory in case it doesn't exist
-RUN mkdir -p -m 0777 /var/www/html/user
-VOLUME /var/www/html/user
+RUN mkdir -p -m 0777 /var/www/html/app/user
+VOLUME /var/www/html/app

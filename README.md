@@ -39,9 +39,9 @@ All functions should be available at this juncture, except uploading and renderi
 
 - To process queued jobs using shared volumes:
 
-	`docker run -d --volumes-from=angular moviemasher/moviemasher.rb process_loop`
+	`docker run -d -t --volumes-from=angular --name=moviemasher moviemasher/moviemasher.rb process_loop`
   
-  You'll need to subsequently execute `docker stop moviemasher` and `docker rm moviemasher` to stop queue processing and remove the container created. See the [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb) project for other ways to run its image. 
+  Note the `t` switch - it's required for Ecasound to function properly. You'll need to subsequently execute `docker stop moviemasher` and `docker rm moviemasher` to stop queue processing and remove the container created. See the [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb) project for other ways to run its image. 
 
 
 ### How to Install on Your Web Host

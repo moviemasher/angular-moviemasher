@@ -1,4 +1,4 @@
-/*! angular-moviemasher - v1.0.5 - 2014-12-14
+/*! angular-moviemasher - v1.0.6 - 2014-12-17
 * Copyright (c) 2014 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
@@ -125,7 +125,7 @@
 				actions = {};
 				for (action in override_config) {
 					
-					console.log(action, default_config[action]);
+					//console.log(action, default_config[action]);
 					action_config = {};
 					if (default_config[action].isArray) action_config.isArray = true;
 					action_config.method = default_config[action].method;
@@ -178,6 +178,7 @@
 			controller: [
 				'$scope', '$window', '$interval', 'amm_resources',
 				function($scope, $window, $interval, amm_resources) {
+					
 					$scope.amm_resources = amm_resources;
 					var __action_index = -1;
 					$amm.player.did = function(removed_count){
@@ -331,6 +332,7 @@
 								$amm.mashes.push(mash);
 								$amm.mash_id = mash.id;
 								$amm.selected_mash = mash;
+								//console.log('new mash', $amm.mash_id);
 							} 
 							if ($amm.mash_id === mash.id) {
 								__action_index = -1;
@@ -340,20 +342,11 @@
 					};
 					$amm.mashes = [];
 					$amm.mash_id = 0;
-					if (amm_resources.mash) amm_resources.mash.search({}, function(mash_search_response) {
-						if (mash_search_response.length) {
-							angular.forEach(mash_search_response, function(mash){
-								$amm.mashes.push(mash);
-							});
-							$amm.mash_id = $amm.mashes[0].id;
-						}
-						$amm.mash_id_change();
-					});
 				
 					//console.log('controller amm-ui');
 					$scope.$amm = $amm;
 					$scope.log_mash = function(){
-						console.log('mash', $amm.player.mash);
+						//console.log('mash', $amm.player.mash);
 					};
 					$scope.amm_style_media_icon = function(media){
 						var url, style = {};
@@ -374,11 +367,13 @@
 						if (url) style['background-image'] = 'url(' + url + ')';
 						return style;
 					};
+					
 				}
 			],
 			link: function(scope, element, attributes){
 				var ob, i, z, bit, bits, key, prop, normalized, config;
-				
+				$amm.MovieMasher.configure({mash: { default: {quantize:10} } });
+					
 				for (key in attributes.$attr){
 					switch(key){
 						case 'class':
@@ -404,14 +399,32 @@
 					}
 				}
 				__init_rest(config, amm_resources, $resource);
+				if (amm_resources.module && amm_resources.module.search) {
+					amm_resources.module.search({group:'font'}, function(response) {
+						$amm.MovieMasher.register('font', response);
+						if (amm_resources.mash) amm_resources.mash.search({}, function(mash_search_response) {
+							if (mash_search_response.length) {
+								angular.forEach(mash_search_response, function(mash){
+									$amm.mashes.push(mash);
+								});
+								$amm.mash_id = $amm.mashes[0].id;
+							}
+							$amm.mash_id_change();
+						});
+					});
+					amm_resources.module.search({group:'scaler'}, function(response) {
+						$amm.MovieMasher.register('scaler', response);
+					});
+					amm_resources.module.search({group:'merger'}, function(response) {
+						$amm.MovieMasher.register('merger', response);
+					});
+				 }
 			},
 		};
 	}]); // amm-ui
 	module.directive('ammPlayer', [
 		'$window', '$amm', 
 		function($window, $amm) {
-			console.log('module.directive ammPlayer');
-			//console.log('amm-player');
 			return {
 				restrict: 'AEC',
 				replace: false,
@@ -456,6 +469,7 @@
 							__update_import_completed();
 						};
 						var uploader = $scope.uploader = new FileUploader({scope: $scope});
+						var __media = {};
 						var __uploads = [];
 						var __update_import_completed = function(){
 							var upload, i, z, completed = 0, total = 0;
@@ -487,9 +501,9 @@
 							upload.interval_id = $interval(function(){
 								if (! requested) {
 									requested = true;
-									console.log('Calling import.monitor', upload.monitor);
+									//console.log('Calling import.monitor', upload.monitor);
 									amm_resources.import.monitor(upload.monitor, function(import_monitor_response){
-										console.log('import.monitor', import_monitor_response);
+										//console.log('import.monitor', import_monitor_response);
 										requested = false;
 										if (import_monitor_response.ok) {
 											if ((import_monitor_response.completed > 0) && (import_monitor_response.completed < 1)) {
@@ -546,14 +560,14 @@
 								upload.name = post_data.name;
 								__uploads.unshift(upload);
 								__update_import_completed();
-								console.log('calling import.init', post_data);
+								//console.log('calling import.init', post_data);
 								var __problem_upload = function(upload, status){
 									upload.completed = -1;
 									upload.status = status;
 									__update_import_completed();
 								};
 								amm_resources.import.init(post_data, function(import_init_response){
-									console.log('import.init', import_init_response);
+									//console.log('import.init', import_init_response);
 									if (import_init_response.ok){
 										upload.completed = 0.02;
 										item.formData.push(import_init_response.data);
@@ -581,9 +595,9 @@
 										if (upload.api) {
 											upload.completed = 0.5;
 											if (amm_resources.import.api) $timeout(function(){
-												console.log('Calling import.api', upload.api);
+												//console.log('Calling import.api', upload.api);
 												amm_resources.import.api(upload.api, function(api_response){
-													console.log('import.api', api_response);
+													//console.log('import.api', api_response);
 								
 													if (api_response.ok && amm_resources.import.monitor) {
 														upload.monitor = api_response.monitor;
@@ -611,45 +625,32 @@
 								} else console.error('could not find upload for item', item);
 						   };
 					   }
+					   
+					  	if (amm_resources.module && amm_resources.module.search) $scope.amm_browser_group = 'theme';
+						else $scope.amm_browser_group = 'video';
+						$scope.amm_browser_group_change = function(new_group){
+							 if (new_group){
+								 $scope.amm_browser_group = new_group;
+								 if (__media[$scope.amm_browser_group]) delete __media[$scope.amm_browser_group];
+							 }
+							 if (! __media[$scope.amm_browser_group]) {
+								 switch($scope.amm_browser_group){
+									 case 'image':
+									 case 'video':
+									 case 'audio': {
+										 if (amm_resources.media) __media[$scope.amm_browser_group] = amm_resources.media.search({group: $scope.amm_browser_group});
+										 break;
+									 }
+									 default: {
+										 if (amm_resources.module) __media[$scope.amm_browser_group] = amm_resources.module.search({group: $scope.amm_browser_group});
+									 }
+								 }
+							 }
+							 $scope.amm_media = __media[$scope.amm_browser_group];
+						 };
+						$scope.amm_browser_group_change();
 					}
-				],
-				link: function(scope) {
-					var __media = {};
-					$amm.MovieMasher.configure({mash: { default: {quantize:10} } });
-					if (amm_resources.module && amm_resources.module.search) {
-						amm_resources.module.search({group:'font'}, function(response) {
-							$amm.MovieMasher.register('font', response);
-						});
-						amm_resources.module.search({group:'scaler'}, function(response) {
-							$amm.MovieMasher.register('scaler', response);
-						});
-						amm_resources.module.search({group:'merger'}, function(response) {
-							$amm.MovieMasher.register('merger', response);
-						});
-						scope.amm_browser_group = 'theme';
-					} else scope.amm_browser_group = 'video';
-					scope.amm_browser_group_change = function(new_group){
-						if (new_group){
-							scope.amm_browser_group = new_group;
-							if (__media[scope.amm_browser_group]) delete __media[scope.amm_browser_group];
-						}
-						if (! __media[scope.amm_browser_group]) {
-							switch(scope.amm_browser_group){
-								case 'image':
-								case 'video':
-								case 'audio': {
-									if (amm_resources.media) __media[scope.amm_browser_group] = amm_resources.media.search({group: scope.amm_browser_group});
-									break;
-								}
-								default: {
-									if (amm_resources.module) __media[scope.amm_browser_group] = amm_resources.module.search({group: scope.amm_browser_group});
-								}
-							}
-						}
-						scope.amm_media = __media[scope.amm_browser_group];
-					};
-					scope.amm_browser_group_change();
-				}
+				]
 			};
 		}
 	]); // ammBrowser

@@ -458,7 +458,8 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 			// add output for image file
 			$result['outputs'][] = array(
 				'type' => 'image', 
-				'name' => $config['import_dimensions'] . 'x1/0', 
+				'name' => '0',
+				'path' => $config['import_dimensions'] . 'x1',
 				'dimensions' => $config['import_dimensions'], 
 				'extension' => $extension, 
 				'quality' => $config['import_image_quality'], 
@@ -472,7 +473,7 @@ function api_job_import($input = array(), $output = array(), $config = array()) 
 				'audio_bitrate' => $config['import_audio_bitrate'], 
 				'name' => $config['import_audio_basename'], 
 				'extension' => $config['import_audio_extension'], 
-				'frequency' => $config['import_audio_rate'],
+				'audio_rate' => $config['import_audio_rate'],
 			);
 			
 			

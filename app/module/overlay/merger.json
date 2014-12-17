@@ -21,8 +21,8 @@
 		}
 	]
 },{
-	"label": "Custom",
-	"id": "com.moviemasher.merger.custom",
+	"label": "Overlay",
+	"id": "com.moviemasher.merger.overlay",
 	"properties": { 
 		"left": { "type": "pixel", "value": 0.5 },
 		"top": { "type": "pixel", "value": 0.5 }
