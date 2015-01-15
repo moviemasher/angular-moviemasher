@@ -1,5 +1,5 @@
 <?php /*
-This script is called directly from the JavaScript client, in response to a click on the Render button.
+This script is called directly from JavaScript, in response to a click on the Render button.
 The JSON formatted mash data has already been saved to user_data_directory/{auth_userid()}/$id.json
 This script then generates a decode job JSON payload and posts it to the Transcoder.
 The job ID is passed to export_monitor.php, by setting the 'job' attribute in response.
@@ -10,9 +10,9 @@ $response = array();
 $log_responses = '';
 $err = '';
 $config = array();
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'apiutils.php'))) $err = 'Problem loading api utility script';
-if ((! $err) && (! @include_once($include . 'datautils.php'))) $err = 'Problem loading data utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('api','data'))) $err = 'Problem loading utility scripts';
+
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();
 	$err = config_error($config);

@@ -3,9 +3,8 @@
 // A convenient place to suppress errors and avoid corrupt json responses
 ini_set('display_errors', 0);
 
-include_once(dirname(__FILE__) . '/httputils.php');
-include_once(dirname(__FILE__) . '/logutils.php');
-include_once(dirname(__FILE__) . '/pathutils.php');
+include_once(dirname(__FILE__) . '/loadutils.php');
+load_utils('http','log','path');
 
 if (! function_exists('config_defaults')) {
 	function config_defaults($config = array()) {
@@ -138,10 +137,6 @@ if (! function_exists('config_error')) {
 					else $check_aws = TRUE;
 					break;
 				}
-				default: 
-				{
-					$err = 'Unsupported client configuration ' . $client;
-				}
 			}
 			if ($check_aws)
 			{
@@ -149,7 +144,6 @@ if (! function_exists('config_error')) {
 				{
 					if (! $err) $err = 'Configuration options aws_access_key_id, aws_secret_access_key required';
 				}
-				else $err = '';
 			}
 		}
 		return $err;

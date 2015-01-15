@@ -1,6 +1,7 @@
 <?php
-include_once(dirname(__FILE__) . '/configutils.php');
-include_once(dirname(__FILE__) . '/jsonutils.php');
+
+include_once(dirname(__FILE__) . '/loadutils.php');
+load_utils('config','json');
 
 if (! function_exists('data_save')) {
 	function data_save($type, $media_data = array(), $userid = '', $config = array()) {

@@ -14,8 +14,10 @@ $response = array();
 $err = '';
 $config = array();
 $log_responses = '';
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! include_once($include . 'apiutils.php'))) $err = 'Problem loading api utility script';
+
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('api'))) $err = 'Problem loading utility scripts';
+
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();
 	$err = config_error($config);

@@ -17,11 +17,8 @@ $log_responses = '';
 $err = '';
 $config = array();
 
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'authutils.php'))) $err = 'Problem loading authentication utility script';
-if ((! $err) && (! @include_once($include . 'idutils.php'))) $err = 'Problem loading id utility script';
-if ((! $err) && (! @include_once($include . 'mimeutils.php'))) $err = 'Problem loading mime utility script';
-if ((! $err) && (! @include_once($include . 'sigutils.php'))) $err = 'Problem loading signature utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('auth','id','mime','sig'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();

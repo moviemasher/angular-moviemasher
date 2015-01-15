@@ -6,7 +6,9 @@ The auth_userid() function is called whenever paths are built to the user's cont
 (uploads, rendered videos, XML data files). The auth_data() function is called from
 when callbacks are being generated for inclusion in the job XML for the transcoder.
 */
-include_once(dirname(__FILE__) . '/configutils.php');
+
+include_once(dirname(__FILE__) . '/loadutils.php');
+load_utils('config');
 
 if (! function_exists('auth_challenge')) {
 	function auth_challenge($config) {

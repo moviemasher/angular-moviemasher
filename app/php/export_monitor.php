@@ -2,8 +2,8 @@
 This script is called from the CGI control, after loading export_init.php.
 The job and media IDs are in _GET.
 The script attempts to check on the progress of the job and either:
-	* redirects client back to itself, if job is still processing, by setting 'url' attribute
-	* directs client to refresh browser view if job is finished
+	* redirects back to itself, if job is still processing, by setting 'url' attribute
+	* directs browser to refresh browser view if job is finished
 	* displays javascript alert if error is encountered, by setting 'get' attribute
 If possible, the response to client is logged.
 */
@@ -14,9 +14,8 @@ $err = '';
 $config = array();
 $done = FALSE;
 
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'apiutils.php'))) $err = 'Problem loading api utility script';
-if ((! $err) && (! @include_once($include . 'datautils.php'))) $err = 'Problem loading data utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('api','data'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();

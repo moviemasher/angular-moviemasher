@@ -8,9 +8,8 @@ a 400 header is returned and it is logged, if possible.
 $err = '';
 $config = array();
 
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'apiutils.php'))) $err = 'Problem loading api utility script';
-if ((! $err) && (! @include_once($include . 'datautils.php'))) $err = 'Problem loading data utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('api','data'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();

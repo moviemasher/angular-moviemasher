@@ -9,9 +9,8 @@ $response = array();
 $err = '';
 $config = array();
 
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'authutils.php'))) $err = 'Problem loading authentication utility script';
-if ((! $err) && (! @include_once($include . 'datautils.php'))) $err = 'Problem loading data utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('auth','data'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();

@@ -5,10 +5,9 @@ error is encountered a 400 header is returned and it is logged, if possible.
 */
 $err = '';
 $config = array();
-$include = dirname(__FILE__) . '/include/'; // load utilities
-if ((! $err) && (! @include_once($include . 'archiveutils.php'))) $err = 'Problem loading archive utility script';
-if ((! $err) && (! @include_once($include . 'authutils.php'))) $err = 'Problem loading authentication utility script';
-if ((! $err) && (! @include_once($include . 'idutils.php'))) $err = 'Problem loading id utility script';
+if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Problem loading utility script';
+if ((! $err) && (! load_utils('auth','id','archive'))) $err = 'Problem loading utility scripts';
+
 if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();
 	$err = config_error($config);

@@ -1,5 +1,8 @@
 <?php
-include_once(dirname(__FILE__) . '/fileutils.php');
+
+include_once(dirname(__FILE__) . '/loadutils.php');
+load_utils('file');
+
 if (! function_exists('log_file')) {
 	function log_file($s, $config) {
 		if ($s) {
