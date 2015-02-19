@@ -40,8 +40,8 @@ if (! function_exists('api_import_data')) {
 		if (! $err) { // pull in other configuration and check for required input
 			$import_video_rate = $config['import_video_rate'];
 			$import_extension = $config['import_extension'];
-			$media_url = path_concat($config['user_media_url'], $uid);
-			if ($config['file'] != 'local') $media_url = path_concat('http://' . $config['user_media_host'], $media_url);
+			$media_url = service_import_url($response, $config);
+			//log_file('api_import_data ' . $media_url . ' ' . print_r($response, 1), $config);
 		}
 		if (! $err) {
 			$media_extension = (empty($response['extension']) ? '' : $response['extension']);
@@ -129,8 +129,7 @@ if (! function_exists('api_export_data')) {
 			if (! ($id && $extension && $type && $job && $uid)) $err = 'Parameters uid, job, id, extension, type required';
 		}
 		if (! $err) { // pull in other configuration and check for required input
-			$media_url = path_concat($config['user_media_url'], $uid);
-			if ($config['file'] != 'local') $media_url = path_concat('http://' . $config['user_media_host'], $media_url);
+			$media_url = service_import_url($response, $config);
 			$export_data['id'] = $id;
 			$export_data['source'] = path_concat(path_concat($media_url, $id), ($config["export_{$type}_basename"] ? $config["export_{$type}_basename"] : $job) . '.' . $extension);
 		}
@@ -174,7 +173,7 @@ if (! function_exists('api_job_export')) {
 }
 if (! function_exists('api_job_render')) {
 	function api_job_render($inputs, $output, $config) {
-		$result = array('inputs' => $inputs, 'outputs' => array(), 'destination' => array());
+		$result = array('inputs' => $inputs, 'outputs' => array());
 		if (! $config) $config = config_get();
 		$err = config_error($config);
 		if (! $err) { // pull in other configuration and check for required input
@@ -193,125 +192,25 @@ if (! function_exists('api_job_render')) {
 				$export_extension = $config['export_audio_extension'];
 				$export_audio_codec = $config['export_audio_codec_audio'];
 			}
-			$found_audio = (empty($output['has_audio']) ? true : $output['has_audio']);
-			$found_video = (empty($output['has_video']) ? ($type == 'video') : $output['has_video']);
-	
-			$user_id = (isset($output['UserID']) ? $output['UserID'] : auth_userid());
-			$path_media = path_concat($config['user_media_directory'], $user_id);
-			$path_media_url = path_concat($config['user_media_url'], $user_id);
-		
-			$progress_callback_payload = array(
-				'job' => '{job.id}',
-				'progress' => '{job.progress}',
-			);
+			if (empty($output['uid'])) $output['uid'] = auth_userid();
+			$result['destination'] = service_destination($output, $config);
+			$base_source = service_export_base_source($config);
+			$module_source = service_export_module_source($config);
+			if ($module_source) $result['module_source'] = $module_source;
+			if ($base_source) $result['base_source'] = $base_source;
+			$progress_callback_payload = array('job' => '{job.id}', 'progress' => '{job.progress}');
 			$complete_callback_payload = array(
 				'job' => '{job.id}',
 				'id' => $id,
-				'uid' => $user_id,
+				'uid' => $output['uid'],
 				'type' => $type,
 				'extension' => $export_extension,
 				'error' => '{job.error}',
 				'log' => '{job.log}',
 				'commands' => '{job.commands}',
 			);
-			$destination = array();
-			// DESTINATION
-			if ($config['file'] == 's3') { 
-				 $destination = array(
-					'type' => 's3',
-					'bucket' => $config['s3_bucket'],
-					'region' => $config['s3_region'],
-					'path' => path_concat($path_media_url, $id),
-				);
-			}
-			else { // file is local
-				log_file('file is not s3 ' . $config['file'], $config);
-				if ($config['client'] == 'local') { 
-					$destination = array(
-						'type' => 'file',
-						'method' => 'move',
-						'directory' => $config['web_root_directory'],
-						'path' => path_concat($path_media, $id),
-					);
-				} else {
-					$destination = auth_data(array(
-						'type' => 'http',
-						'host' => $config['callback_host'],
-						'path' => path_concat($config['callback_directory'], 'export_transfer.php'),
-						'parameters' => array(
-							'id' => $id,
-							'type' => $type,
-							'extension' => $export_extension,
-							'uid' => $user_id,
-							'job' => '{job.id}'
-						),
-					), $config);
-				}
-			}
-			if ($config['client'] == 'local') { 
-				if ($config['file'] == 'local') {
-					$base_path = '';
-					$media_url = path_strip_slashes($config['user_media_url']);
-					$media_dir = path_strip_slashes($config['user_media_directory']);
-					$len = strlen($media_url);
-					if ($media_url == substr($media_dir, -$len)) {
-						$base_path = substr($media_dir, 0, -$len);
-					}
-					$result['base_source'] = array(
-						'directory' => $config['web_root_directory'],
-						'path' => $base_path,
-						'method' => 'symlink', 
-						'type' => 'file',
-					);
-				}
-				$result['module_source'] = array(
-					'directory' => $config['web_root_directory'],
-					'path' => $config['module_directory'],
-					'method' => 'symlink', 
-					'type' => 'file',
-				);
-			
-				if (! empty($output['include_progress'])) $result['callbacks'][] = array(
-					'type' => 'file', 
-					'trigger' => 'progress',
-					'method' => 'copy',
-					'directory' => $config['temporary_directory'],
-					'path' => '{job.id}.json',
-					'data' => $progress_callback_payload,
-				);
-				$result['callbacks'][] = array(
-					'type' => 'file', 
-					'trigger' => 'complete',
-					'method' => 'copy',
-					'directory' => $config['temporary_directory'],
-					'path' => '{job.id}.json',
-					'data' => $complete_callback_payload,
-				);
-			} 
-			else { // client is service
-				// raw media has absolute url, so modules can just grab from base_source
-				$result['base_source'] = array(
-					'host' => $config['module_host'], 
-					'directory' => $config['module_directory'], 
-					'method' => 'get', 
-					'type' => 'http'
-				);
-				if (! empty($output['include_progress'])) $result['callbacks'][] = auth_data(array(
-					'host' => $config['callback_host'], 
-					'type' => 'http', 
-					'trigger' => 'progress',
-					'path' => path_concat($config['callback_directory'], 'export_progress.php'),
-					'data' => $progress_callback_payload,
-				), $config);
-				$result['callbacks'][] = auth_data(array(
-					'host' => $config['callback_host'], 
-					'type' => 'http', 
-					'trigger' => 'complete',
-					'path' => path_concat($config['callback_directory'], 'export_complete.php'),
-					'data' => $complete_callback_payload,
-				), $config);
-			}
-			$result['destination'] = $destination;
+			if (! empty($output['include_progress'])) $result['callbacks'][] = service_export_progress_callback($progress_callback_payload, $config);
+			$result['callbacks'][] = service_export_complete_callback($complete_callback_payload, $config);
 			// add Output for rendered video or audio file, with no transfer tag of its own
 			$job_output = array('type' => $type);
 			$job_output['extension'] = $export_extension;
@@ -324,12 +223,9 @@ if (! function_exists('api_job_render')) {
 				$job_output['dimensions'] = $config['export_dimensions'];
 			}
 			else $job_output['no_video'] = '1';
-			if ($found_audio) {
-				$job_output['audio_codec'] = $export_audio_codec;
-				$job_output['audio_bitrate'] = $config['export_audio_bitrate'];
-				$job_output['audio_rate'] = $config['export_audio_rate'];
-			}
-			else $job_output['no_audio'] = '1';
+			$job_output['audio_codec'] = $export_audio_codec;
+			$job_output['audio_bitrate'] = $config['export_audio_bitrate'];
+			$job_output['audio_rate'] = $config['export_audio_rate'];
 			$result['outputs'][] = $job_output;
 		}
 		if ($err) $result['error'] = $err;
@@ -338,15 +234,14 @@ if (! function_exists('api_job_render')) {
 }
 if (! function_exists('api_job_import')) {
 	function api_job_import($input = array(), $output = array(), $config = array()) {
-		$result = array('callbacks' => array(), 'inputs' => array(), 'outputs' => array(), 'destination' => array());
+		$result = array('callbacks' => array(), 'inputs' => array(), 'outputs' => array());
 		if (! $config) $config = config_get();
 		$err = config_error($config);
 	
 		if (! $err) { // check for required input
-			$user_id = (isset($output['UserID']) ? $output['UserID'] : auth_userid());
-			$path_media = path_concat($config['user_media_directory'], $user_id);
-			$path_media_url = path_concat($config['user_media_url'], $user_id);
-
+			
+			if (empty($input['uid'])) $input['uid'] = auth_userid();
+			
 			// make sure required input parameters have been set
 			$id = (empty($input['id']) ? '' : $input['id']);
 			$extension = (empty($input['extension']) ? '' : $input['extension']);
@@ -355,6 +250,12 @@ if (! function_exists('api_job_import')) {
 			if (! ($id && $extension && $type)) $err = 'Required parameter omitted';
 		}
 		if (! $err) { // create job for transcoder
+			if ('image' != $type) $complete_callback_payload['duration'] = '{job.duration}';
+			$input_tag = array('type' => $type);
+			if ($type != 'audio') $input_tag['fill'] = 'none';
+			// DESTINATION
+			$result['destination'] = service_destination($input, $config);
+			// CALLBACKS
 			$progress_callback_payload = array(
 				'job' => '{job.id}',
 				'progress' => '{job.progress}',
@@ -362,7 +263,7 @@ if (! function_exists('api_job_import')) {
 			$complete_callback_payload = array(
 				'job' => '{job.id}',
 				'id' => $id,
-				'uid' => $user_id,
+				'uid' => $input['uid'],
 				'extension' => $extension,
 				'type' => $type,
 				'label' => $label,
@@ -372,92 +273,10 @@ if (! function_exists('api_job_import')) {
 				'no_audio' => '{job.inputs.0.no_audio}',
 				'no_video' => '{job.inputs.0.no_video}',
 			);
-			if ('image' != $type) $complete_callback_payload['duration'] = '{job.duration}';
-			$destination = array();
-			$source = array('name' => $config['import_original_basename'], 'extension' => $extension);
-			$input = array('type' => $type);
-			if ($type != 'audio') $input['fill'] = 'none';
-			// DESTINATION
-			if ($config['file'] == 's3') { 
-				 $destination = array(
-					'type' => 's3',
-					'bucket' => $config['s3_bucket'],
-					'region' => $config['s3_region'],
-					'path' => path_concat($path_media_url, $id),
-				);
-			} 
-			else { // file is local
-				if ($config['client'] == 'local') {
-					 $destination = array(
-						'type' => 'file',
-						'method' => 'move',
-						'directory' => $config['web_root_directory'],
-						'path' => path_concat($path_media, $id),
-					);
-				} else {
-					$destination = auth_data(array(
-						'type' => 'http',
-						'host' => $config['callback_host'],
-						'path' => path_concat($config['callback_directory'], 'import_transfer.php'),
-						'archive' => 'tgz', 
-						'parameters' => array(
-							'id' => $id,
-							'type' => $type,
-							'extension' => $extension,
-							'uid' => $user_id,
-						),
-					), $config);
-				}
-			}
-			// CALLBACKS
-			if ($config['client'] == 'local') { 
-				if (! empty($output['include_progress'])) $result['callbacks'][] = array(
-					'type' => 'file', 
-					'trigger' => 'progress',
-					'method' => 'copy',
-					'directory' => $config['temporary_directory'],
-					'path' => '{job.id}.json',
-					'data' => $progress_callback_payload,
-				);
-				$result['callbacks'][] = array(
-					'type' => 'file', 
-					'trigger' => 'complete',
-					'method' => 'copy',
-					'directory' => $config['temporary_directory'],
-					'path' => '{job.id}.json',
-					'data' => $complete_callback_payload,
-				);
-			} 
-			else {
-				if (! empty($output['include_progress'])) $result['callbacks'][] = auth_data(array(
-					'host' => $config['callback_host'], 
-					'type' => 'http', 
-					'trigger' => 'progress',
-					'path' => path_concat($config['callback_directory'], 'import_progress.php'),
-					'data' => $progress_callback_payload,
-				), $config);
-				$result['callbacks'][] = auth_data(array(
-					'host' => $config['callback_host'], 
-					'type' => 'http', 
-					'trigger' => 'complete',
-					'path' => path_concat($config['callback_directory'], 'import_complete.php'),
-					'data' => $complete_callback_payload,
-				), $config);
-			}
-			// SOURCE
-			if (($config['file'] == 'local') && ($config['client'] == 'local')) {
-				$source['type'] = 'file';
-				$source['method'] = 'symlink';
-				$source['directory'] = $config['web_root_directory'];
-				$source['path'] = path_concat($path_media, $id);
-			} 
-			else { 
-				$source['host'] = $config['user_media_host'];
-				$source['path'] = path_concat($path_media_url, $id);
-			}
-			$input['source'] = $source;
-			$result['inputs'][] = $input;
-			$result['destination'] = $destination;
+			if (! empty($output['include_progress'])) $result['callbacks'][] = service_import_progress_callback($progress_callback_payload, $config);
+			$result['callbacks'][] = service_import_complete_callback($complete_callback_payload, $config);
+			$input_tag['source'] = service_source($input, $config);
+			$result['inputs'][] = $input_tag;
 			// OUTPUTS
 			if ($type == 'image') {
 				// add output for image file
@@ -526,32 +345,13 @@ if (! function_exists('api_queue_job')) {
 		$result = array();
 		if (! $config) $config = config_get();
 		$result['error'] = config_error($config);
-
 		// queue job
 		if (empty($result['error'])) {
-			$result['id'] = '';
-			// post job to the Transcoder
 			if ($config['log_api_request']) log_file("{$config['client']} request:\n" . json_encode($data), $config);
-		
-			if ($config['client'] == 'local') { // local
-				$result['id'] = id_unique();
-				$job_path = path_concat($config['queue_directory'], $result['id'] . '.json');
-				$data['id'] = $result['id'];
-				$json_str = @json_encode($data);
-				if (! $json_str) $result['error'] = 'could not encode json';
-				else if (! file_put($job_path, $json_str)) {
-					$result['error'] = 'could not write job to ' . $job_path;
-				}
-			} else {
-				$queue_response = service_send_message($data, $config);
-				if (! empty($queue_response['error'])) $result['error'] = $queue_response['error'];
-				else $result['id'] = $queue_response['job_id'];
-			} 
-		
+			// post job to the Transcoder
+			$result = service_enqueue($data, $config);
 			if ((! $result['error']) && empty($result['id'])) $result['error'] = 'Got no Job ID';
-		
 		}
-	
 		return $result;
 	}
 }
@@ -626,5 +426,3 @@ function __api_gain_mutes($gain){
 	} else $does_mute = float_cmp(floatval($gain), FLOAT_ZERO);
 	return $does_mute;
 }
-
-?>

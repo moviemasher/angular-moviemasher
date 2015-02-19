@@ -11,5 +11,3 @@ function load_utils() {
 	}
 	return $result;
 }
-
-?>

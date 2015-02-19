@@ -72,4 +72,3 @@ if (! function_exists('auth_data')) {
 		return $transfer;
 	}
 }
-?>

@@ -79,5 +79,3 @@ else $response['ok'] = 1;
 $json = json_encode($response);
 print $json . "\n\n";
 if ($log_responses) log_file($json, $config);
-
-?>

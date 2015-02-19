@@ -24,4 +24,3 @@ if (! function_exists('archive_extract')) {
 		return $result;
 	}
 }
-?>

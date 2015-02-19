@@ -93,4 +93,3 @@ if (! function_exists('http_set_options')) {
 		}
 	}
 }
-?>

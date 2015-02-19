@@ -558,19 +558,23 @@
 								upload.name = post_data.name;
 								__uploads.unshift(upload);
 								__update_import_completed();
-								//console.log('calling import.init', post_data);
+								console.log('calling import.init', post_data);
 								var __problem_upload = function(upload, status){
 									upload.completed = -1;
 									upload.status = status;
 									__update_import_completed();
 								};
 								amm_resources.import.init(post_data, function(import_init_response){
-									//console.log('import.init', import_init_response);
+									console.log('import.init', import_init_response);
 									if (import_init_response.ok){
 										upload.completed = 0.02;
 										item.formData.push(import_init_response.data);
+										if (import_init_response.headers){
+											for (var k in import_init_response.headers){ item.headers[k] = import_init_response.headers[k]; }
+										}
 										upload.api = import_init_response.api;
 										item.url = import_init_response.endpoint;
+										console.log(import_init_response.endpoint, import_init_response.data);
 										item.upload();
 									} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
 								}, function() {

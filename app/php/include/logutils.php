@@ -24,4 +24,3 @@ if (! function_exists('log_file')) {
 		}
 	}
 }
-?>

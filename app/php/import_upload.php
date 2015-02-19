@@ -85,7 +85,8 @@ if (! $err) { // make sure mime type is supported
 	}
 }
 if (! $err) { // make sure type and extension match
-	if (($type != $file_type) || ($extension != $file_extension)) $err = 'Internal error';
+	if ($type != $file_type) $err = 'Type ' . $file_type . ' was not the expected type ' . $type;
+	else if ($extension != $file_extension) $err = 'Extension ' . $file_extension . ' was not the expected extension ' . $extension;
 }
 if (! $err) { // enforce size limit from configuration, if defined
 	$max = (empty($config["max_meg_{$type}"]) ? '' : $config["max_meg_{$type}"]);
@@ -108,4 +109,3 @@ else $response['ok'] = 1;
 $json = json_encode($response);
 print $json . "\n\n";
 if (! empty($log_responses)) log_file($json, $config);
-?>

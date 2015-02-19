@@ -102,4 +102,3 @@ if ($err) {
 	log_file($err, $config);
 }
 else log_file($media_path, $config);
-?>

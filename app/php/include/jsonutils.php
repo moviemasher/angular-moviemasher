@@ -50,4 +50,3 @@ if (! function_exists('json_encode')) { // in case it's not there for some reaso
     }
   }
 }
-?>

@@ -251,4 +251,3 @@ if (! function_exists('file_mode')) {
 		return $result;
 	}
 }
-?>

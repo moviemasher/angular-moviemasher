@@ -57,4 +57,3 @@ if (! function_exists('float_sort')) {
 		return -1;
 	}
 }
-?>

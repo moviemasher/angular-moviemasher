@@ -75,4 +75,3 @@ if ($err) {
 	print $err;
 	log_file($err, $config);
 }
-?>

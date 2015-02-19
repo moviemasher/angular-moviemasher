@@ -4,13 +4,10 @@
 ini_set('display_errors', 0);
 
 include_once(dirname(__FILE__) . '/loadutils.php');
-load_utils('http','log','path');
+load_utils('service','http','log','path');
 
 if (! function_exists('config_defaults')) {
 	function config_defaults($config = array()) {
-	
-		$config['client'] = (empty($config['client']) ? 'local' : $config['client']);
-		$config['file'] = (empty($config['file']) ? 'local' : $config['file']);
 		$config['authentication'] =  (empty($config['authentication']) ? '' : $config['authentication']);
 		$config['aws_access_key_id'] =  (empty($config['aws_access_key_id']) ? '' : $config['aws_access_key_id']);
 		$config['aws_secret_access_key'] =  (empty($config['aws_secret_access_key']) ? '' : $config['aws_secret_access_key']);
@@ -54,7 +51,9 @@ if (! function_exists('config_defaults')) {
 		$config['max_meg_video'] = (empty($config['max_meg_video']) ? '' : $config['max_meg_video']);
 		$config['log_file'] = (empty($config['log_file']) ? '' : $config['log_file']);
 		$config['callback_directory'] = (empty($config['callback_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end($config['web_root_directory']))) : $config['callback_directory']);
-		$config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
+		$config['install_directory'] = (empty($config['install_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['install_directory']);
+		$config['cgi_directory'] = (empty($config['cgi_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))) : $config['cgi_directory']);
+		$config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))), 'user'));
 		$config['user_media_url'] = (isset($config['user_media_url']) ? $config['user_media_url'] : $config['user_media_directory']);
 		$config['user_data_directory'] = (isset($config['user_data_directory']) ? $config['user_data_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
 		$config['module_directory'] = (empty($config['module_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['module_directory']);
@@ -62,7 +61,7 @@ if (! function_exists('config_defaults')) {
 		$config['s3_region'] = (empty($config['s3_region']) ? '' : $config['s3_region']);
 		$config['sqs_queue_url'] = (empty($config['sqs_queue_url']) ? '' : $config['sqs_queue_url']);
 		$config['chmod_directory_new'] = (isset($config['chmod_directory_new']) ? $config['chmod_directory_new'] : '0775');
-		
+		$config = service_config_defaults($config);
 		ksort($config);
 		return $config;
 	}
@@ -71,81 +70,18 @@ if (! function_exists('config_error')) {
 	function config_error($config) {
 		$err = '';
 		$exception = 'http://169.254.169.254/latest/meta-data/public-hostname'; // for retrieving current EC2 Public DNS Name
-		if (! $config)
-		{
-			$err = config_get(TRUE);
-			if (! $err) $err = 'Problem getting configuration';
-		}
-		if (! $err)
-		{
+		if (! $config) $config = config_get();
+		if (! $config) $err = 'Problem getting configuration';
+		if (! $err) {
 			if ((! empty($config['user_media_host'])) && (strpos($config['user_media_host'], '/') !== FALSE) && ($config['user_media_host'] != $exception)) $err = 'Configuration option user_media_host cannot contain slashes';
 		}
-		if (! $err)
-		{
+		if (! $err) {
 			if ((! empty($config['module_host'])) && (strpos($config['module_host'], '/') !== FALSE) && ($config['module_host'] != $exception)) $err = 'Configuration option module_host cannot contain slashes';
 		}
-		if (! $err)
-		{
+		if (! $err) {
 			if ((! empty($config['callback_host'])) && (strpos($config['callback_host'], '/') !== FALSE) && ($config['callback_host'] != $exception)) $err = 'Configuration option callback_host cannot contain slashes';
 		}
-		
-		if (! $err)
-		{
-			$client = (empty($config['client']) ? 'local' : $config['client']);
-			$file = (empty($config['file']) ? 'local' : $config['file']);
-			$check_aws = FALSE;
-			switch($file)
-			{
-				case 'local':
-				{
-					break;
-				}
-				case 's3':
-				{
-					if (empty($config['s3_bucket'])) $err = 'Configuration option s3_bucket required';
-					else if (empty($config['user_media_host'])) $err = 'Configuration option user_media_host required';
-					else
-					{
-						if (substr($config['user_media_host'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket'])
-						{
-							if (empty($config['user_media_directory'])) $err = 'Configuration option user_media_directory required if user_media_host does not begin with s3_bucket';
-							else if (substr($config['user_media_directory'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket'])
-							{
-								$err = 'Either user_media_host or user_media_directory must begin with s3_bucket';
-							}
-						}					
-					}
-					if (! $err) $check_aws = TRUE;
-					break;
-				}
-				default: 
-				{
-					$err = 'Unsupported file configuration ' . $file;
-				}
-			}
-			switch($client)
-			{
-				case 'local':
-				{
-					if (empty($config['queue_directory'])) $err = 'Configuration option queue_directory required';
-					else if (! file_exists($config['queue_directory']))  $err = 'Configuration option queue_directory directory must exist';
-					break;
-				}
-				case 'sqs':
-				{
-					if (empty($config['sqs_queue_url'])) $err = 'Configuration option sqs_queue_url required';
-					else $check_aws = TRUE;
-					break;
-				}
-			}
-			if ($check_aws)
-			{
-				if (empty($config['aws_access_key_id']) || empty($config['aws_secret_access_key']))
-				{
-					if (! $err) $err = 'Configuration options aws_access_key_id, aws_secret_access_key required';
-				}
-			}
-		}
+		if (! $err) $err = service_config_error($config);
 		return $err;
 	}
 }
@@ -164,4 +100,3 @@ if (! function_exists('config_path')) {
 		return $input;
 	}
 }
-?>

@@ -172,4 +172,3 @@ if (! function_exists('mime_type_of_file')) {
 		return $result;
 	}
 }
-?>

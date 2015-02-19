@@ -34,4 +34,3 @@ if ($err) {
 	header('Status: 400 Bad Request');
 	log_file($err, $config);
 }
-?>

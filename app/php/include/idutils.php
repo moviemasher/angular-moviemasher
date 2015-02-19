@@ -9,4 +9,3 @@ if (! function_exists('id_unique')) {
 		return $id;
 	}
 }
-?>

@@ -115,7 +115,7 @@ if (! function_exists('data_search')) {
 		if (! config_error($config)) {
 			$dir_host = $config['web_root_directory'];
 			$module_dir = path_concat(path_concat($dir_host, $config['module_directory']), 'module');
-			$userid = (empty($options['userid']) ? '' : $options['userid']);
+			$userid = (empty($options['uid']) ? '' : $options['uid']);
 			$group = (empty($options['group']) ? '' : $options['group']);
 			$index = (empty($options['index']) ? 0 : $options['index']);
 			$count = (empty($options['count']) ? 1000 : $options['count']);
@@ -180,4 +180,3 @@ if (! function_exists('data_search')) {
 	}
 	
 }
-?>

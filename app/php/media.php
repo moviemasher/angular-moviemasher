@@ -46,7 +46,7 @@ if (! $err) {
 	$options['index'] = $index;
 	$options['count'] = $count;
 	$options['query'] = $query;
-	$options['userid'] = auth_userid();
+	$options['uid'] = auth_userid();
 	$json_str = json_encode(data_search($options, $config));
 }
 if ($err) {
@@ -54,5 +54,3 @@ if ($err) {
 	print '[]';
 } else print $json_str;
 if (! empty($log_responses)) log_file($json_str, $config);
-
-?>
