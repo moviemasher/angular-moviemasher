@@ -57,7 +57,7 @@ if (! function_exists('auth_ok_callback')) {
 	function auth_ok_callback($config = array()) {
 		$ok = FALSE;
 		if (! $config) $config = config_get();
-		if (! config_error($config)) $ok = auth_ok();
+		if (! config_error($config)) $ok = auth_ok($config);
 		return $ok;
 	}
 }

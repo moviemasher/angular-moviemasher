@@ -250,7 +250,6 @@ if (! function_exists('api_job_import')) {
 			if (! ($id && $extension && $type)) $err = 'Required parameter omitted';
 		}
 		if (! $err) { // create job for transcoder
-			if ('image' != $type) $complete_callback_payload['duration'] = '{job.duration}';
 			$input_tag = array('type' => $type);
 			if ($type != 'audio') $input_tag['fill'] = 'none';
 			// DESTINATION
@@ -273,6 +272,7 @@ if (! function_exists('api_job_import')) {
 				'no_audio' => '{job.inputs.0.no_audio}',
 				'no_video' => '{job.inputs.0.no_video}',
 			);
+			if ('image' != $type) $complete_callback_payload['duration'] = '{job.duration}';
 			if (! empty($output['include_progress'])) $result['callbacks'][] = service_import_progress_callback($progress_callback_payload, $config);
 			$result['callbacks'][] = service_import_complete_callback($complete_callback_payload, $config);
 			$input_tag['source'] = service_source($input, $config);
