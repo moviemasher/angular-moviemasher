@@ -115,6 +115,9 @@
 				Redo 
 				<i class="glyphicon glyphicon-chevron-right"></i>
 			</button>
+			<button type="button" ng-disabled="! $amm.player.can('split')" class="btn btn-default btn-sm" ng-click="$amm.player.split()">
+				Split
+			</button>
 			<button ng-if="amm_resources.mash.save" type="button" ng-disabled="! $amm.can('save')" class="btn btn-default btn-sm" ng-click="$amm.save()">
 				<i class="glyphicon glyphicon-floppy-disk"></i>
 				Save
@@ -146,12 +149,19 @@
 			</span>
 		</div>
 		<div class='amm-timeline'>
+			<amm-timeline-ruler>
+				<amm-timeline-rule-back></amm-timeline-rule-back>
+				<amm-timeline-rule ng-style="amm_style_rule()">
+					<amm-timeline-rule-icon><i class='glyphicon glyphicon-chevron-down'></i></amm-timeline-rule-icon>
+					<amm-timeline-rule-line></amm-timeline-rule-line>
+				</amm-timeline-rule>
+			</amm-timeline-ruler>
 			<amm-timeline-track-controls>
-				<amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-right amm-border-bottom">
+				<amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom">
 					<i class="glyphicon" ng-class="{'glyphicon-tasks':track.index, 'glyphicon-facetime-video':!track.index}"></i>
 					{{track.index}}				
 				</amm-timeline-track>
-				<amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-right amm-border-bottom">
+				<amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-bottom">
 					<i class="glyphicon glyphicon-music"></i>
 					{{track.index}}
 				</amm-timeline-track>

@@ -854,27 +854,25 @@
 		//console.log('amm-timeline');
 		return {
 			restrict: 'AEC',
-			
-		};
-	}]); // ammTimeline
-	module.directive('ammTimelineTrackControls', ['$amm', function() {
-		return {
-			restrict: 'AEC',
-			link: function(scope, element) {
-				scope.amm_timeline_scroll = function(event){
-					scope.$apply(function(){
-						element[0].scrollTop = event.target.scrollTop;
-					});
-				};
-			}
-		};
-	}]); // ammTimelineTrackControls
-	module.directive('ammTimelineTracks', ['$amm', '$window', '$rootScope', function($amm, $window, $rootScope) {
-		$window.onresize = function(){$rootScope.$apply(function(){});};
-		return {
-			restrict: 'AEC',
 			controller: ['$scope', '$element', '$amm', function($scope, $element, $amm){
 				var controller = this;
+				var __scrollers = [];
+				controller.scrollLeft = 0;
+				controller.scrollTop = 0;
+				controller.register_scroller = function(scroller){
+					__scrollers.push(scroller);
+				};
+				$scope.amm_timeline_scroll = function(event){
+					controller.scrollLeft = event.target.scrollLeft;
+					controller.scrollTop = event.target.scrollTop;
+					
+					var i, z;
+					z = __scrollers.length;
+					for (i = 0; i < z; i++){
+						__scrollers[i](event);
+					}
+				};
+				
 				var __drop_type = function(types) {
 					var type, i, z, acceptable_types = [
 						"amm-clips-audio", // just audio clips
@@ -894,24 +892,26 @@
 					}
 					return false;
 				};
-				var __pixels_from_frame = function(frame, rounding){
-					var pixels_per_second, pixels = 0;
+				controller.pixels_from_frame = function(frame, rounding, quantize, dont_pad){
+					if (! quantize) quantize = $amm.player.mash.quantize;
+					var pps, pixels = 0;
 					if (frame) {
-						pixels_per_second = controller.pixels_per_second();
-						if (pixels_per_second){
-							pixels = (frame / $amm.player.mash.quantize) * pixels_per_second;
+						pps = controller.pixels_per_second(dont_pad);
+						if (pps){
+							pixels = (frame / quantize) * pps;
 							if (rounding || (typeof rounding === "undefined")) pixels = Math[rounding || 'ceil'](pixels);
 						}
 					}
 					return pixels;
 				};
-				controller.frame_from_pixels = function(pixels, rounding) { 
-					var pixels_per_second, frame = 0;
+				controller.frame_from_pixels = function(pixels, rounding, quantize, dont_pad) { 
+					if (! quantize) quantize = $amm.player.mash.quantize;
+					var pps, frame = 0;
 					if (pixels) {
-						pixels_per_second = controller.pixels_per_second();
-						//console.log('pixels_per_second', pixels_per_second)
-						if (pixels_per_second){
-							frame = (pixels / pixels_per_second) * $amm.player.mash.quantize;
+						pps = controller.pixels_per_second(dont_pad);
+						//console.log('pixels_per_second', pps)
+						if (pps){
+							frame = (pixels / pps) * quantize;
 							//console.log('frame', frame, $amm.player.mash.quantize);
 							if (rounding || (typeof rounding === "undefined")) frame = Math[rounding || 'round'](frame);
 						}
@@ -1005,9 +1005,9 @@
 				$scope.amm_style_clip = function(clip, track){
 					var ob = {};
 					var media = $amm.player.media(clip);
-					ob.width = __pixels_from_frame(clip.frames, 'floor') + 'px';
-					ob['z-index'] = (('transition' === media.type) ? 10 : 1) * 100 + track.clips.indexOf(clip);
-					ob.left = __pixels_from_frame(clip.frame, 'floor') + 'px';
+					ob.width = controller.pixels_from_frame(clip.frames, 'floor') + 'px';
+					ob['z-index'] = ((('transition' === media.type) ? 10 : 1) * 100) + track.clips.indexOf(clip);
+					ob.left = controller.pixels_from_frame(clip.frame, 'floor') + 'px';
 					ob.position = 'absolute';
 					return ob;
 				};
@@ -1017,12 +1017,89 @@
 					else pixels = $scope.amm_timeline_width();
 					return pixels;
 				};
-				$scope.amm_timeline_width = function() { 
-					return $element[0].getBoundingClientRect().width;
-				};
 				$scope.amm_zoom = 0.0;
 			}],
+			
+		};
+	}]); // ammTimeline
+	module.directive('ammTimelineTrackControls', ['$amm', function() {
+		return {
+			restrict: 'AEC',
+			require: '^ammTimeline',
 			link: function(scope, element, attributes, controller) {
+				controller.register_scroller(function(){
+					element[0].scrollTop = controller.scrollTop;
+				});
+				scope.amm_track_controls_width = function(){
+					return element[0].getBoundingClientRect().width;
+				};
+			}
+		};
+	}]); // ammTimelineTrackControls
+	module.directive('ammTimelineRuler', ['$amm', '$document', function($amm, $document) {
+		return {
+			restrict: 'E',
+			require: '^ammTimeline',
+			link: function(scope, element, attributes, controller) {
+				var body = angular.element($document[0].body);
+				var __ruler_x = 0;
+				var __set_frame = function(eventObject){
+					scope.$apply(function(){ 
+						var rx = eventObject.pageX - __ruler_x;
+						var frame = controller.frame_from_pixels(rx, 'round', $amm.player.fps, true);
+						console.log('frame', frame, $amm.player.frames);
+						$amm.player.frame = Math.max(0, Math.min($amm.player.frames, frame));
+					} );
+				
+				};
+				var __finish_frame = function(eventObject){
+					__set_frame(eventObject);
+					body.unbind('mousemove');
+					body.unbind('mouseup');
+					body.unbind('mouseleave');
+				};
+				element.bind('mousedown', function(eventObject) { 
+					__ruler_x = element[0].getBoundingClientRect().left + scope.amm_track_controls_width() - controller.scrollLeft;
+					console.log('mousedown', __ruler_x);
+					__set_frame(eventObject);
+					body.bind('mousemove', __set_frame);
+					body.bind('mouseup', __finish_frame);
+					body.bind('mouseleave', __finish_frame);
+				});
+				
+			}
+		};
+	}]); // ammTimelineRuler
+	module.directive('ammTimelineRule', ['$amm', function($amm) {
+		return {
+			restrict: 'E',
+			require: '^ammTimeline',
+			link: function(scope, element, attributes, controller) {
+				controller.register_scroller(function(){
+					scope.$apply(function(){});
+				});
+				scope.amm_style_rule = function(){
+					var ob = {};
+					ob.left = controller.pixels_from_frame($amm.player.frame, 'floor', $amm.player.fps, true);
+					ob.left -= Math.floor(element[0].getBoundingClientRect().width / 2);
+					ob.left += scope.amm_track_controls_width() - controller.scrollLeft;
+					ob.left = String(ob.left) + 'px';
+					return ob;
+				};
+			}
+		};
+	}]); // ammTimelineRule
+	module.directive('ammTimelineTracks', ['$amm', '$window', '$rootScope', function($amm, $window, $rootScope) {
+		$window.onresize = function(){$rootScope.$apply(function(){});};
+		return {
+			restrict: 'AEC',
+			require: '^ammTimeline',
+			link: function(scope, element, attributes, controller) {
+				scope.amm_timeline_width = function() { 
+					return element[0].getBoundingClientRect().width;
+				};
+				
+
 				element.data('amm-directive', 'ammTimelineTracks');
 				attributes.$set('class', "amm-timeline-tracks");
 				element.bind('scroll', scope.amm_timeline_scroll);
@@ -1075,7 +1152,7 @@
 	}]);	// ammTimelineTrack
 	module.directive('ammTimelineClip', ['$amm', '$parse', function($amm) { return {
 		restrict: "E",
-		require: '^ammTimelineTracks',
+		require: '^ammTimeline',
 		templateUrl: 'views/timeline/clip.html',
 		replace: true,
 		link: function(scope, element, attributes, controller) {

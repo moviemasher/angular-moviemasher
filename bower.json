@@ -18,7 +18,7 @@
 		"angular-file-upload": "~1.1.1",
 		"bootstrap": "~3.2.0",
 		"angular-bootstrap-colorpicker": "~3.0.8",
-		"moviemasher.js": "4.0.11"
+		"moviemasher.js": "4.0.12"
 	},
 	"devDependencies": {
 		"grunt": "^0.4.5",

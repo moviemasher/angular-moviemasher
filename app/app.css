@@ -7,7 +7,6 @@
 					box-sizing: border-box;
 }
 
-
 .amm-ui{
 	position: absolute;
 	top: 20px;
@@ -92,7 +91,7 @@
 .amm-inspector {
 	overflow: auto;
 }
-.amm-inspector-panel{
+.amm-inspector-panel {
 	position: absolute;
 	width: 320px;
 	right: 0px;
@@ -135,18 +134,21 @@
 	left:0px;
 	bottom:0px;
 }
-.amm-timeline {
-	
-}
+
 amm-timeline-track-controls {
 	position:absolute;
 	width: 100px;
-	top:0px;
+	top:20px;
 	bottom:0px;
 	overflow: hidden;
 	text-align:center;
 	color:lightgray;
 	border-right: 1px solid lightgray;
+	z-index: 56001;
+	background-color: #3a3a3a;
+	background-image: -webkit-linear-gradient(bottom, #3a3a3a 0%, #000 50%);
+		background-image: linear-gradient(bottom, #3a3a3a 0%, #000 50%);
+
 }
 amm-timeline-track.amm-drop-dragover {
 	border: 1px solid red;
@@ -177,7 +179,7 @@ amm-timeline-track-controls amm-timeline-track {
 	position:absolute;
 	right: 0px;
 	left: 100px;
-	top:0px;
+	top:20px;
 	bottom:0px;
 	overflow: auto;
 }
@@ -186,6 +188,50 @@ amm-timeline-track-controls amm-timeline-track {
 	background: rgba(255,255,255,0.5);
 	border: 2px solid rgba(20,20,20,0.6);
 	border-radius: inherit;
+}
+
+amm-timeline-ruler,
+amm-timeline-rule {
+	position: absolute;
+	top:0;
+	bottom:0px;
+}
+amm-timeline-ruler {
+	left:0;
+	right:0;
+	display:inline-block;
+	overflow: hidden;
+}
+amm-timeline-rule {
+	pointer-events: none;
+	z-index: 56000;
+	text-align: center;
+}
+amm-timeline-rule-back {
+	pointer-events: none;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	height:20px;
+	display:block;
+	background-color: #000;
+	background-image: -webkit-linear-gradient(bottom, #000 0%, #3a3a3a 50%);
+		background-image: linear-gradient(bottom, #000 0%, #3a3a3a 50%);
+}	
+amm-timeline-rule-icon {
+	color:aqua;
+	font-size: 20px;
+	display:block;
+}
+amm-timeline-rule-line {
+	width: 3px;
+	background-color: aqua;
+	display:inline-block;
+	height:100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: -16px;
 }
 .amm-timeline-drop,
 .amm-effects-drop {
@@ -197,6 +243,7 @@ amm-timeline-track-controls amm-timeline-track {
 }
 .amm-timeline-drop {
 	left:100px;
+	top:20px;
 }
 .amm-drop-indicator {
 	position: absolute;

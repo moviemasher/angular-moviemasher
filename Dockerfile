@@ -25,3 +25,4 @@ COPY . /var/www/html/
 # create user data/media directory in case it doesn't exist
 RUN mkdir -p -m 0777 /var/www/html/app/user
 VOLUME /var/www/html/app
+
