@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 include_once(dirname(dirname(__FILE__)) . '/include/loadutils.php');
 load_utils('id','date','path','log');
 
 function s3_file_source($input, $config){
 	return array(
-		'name' => $config['import_original_basename'], 
+		'name' => $config['import_original_basename'],
 		'extension' => $input['extension'],
 		'type' => 'http',
 		'host' => $config['user_media_host'],
@@ -13,7 +13,11 @@ function s3_file_source($input, $config){
 	);
 }
 function s3_file_import_url($import, $config){
-	return path_concat('http://' . $config['user_media_host'], path_concat($config['user_media_url'], $import['uid']));
+	$uid = (empty($import['uid']) ? '' : $import['uid']);
+	return path_concat('http://' . $config['user_media_host'], path_concat($config['user_media_url'], $uid));
+}
+function s3_file_export_url($import, $config){
+ return s3_file_import_url($import, $config);
 }
 function s3_file_config_defaults($config){
 	if (empty($config['s3_acl'])) $config['s3_acl'] = 'public-read';
@@ -33,15 +37,15 @@ function s3_file_config_error($config = array()){
 			else if (substr($config['user_media_directory'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket']) {
 				$err = 'Either user_media_host or user_media_directory must begin with s3_bucket';
 			}
-		}	
+		}
 	}
 	return $err;
 }
 function s3_file_export_module_source($config){
 	return array(
-		'host' => $config['module_host'], 
-		'directory' => $config['module_directory'], 
-		'method' => 'get', 
+		'host' => $config['module_host'],
+		'directory' => $config['module_directory'],
+		'method' => 'get',
 		'type' => 'http'
 	);
 }

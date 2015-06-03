@@ -97,7 +97,7 @@
 			},
 		}
 	};
-	
+
 	var module = angular.module('angular.moviemasher', [
 		'ngResource',
 		'colorpicker.module',
@@ -122,7 +122,7 @@
 			if (override_config) {
 				actions = {};
 				for (action in override_config) {
-					
+
 					//console.log(action, default_config[action]);
 					action_config = {};
 					if (default_config[action].isArray) action_config.isArray = true;
@@ -132,13 +132,13 @@
 					actions[action] = action_config;
 				}
 				amm_resources[service_id] = $resource(null, null, actions);
-			} 
+			}
 		}
 	};
 	module.config([
 		'$provide',
 		function ($provide) {
-			var inject = ['$http'];	
+			var inject = ['$http'];
 			var service = MovieMasher; // moviemasher.js needs to have been included by now
 			var pt = service.prototype;
 			service.$inject = inject;
@@ -154,15 +154,15 @@
 			};
 			pt.__player = null;
 			Object.defineProperty(pt, "player", {
-				get: function() { 
+				get: function() {
 					if (! this.__player) {
 						this.__player = service.player();
 						//console.log('$amm.player created', this.__player, this.amm_injected.$http);
 					}
-					return this.__player; 
+					return this.__player;
 				},
-				set: function(obj) { 
-					this.__player = obj; 
+				set: function(obj) {
+					this.__player = obj;
 					//console.log('player=', this.__player);
 				}
 			});
@@ -176,7 +176,7 @@
 			controller: [
 				'$scope', '$window', '$interval', 'amm_resources',
 				function($scope, $window, $interval, amm_resources) {
-					
+
 					$scope.amm_resources = amm_resources;
 					var __action_index = -1;
 					$amm.player.did = function(removed_count){
@@ -196,6 +196,7 @@
 					var __monitor_export = function(monitor, mash_id) {
 						var requested = false;
 						var interval_id = 0;
+						var __error_count = 0;
 						interval_id = $interval(function() {
 							if (! requested) {
 								requested = true;
@@ -222,10 +223,14 @@
 										$interval.cancel(interval_id);
 									}
 								}, function(export_err_response){
-									console.error('export.monitor', export_err_response);
-									$scope.amm_export_status = 'error response from export monitor';
-									$scope.amm_export_completed = -1;
-									$interval.cancel(interval_id);
+									console.warn('export.monitor', export_err_response);
+									requested = false;
+									__error_count ++;
+									if (export_err_response.status || __error_count > 3) {
+										$scope.amm_export_status = 'error response from export monitor';
+										$scope.amm_export_completed = -1;
+										$interval.cancel(interval_id);
+									}
 								});
 							}
 						}, 5 * 1000);
@@ -243,6 +248,10 @@
 									$scope.amm_export_status = (export_init_response.error || __php_parsed_error(export_init_response));
 									$scope.amm_export_completed = -1;
 								}
+							}, function(export_init_error_response) {
+								console.error('export.init', export_init_error_response);
+								$scope.amm_export_status = 'error response from export init';
+								$scope.amm_export_completed = -1;
 							});
 						}
 					};
@@ -331,7 +340,7 @@
 								$amm.mash_id = mash.id;
 								$amm.selected_mash = mash;
 								//console.log('new mash', $amm.mash_id);
-							} 
+							}
 							if ($amm.mash_id === mash.id) {
 								__action_index = -1;
 								$amm.player.mash = mash;
@@ -340,7 +349,7 @@
 					};
 					$amm.mashes = [];
 					$amm.mash_id = 0;
-				
+
 					//console.log('controller amm-ui');
 					$scope.$amm = $amm;
 					$scope.log_mash = function(){
@@ -365,13 +374,13 @@
 						if (url) style['background-image'] = 'url(' + url + ')';
 						return style;
 					};
-					
+
 				}
 			],
 			link: function(scope, element, attributes){
 				var ob, i, z, bit, bits, key, prop, normalized, config;
 				$amm.MovieMasher.configure({mash: { default: {quantize:10} } });
-					
+
 				for (key in attributes.$attr){
 					switch(key){
 						case 'class':
@@ -421,7 +430,7 @@
 		};
 	}]); // amm-ui
 	module.directive('ammPlayer', [
-		'$window', '$amm', 
+		'$window', '$amm',
 		function($window, $amm) {
 			return {
 				restrict: 'AEC',
@@ -434,7 +443,7 @@
 					var rect = element[0].getBoundingClientRect();
 					canvas.attr('width', rect.width);
 					canvas.attr('height', rect.height);
-				
+
 					//console.log('canvas dimensions', canvas[0].width, canvas[0].height);
 					$amm.player.canvas_context = canvas[0].getContext('2d');
 					element.on('$destroy', function() {
@@ -446,13 +455,13 @@
 		}
 	]); // ammPlayer
 	module.directive('ammBrowser', [
-		'$timeout', '$interval', '$amm', 'amm_resources', 
+		'$timeout', '$interval', '$amm', 'amm_resources',
 		function($timeout, $interval, $amm, amm_resources) {
 			return {
 				restrict: 'AEC',
 				replace: false,
 				controller: [
-					'$scope', 'FileUploader', 
+					'$scope', 'FileUploader',
 					function($scope, FileUploader) {
 						$scope.amm_import_displayed_status = function(){
 							var upload, i, z;
@@ -495,6 +504,7 @@
 						};
 						var __monitor_import = function(upload){
 							var requested = false;
+							var __error_count = 0;
 							upload.interval_id = 0;
 							upload.interval_id = $interval(function(){
 								if (! requested) {
@@ -527,10 +537,14 @@
 										__update_import_completed();
 									}, function(import_err_response){
 										console.error('import.monitor', import_err_response);
-										upload.status = 'error getting response from monitor cgi';
-										upload.completed = -1;
-										$interval.cancel(upload.interval_id);
-										__update_import_completed();
+										requested = false;
+										__error_count++;
+										if (import_err_response.status || __error_count > 3) {
+											upload.status = 'error getting response from monitor cgi';
+											upload.completed = -1;
+											$interval.cancel(upload.interval_id);
+											__update_import_completed();
+										}
 									});
 								}
 							}, 5 * 1000);
@@ -578,11 +592,11 @@
 										item.upload();
 									} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
 								}, function() {
-									console.error('upload', arguments);
+									console.error('import.init', arguments);
 									__problem_upload(upload, 'error');
 								});
 							};
-						
+
 							// successfully uploaded actual file
 							uploader.onSuccessItem = function (item, import_upload_response) {
 								//console.info('uploaded', arguments);
@@ -600,7 +614,7 @@
 												//console.log('Calling import.api', upload.api);
 												amm_resources.import.api(upload.api, function(api_response){
 													//console.log('import.api', api_response);
-								
+
 													if (api_response.ok && amm_resources.import.monitor) {
 														upload.monitor = api_response.monitor;
 														upload.completed = 0.51;
@@ -627,7 +641,6 @@
 								} else console.error('could not find upload for item', item);
 						   };
 					   }
-					   
 					  	if (amm_resources.module && amm_resources.module.search) $scope.amm_browser_group = 'theme';
 						else $scope.amm_browser_group = 'video';
 						$scope.amm_browser_group_change = function(new_group){
@@ -683,7 +696,7 @@
 				//console.log('amm-browser link');
 				scope.amm_inspector_include = function(target){
 					//console.log('amm_inspector_include', target);
-					
+
 					var include, media;
 					if (target) {
 						if (target === $amm.player.mash) include = 'views/inspector/mash.html';
@@ -693,7 +706,7 @@
 								if (media.inspector) include = media.inspector;
 								else {
 									switch(media.type){
-										case 'theme': 
+										case 'theme':
 										case 'transition': {
 											if (media.html) {
 												include = media.html;
@@ -737,11 +750,11 @@
 					return false;
 				};
 				var __element_index = function(element){
-					return Array.prototype.indexOf.call(element[0].parentNode.childNodes, element[0]); 
+					return Array.prototype.indexOf.call(element[0].parentNode.childNodes, element[0]);
 				};
 				controller.__effects_drag_data = function(eventObject, get_data){
 					var found_directives, type, drag_data, over_effect_element, drop_ok, directive, target;
-					
+
 					if (eventObject) {
 						type = __drop_type(eventObject.dataTransfer.types);
 						if (type) {
@@ -765,7 +778,7 @@
 								over_effect_element = found_directives.ammInspectorEffect;
 								drag_data.effect = over_effect_element.data('amm-object');
 							}
-						} 
+						}
 					}
 					if ((controller.__over_effect_element !== over_effect_element) || (controller.__drop_ok !== drop_ok)) {
 						$scope.$apply(function(){
@@ -821,7 +834,7 @@
 					// TODO: create a better way to delete items!!
 					if ('none' === eventObject.dataTransfer.dropEffect) scope.$apply(function(){ $amm.player.remove($amm.player.selectedEffects, 'effect'); });
 				});
-			
+
 			}
 		};
 	}]); // ammInspectorEffects
@@ -846,7 +859,7 @@
 						eventObject.preventDefault();
 					}
 				});
-				
+
 			}
 		};
 	}]); // ammInspectorEffect
@@ -865,14 +878,14 @@
 				$scope.amm_timeline_scroll = function(event){
 					controller.scrollLeft = event.target.scrollLeft;
 					controller.scrollTop = event.target.scrollTop;
-					
+
 					var i, z;
 					z = __scrollers.length;
 					for (i = 0; i < z; i++){
 						__scrollers[i](event);
 					}
 				};
-				
+
 				var __drop_type = function(types) {
 					var type, i, z, acceptable_types = [
 						"amm-clips-audio", // just audio clips
@@ -904,7 +917,7 @@
 					}
 					return pixels;
 				};
-				controller.frame_from_pixels = function(pixels, rounding, quantize, dont_pad) { 
+				controller.frame_from_pixels = function(pixels, rounding, quantize, dont_pad) {
 					if (! quantize) quantize = $amm.player.mash.quantize;
 					var pps, frame = 0;
 					if (pixels) {
@@ -960,7 +973,7 @@
 								}
 								if (drop_ok) over_track_element = found_directives.ammTimelineTrack;
 							}
-						} 
+						}
 					}
 					if ((controller.__over_track_element !== over_track_element) || (controller.__drop_ok !== drop_ok)) {
 						$scope.$apply(function(){
@@ -1019,7 +1032,7 @@
 				};
 				$scope.amm_zoom = 0.0;
 			}],
-			
+
 		};
 	}]); // ammTimeline
 	module.directive('ammTimelineTrackControls', ['$amm', function() {
@@ -1044,13 +1057,13 @@
 				var body = angular.element($document[0].body);
 				var __ruler_x = 0;
 				var __set_frame = function(eventObject){
-					scope.$apply(function(){ 
+					scope.$apply(function(){
 						var rx = eventObject.pageX - __ruler_x;
 						var frame = controller.frame_from_pixels(rx, 'round', $amm.player.fps, true);
-						console.log('frame', frame, $amm.player.frames);
+						//console.log('frame', frame, $amm.player.frames);
 						$amm.player.frame = Math.max(0, Math.min($amm.player.frames, frame));
 					} );
-				
+
 				};
 				var __finish_frame = function(eventObject){
 					__set_frame(eventObject);
@@ -1058,15 +1071,15 @@
 					body.unbind('mouseup');
 					body.unbind('mouseleave');
 				};
-				element.bind('mousedown', function(eventObject) { 
+				element.bind('mousedown', function(eventObject) {
 					__ruler_x = element[0].getBoundingClientRect().left + scope.amm_track_controls_width() - controller.scrollLeft;
-					console.log('mousedown', __ruler_x);
+					//console.log('mousedown', __ruler_x);
 					__set_frame(eventObject);
 					body.bind('mousemove', __set_frame);
 					body.bind('mouseup', __finish_frame);
 					body.bind('mouseleave', __finish_frame);
 				});
-				
+
 			}
 		};
 	}]); // ammTimelineRuler
@@ -1095,10 +1108,10 @@
 			restrict: 'AEC',
 			require: '^ammTimeline',
 			link: function(scope, element, attributes, controller) {
-				scope.amm_timeline_width = function() { 
+				scope.amm_timeline_width = function() {
 					return element[0].getBoundingClientRect().width;
 				};
-				
+
 
 				element.data('amm-directive', 'ammTimelineTracks');
 				attributes.$set('class', "amm-timeline-tracks");
@@ -1142,8 +1155,8 @@
 			link: function(scope, element) {
 				element.data('amm-directive', 'ammTimelineTrack');
 				element.data('amm-object', scope.track);
-				element.bind('mousedown', function() { 
-					scope.$apply(function(){ 
+				element.bind('mousedown', function() {
+					scope.$apply(function(){
 						$amm.player.select(false);
 					} );
 				});
@@ -1158,8 +1171,8 @@
 		link: function(scope, element, attributes, controller) {
 			element.data('amm-directive', 'ammTimelineClip');
 			element.data('amm-object', scope.clip);
-			element.bind('mousedown', function($event) { 
-				scope.$apply(function(){ 
+			element.bind('mousedown', function($event) {
+				scope.$apply(function(){
 					//console.log('mousedown', $event, scope.clip);
 					$amm.player.select(scope.clip, $event.shiftKey);
 					if ($event.stopPropagation) $event.stopPropagation();
@@ -1174,7 +1187,7 @@
 					do_add = ((z > 1) ? eventObject.dataTransfer.addElement : false);
 					for (i = 0; i < z; i++){
 						clip = data.clips[i];
-						
+
 						media = $amm.player.media(clip);
 						if (! media_by_id[media.id]) {
 							media_by_id[media.id] = true;
@@ -1199,7 +1212,7 @@
 		},
 	};}]); // ammTimelineClip
 	module.directive('ammCanvasContainer', [
-		'$amm', 
+		'$amm',
 		function($amm) {
 			//console.log('amm-canvas-container');
 			return {
@@ -1254,7 +1267,7 @@
 				if (n >= time) {
 					s += __str_pad(String(Math.floor(n / time)), pad);
 					do_rest = true;
-					n = n % time;	
+					n = n % time;
 				} else s += '00:';
 			}
 			time = 1; // a second
@@ -1263,7 +1276,7 @@
 				if (n >= time) {
 					s += __str_pad(String(Math.floor(n / time)), pad);
 					do_rest = true;
-					n = n % time;	
+					n = n % time;
 				} else s += '00';
 			} else s += '00';
 			if (fps > 1) {

@@ -2,7 +2,7 @@
 This script is called directly from the Movie Masher client, in response to clicks in browser
 navigation and scrolling. The count, index and group values are sent as GET parameters.
 Additional GET parameters are used to limit the result set. If the user is authenticated
-the script searches either the relevant JSON file, depending on group parameter. Media 
+the script searches either the relevant JSON file, depending on group parameter. Media
 matching parameters are included in result set, paged with count and index parameters. If
 an error is encountered it is ignored and an empty result set is returned. This script is
 called repeatedly as the user scrolls down, until an empty result set is returned.
@@ -18,7 +18,7 @@ if (! $err) { // pull in configuration so we can log other errors
 	$config = config_get();
 	$err = config_error($config);
 }
-if (! $err) { 
+if (! $err) {
 	// grab GET parameters
 	$count = (empty($_GET['count']) ? 100 : $_GET['count']);
 	$index = (empty($_GET['index']) ? 0 : $_GET['index']);
@@ -30,7 +30,7 @@ if (! $err) {
 	// make sure required parameters have been sent
 	if (! $group ) $err = 'Parameter group required';
 }
-if (! $err) { 
+if (! $err) {
 	$query = array();
 	foreach($_GET as $k => $v) {
 		switch($k) {

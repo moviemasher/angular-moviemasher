@@ -6,7 +6,7 @@ load_utils('file','mime','config');
 if (! function_exists('service_config_defaults')) {
 	function service_config_defaults($config = array()){
 		if (empty($config['client'])) $config['client'] = 'local';
-		if (empty($config['file'])) $config['file'] = 'local';		
+		if (empty($config['file'])) $config['file'] = 'local';
 		if (__service_load('client', $config)){
 			$function_name = $config['client'] . '_client_config_defaults';
 			if (function_exists($function_name)) $config = $function_name($config);
@@ -23,7 +23,7 @@ if (! function_exists('service_config_error')) {
 		$err = '';
 		if ((! $err) && empty($config['client'])) $err = 'Configuration option client required';
 		if ((! $err) && empty($config['file'])) $err = 'Configuration option file required';
-		if ((! $err) && (($config['file'] == 'local') || ($config['client'] == 'local')) && ($config['client'] != $config['file'])) $err = 'Configuration option client and file must both be local if either is';		
+		if ((! $err) && (($config['file'] == 'local') || ($config['client'] == 'local')) && ($config['client'] != $config['file'])) $err = 'Configuration option client and file must both be local if either is';
 		if ((! $err) && (! __service_load('client', $config))) $err = 'Could not load client service ' . $config['client'];
 		if ((! $err) && (! __service_load('file', $config))) $err = 'Could not load file service ' . $config['file'];
 		if (! $err){
@@ -111,7 +111,7 @@ if (! function_exists('service_destination')) {
 			else $err = $function_name . ' is not defined';
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_export_progress_callback')) {
@@ -125,7 +125,7 @@ if (! function_exists('service_export_progress_callback')) {
 			$result = $function_name($payload, $config);
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_export_complete_callback')) {
@@ -139,7 +139,7 @@ if (! function_exists('service_export_complete_callback')) {
 			$result = $function_name($payload, $config);
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_import_progress_callback')) {
@@ -153,7 +153,7 @@ if (! function_exists('service_import_progress_callback')) {
 			$result = $function_name($payload, $config);
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_import_complete_callback')) {
@@ -167,7 +167,7 @@ if (! function_exists('service_import_complete_callback')) {
 			$result = $function_name($payload, $config);
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_source')) {
@@ -184,7 +184,7 @@ if (! function_exists('service_source')) {
 			else $err = $function_name . ' is not defined';
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_import_url')) {
@@ -201,7 +201,24 @@ if (! function_exists('service_import_url')) {
 			else $err = $function_name . ' is not defined';
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
+	}
+}
+if (! function_exists('service_export_url')) {
+	function service_export_url($input, $config = array()){
+		$result = array();
+		if (! $config) $config = config_get();
+		$err = config_error($config); // should wind up calling __service_load
+		if (! $err) {
+			$function_name = $config['file'] . '_file_export_url';
+			if (function_exists($function_name)) {
+				$input['uid'] = (empty($input['uid']) ? '' : $input['uid']);
+				$result = $function_name($input, $config);
+			}
+			else $err = $function_name . ' is not defined';
+		}
+		if ($err) $result['error'] = $err;
+		return $result;
 	}
 }
 if (! function_exists('service_export_base_source')) {
@@ -216,7 +233,7 @@ if (! function_exists('service_export_base_source')) {
 			}
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 if (! function_exists('service_export_module_source')) {
@@ -231,14 +248,14 @@ if (! function_exists('service_export_module_source')) {
 			}
 		}
 		if ($err) $result['error'] = $err;
-		return $result;	
+		return $result;
 	}
 }
 
 function __export_progress_callback($payload, $config){
 	return auth_data(array(
-		'host' => $config['callback_host'], 
-		'type' => 'http', 
+		'host' => $config['callback_host'],
+		'type' => 'http',
 		'trigger' => 'progress',
 		'path' => path_concat($config['callback_directory'], 'export_progress.php'),
 		'data' => $payload,
@@ -246,8 +263,8 @@ function __export_progress_callback($payload, $config){
 }
 function __export_complete_callback($payload, $config){
 	return auth_data(array(
-		'host' => $config['callback_host'], 
-		'type' => 'http', 
+		'host' => $config['callback_host'],
+		'type' => 'http',
 		'trigger' => 'complete',
 		'path' => path_concat($config['callback_directory'], 'export_complete.php'),
 		'data' => $payload,
@@ -255,8 +272,8 @@ function __export_complete_callback($payload, $config){
 }
 function __import_progress_callback($payload, $config){
 	return auth_data(array(
-		'host' => $config['callback_host'], 
-		'type' => 'http', 
+		'host' => $config['callback_host'],
+		'type' => 'http',
 		'trigger' => 'progress',
 		'path' => path_concat($config['callback_directory'], 'import_progress.php'),
 		'data' => $payload,
@@ -264,8 +281,8 @@ function __import_progress_callback($payload, $config){
 }
 function __import_complete_callback($payload, $config){
 	return auth_data(array(
-		'host' => $config['callback_host'], 
-		'type' => 'http', 
+		'host' => $config['callback_host'],
+		'type' => 'http',
 		'trigger' => 'complete',
 		'path' => path_concat($config['callback_directory'], 'import_complete.php'),
 		'data' => $payload,

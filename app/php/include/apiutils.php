@@ -92,7 +92,7 @@ if (! function_exists('api_import_data')) {
 					} else {
 						$type = 'audio';
 						$did_url = 1;
-						$media_data['url'] = path_concat(path_concat($media_url, $id), $config['import_audio_basename'] . '.' . $config['import_audio_extension']);		
+						$media_data['url'] = path_concat(path_concat($media_url, $id), $config['import_audio_basename'] . '.' . $config['import_audio_extension']);
 					}
 					// intentional fall through to audio
 				}
@@ -129,9 +129,9 @@ if (! function_exists('api_export_data')) {
 			if (! ($id && $extension && $type && $job && $uid)) $err = 'Parameters uid, job, id, extension, type required';
 		}
 		if (! $err) { // pull in other configuration and check for required input
-			$media_url = service_import_url($response, $config);
+			$media_url = service_export_url($response, $config);
 			$export_data['id'] = $id;
-			$export_data['source'] = path_concat(path_concat($media_url, $id), ($config["export_{$type}_basename"] ? $config["export_{$type}_basename"] : $job) . '.' . $extension);
+			$export_data['source'] = path_concat(path_concat($media_url, $id), (empty($config["export_{$type}_basename"]) ? $job : $config["export_{$type}_basename"]) . '.' . $extension);
 		}
 		if ($err) $export_data['error'] = $err;
 		return $export_data;
@@ -148,7 +148,7 @@ if (! function_exists('api_job_export')) {
 			$input_mash = (empty($input['mash']) ? array() : $input['mash']);
 			if (! ($id && $input_mash)) $err = 'Required input parameters omitted';
 		}
-		if (! $err) { // try to analyze mash 
+		if (! $err) { // try to analyze mash
 			$about_mash = __api_about_mash($input_mash);
 			if (! empty($about_mash['error'])) {
 				log_file(print_r($about_mash, 1), $config);
@@ -237,11 +237,11 @@ if (! function_exists('api_job_import')) {
 		$result = array('callbacks' => array(), 'inputs' => array(), 'outputs' => array());
 		if (! $config) $config = config_get();
 		$err = config_error($config);
-	
+
 		if (! $err) { // check for required input
-			
+
 			if (empty($input['uid'])) $input['uid'] = auth_userid();
-			
+
 			// make sure required input parameters have been set
 			$id = (empty($input['id']) ? '' : $input['id']);
 			$extension = (empty($input['extension']) ? '' : $input['extension']);
@@ -281,43 +281,43 @@ if (! function_exists('api_job_import')) {
 			if ($type == 'image') {
 				// add output for image file
 				$result['outputs'][] = array(
-					'type' => 'image', 
+					'type' => 'image',
 					'name' => '0',
 					'path' => $config['import_dimensions'] . 'x1',
-					'dimensions' => $config['import_dimensions'], 
-					'extension' => $extension, 
-					'quality' => $config['import_image_quality'], 
+					'dimensions' => $config['import_dimensions'],
+					'extension' => $extension,
+					'quality' => $config['import_image_quality'],
 				);
-			} 
+			}
 			else {
 				// add output for audio/video file
 				$result['outputs'][] = array(
-					'type' => 'audio', 
+					'type' => 'audio',
 					'precision' => 0,
-					'audio_bitrate' => $config['import_audio_bitrate'], 
-					'name' => $config['import_audio_basename'], 
-					'extension' => $config['import_audio_extension'], 
+					'audio_bitrate' => $config['import_audio_bitrate'],
+					'name' => $config['import_audio_basename'],
+					'extension' => $config['import_audio_extension'],
 					'audio_rate' => $config['import_audio_rate'],
 				);
-			
-			
+
+
 				// add output for waveform file
 				$result['outputs'][] = array(
-					'type' => 'waveform', 
-					'forecolor' => $config['import_waveform_forecolor'], 
-					'backcolor' => $config['import_waveform_backcolor'], 
-					'name' => $config['import_waveform_basename'], 
-					'dimensions' => $config['import_waveform_dimensions'], 
+					'type' => 'waveform',
+					'forecolor' => $config['import_waveform_forecolor'],
+					'backcolor' => $config['import_waveform_backcolor'],
+					'name' => $config['import_waveform_basename'],
+					'dimensions' => $config['import_waveform_dimensions'],
 					'extension' => $config['import_waveform_extension'],
 				);
 			}
 			if ($type == 'video') {
 				// add output for sequence files
 				$result['outputs'][] = array(
-					'type' => 'sequence', 
-					'video_rate' => $config['import_video_rate'], 
-					'quality' => $config['import_image_quality'], 
-					'extension' => $config['import_extension'], 
+					'type' => 'sequence',
+					'video_rate' => $config['import_video_rate'],
+					'quality' => $config['import_image_quality'],
+					'extension' => $config['import_extension'],
 					'dimensions' => $config['import_dimensions'],
 					'path' => '{output.dimensions}x{output.video_rate}',
 				);
@@ -350,7 +350,7 @@ if (! function_exists('api_queue_job')) {
 			if ($config['log_api_request']) log_file("{$config['client']} request:\n" . json_encode($data), $config);
 			// post job to the Transcoder
 			$result = service_enqueue($data, $config);
-			if ((! $result['error']) && empty($result['id'])) $result['error'] = 'Got no Job ID';
+			if (empty($result['error']) && empty($result['id'])) $result['error'] = 'Got no Job ID';
 		}
 		return $result;
 	}
@@ -386,7 +386,7 @@ function __api_about_mash($mash){
 						default:
 							$result['has_video'] = true;
 							break;
-					}	
+					}
 					$result['duration'] = max($result['duration'], ($clip['frame'] + $clip['frames']) / $quantize);
 				}
 			}
