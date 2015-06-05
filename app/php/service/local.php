@@ -28,7 +28,10 @@ function local_client_enqueue($data, $config = array()){
 	$job_path = path_concat($config['queue_directory'], $id . '.json');
 	$json_str = @json_encode($data);
 	if (! $json_str) $err = 'could not encode json';
-	else if (! file_put($job_path, $json_str)) $err = 'could not write job to ' . $job_path;
+	else {
+			file_safe($job_path);
+			if (! file_put($job_path, $json_str)) $err = 'could not write job to ' . $job_path;
+	}
 	if ($err) $result['error'] = $err;
 	return $result;
 }
@@ -76,7 +79,7 @@ function local_file_export_base_source($config){
 function local_client_config_error($config){
 	$err = '';
 	if ((! $err) && empty($config['queue_directory'])) $err = 'Configuration option queue_directory required';
-	if ((! $err) && (! file_exists($config['queue_directory'])))  $err = 'Configuration option queue_directory must exist';
+	//if ((! $err) && (! file_exists($config['queue_directory']))) $err = 'Configuration option queue_directory must exist';
 
 	return $err;
 }
@@ -84,7 +87,7 @@ function local_client_config_error($config){
 function local_file_config_error($config){
 	$err = '';
 	if ((! $err) && empty($config['queue_directory'])) $err = 'Configuration option queue_directory required';
-	if ((! $err) && (! file_exists($config['queue_directory'])))  $err = 'Configuration option queue_directory must exist';
+	//if ((! $err) && (! file_exists($config['queue_directory'])))  $err = 'Configuration option queue_directory must exist';
 	return $err;
 }
 function local_file_destination($output, $config){
