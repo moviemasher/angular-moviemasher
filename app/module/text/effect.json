@@ -2,12 +2,12 @@
 	"label": "Text Box",
 	"type": "effect",
 	"id": "com.moviemasher.effect.textbox",
-	"properties": { 
+	"properties": {
 		"string": { "type": "string", "value": "Text Box" },
 		"size": { "type": "fontsize", "value": 0.2 },
-		"color": { "type": "rgba", "value": "rgba(255,255,255,1)" },
+		"color": { "type": "rgba", "value": "0xFFFFFFFF" },
 		"fontface": { "type": "font", "value": "com.moviemasher.font.default" },
-		"shadowcolor": { "type": "rgba", "value": "rgba(0,0,0,0)" },
+		"shadowcolor": { "type": "rgba", "value": "0x00000000" },
 		"shadowx": { "type": "number", "value": 0 },
 		"shadowy": { "type": "number", "value": 0 },
 		"x": { "type": "number", "value": 0 },

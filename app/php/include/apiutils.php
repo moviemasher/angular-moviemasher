@@ -213,7 +213,7 @@ if (! function_exists('api_job_render')) {
 			if (! empty($output['include_progress'])) $result['callbacks'][] = service_export_progress_callback($progress_callback_payload, $config);
 			$result['callbacks'][] = service_export_complete_callback($complete_callback_payload, $config);
 			// add Output for rendered video or audio file, with no transfer tag of its own
-			$job_output = array('type' => $type);
+			$job_output = array('type' => $type, 'required' => 1);
 			$job_output['extension'] = $export_extension;
 			$job_output['name'] = (empty($config["export_{$type}_basename"]) ? '{job.id}' : $config["export_{$type}_basename"]);
 			if ($config['export_meta_title'] && $title) $job_output['metadata'] = $config['export_meta_title'] . '="' . $title . '"';

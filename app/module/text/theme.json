@@ -2,16 +2,16 @@
 	"label": "Title",
 	"type": "theme",
 	"id": "com.moviemasher.theme.text",
-	"properties": { 
+	"properties": {
 		"string": { "type": "string", "value": "Title" },
 		"size": { "type": "fontsize", "value": 0.2 },
 		"x": { "type": "number", "value": 0 },
 		"y": { "type": "number", "value": 0 },
-		"color": { "type": "rgba", "value": "rgba(255,255,255,1)" },
-		"shadowcolor": { "type": "rgba", "value": "rgba(0,0,0,0)" },
+		"color": { "type": "rgba", "value": "0xFFFFFFFF" },
+		"shadowcolor": { "type": "rgba", "value": "0x00000000" },
 		"shadowx": { "type": "number", "value": 0 },
 		"shadowy": { "type": "number", "value": 0 },
-		"background": { "type": "rgb", "value": "rgb(0,0,0)" },
+		"background": { "type": "rgb", "value": "0x000000" },
 		"fontface": { "type": "font", "value": "com.moviemasher.font.default" }
 	},
 	"filters": [{
