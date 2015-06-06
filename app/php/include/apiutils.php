@@ -151,7 +151,7 @@ if (! function_exists('api_job_export')) {
 		if (! $err) { // try to analyze mash
 			$about_mash = __api_about_mash($input_mash);
 			if (! empty($about_mash['error'])) {
-				log_file(print_r($about_mash, 1), $config);
+				//log_file(print_r($about_mash, 1), $config);
 				$err = $about_mash['error'];
 			} else if (! $about_mash['duration']) $err = 'Mash has no duration';
 		}
@@ -198,6 +198,7 @@ if (! function_exists('api_job_render')) {
 			$module_source = service_export_module_source($config);
 			if ($module_source) $result['module_source'] = $module_source;
 			if ($base_source) $result['base_source'] = $base_source;
+			//log_file('BASE_SOURCE: ' . print_r($base_source, 1), $config);
 			$progress_callback_payload = array('job' => '{job.id}', 'progress' => '{job.progress}');
 			$complete_callback_payload = array(
 				'job' => '{job.id}',

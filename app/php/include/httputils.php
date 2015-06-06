@@ -84,7 +84,7 @@ if (! function_exists('http_set_options')) {
 		if (! isset($options[CURLINFO_HEADER_OUT])) curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
 		if (! isset($options[CURLOPT_SSL_VERIFYPEER])) curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		if (! isset($options[CURLOPT_SSL_VERIFYHOST])) curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-		if (! isset($options[CURLOPT_SSLVERSION])) curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+		//if (! isset($options[CURLOPT_SSLVERSION])) curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 		if (! isset($options[CURLOPT_TIMEOUT])) curl_setopt($ch, CURLOPT_TIMEOUT, 600);
 		if (! isset($options[CURLOPT_FAILONERROR])) curl_setopt($ch,CURLOPT_FAILONERROR, FALSE);
 		if (! isset($options[CURLOPT_USERAGENT])) curl_setopt($ch,CURLOPT_USERAGENT, 'Movie Masher');
