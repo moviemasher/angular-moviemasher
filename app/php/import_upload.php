@@ -31,7 +31,10 @@ if (! $err) { // make sure required parameters have been set
 	$uid = auth_userid();
 	$type = (empty($_REQUEST['type']) ? '' : $_REQUEST['type']);
 	$extension = (empty($_REQUEST['extension']) ? '' : $_REQUEST['extension']);
-	if (! ($uid && $id && $extension && $type)) $err = 'Required parameters omitted';
+	if (! $uid) $err = 'Required uid parameters omitted';
+	if (! $id) $err = 'Required id parameters omitted';
+	if (! $extension) $err = 'Required extension parameters omitted';
+	if (! $type) $err = 'Required type parameters omitted';
 }
 if (! $err) { // make sure $_FILES populated
 	if (empty($_FILES) || empty($_FILES['file'])) $err = 'No file was uploaded';
@@ -39,32 +42,32 @@ if (! $err) { // make sure $_FILES populated
 if (! $err) { // make sure file is valid
 	$file = $_FILES['file'];
 	if ($file['error']) {
-		switch ($file['error']) { 
-			case UPLOAD_ERR_INI_SIZE: 
-				$err = "The uploaded file exceeds the upload_max_filesize directive in php.ini"; 
-				break; 
-			case UPLOAD_ERR_FORM_SIZE: 
-				$err = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"; 
-				break; 
-			case UPLOAD_ERR_PARTIAL: 
-				$err = "The uploaded file was only partially uploaded"; 
-				break; 
-			case UPLOAD_ERR_NO_FILE: 
-				$err = "No file was uploaded"; 
-				break; 
-			case UPLOAD_ERR_NO_TMP_DIR: 
-				$err = "Missing a temporary folder"; 
-				break; 
-			case UPLOAD_ERR_CANT_WRITE: 
-				$err = "Failed to write file to disk"; 
-				break; 
-			case UPLOAD_ERR_EXTENSION: 
-				$err = "Uupload stopped by extension"; 
-				break; 
-			default: 
-				$err = "Unknown upload error"; 
-				break; 
-        } 
+		switch ($file['error']) {
+			case UPLOAD_ERR_INI_SIZE:
+				$err = "The uploaded file exceeds the upload_max_filesize directive in php.ini";
+				break;
+			case UPLOAD_ERR_FORM_SIZE:
+				$err = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
+				break;
+			case UPLOAD_ERR_PARTIAL:
+				$err = "The uploaded file was only partially uploaded";
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				$err = "No file was uploaded";
+				break;
+			case UPLOAD_ERR_NO_TMP_DIR:
+				$err = "Missing a temporary folder";
+				break;
+			case UPLOAD_ERR_CANT_WRITE:
+				$err = "Failed to write file to disk";
+				break;
+			case UPLOAD_ERR_EXTENSION:
+				$err = "Uupload stopped by extension";
+				break;
+			default:
+				$err = "Unknown upload error";
+				break;
+        }
 	}
 	else if (! is_uploaded_file($file['tmp_name'])) $err = 'Error uploading your file';
 }
@@ -96,9 +99,9 @@ if (! $err) { // enforce size limit from configuration, if defined
 	}
 }
 if (! $err) { // try to move upload into its media directory and change permissions
-	
+
 	$path = path_concat(path_concat(path_concat(path_concat($config['web_root_directory'], $config['user_media_directory']), $uid), $id), $config['import_original_basename'] . '.' .  $file_extension);
-	if (! file_safe($path, $config)) $err = 'Problem creating media directory';
+	if (! file_safe($path, $config)) $err = 'Problem creating media directory '. $path;
 	else if (! file_move_upload($file['tmp_name'], $path)) $err = 'Problem moving file';
 	else if (! file_mode($path, $config)) $err = 'Problem setting permissions of media: ' . $path;
 	else log_file('Saved to: ' . $path, $config);

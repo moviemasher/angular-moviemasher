@@ -5,11 +5,11 @@
 	"properties": {
 		"string": { "type": "string", "value": "Text Box" },
 		"size": { "type": "fontsize", "value": 0.2 },
-		"color": { "type": "rgba", "value": "0xFFFFFFFF" },
+		"color": { "type": "rgba", "value": "rgba(255,0,0,1)" },
 		"fontface": { "type": "font", "value": "com.moviemasher.font.default" },
-		"shadowcolor": { "type": "rgba", "value": "0x00000000" },
-		"shadowx": { "type": "number", "value": 0 },
-		"shadowy": { "type": "number", "value": 0 },
+		"shadowcolor": { "type": "rgba", "value": "rgba(0,0,0,0)" },
+		"shadowx": { "type": "number", "value": 0.015 },
+		"shadowy": { "type": "number", "value": 0.015 },
 		"x": { "type": "number", "value": 0 },
 		"y": { "type": "number", "value": 0 }
 	},

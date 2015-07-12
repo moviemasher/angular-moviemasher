@@ -45,7 +45,7 @@ if (! function_exists('data_save')) {
 			if (! file_put($media_file_json_path, $json_str, $config)) $err = 'Problem writing ' . $media_file_json_path;
 		}
 		return $err;
-	}	
+	}
 }
 if (! function_exists('data_save_mash')) {
 	function data_save_mash($data = array(), $userid = '', $config = array()) {
@@ -105,7 +105,7 @@ if (! function_exists('data_mash')) {
 		}
 		if ($err) $response['error'] = $err;
 		return $response;
-	}	
+	}
 }
 if (! function_exists('data_search')) {
 	function data_search($options = array(), $config = array()) {
@@ -164,7 +164,7 @@ if (! function_exists('data_search')) {
 								if (! $ok) break;
 							}
 						}
-						if ($ok) { 
+						if ($ok) {
 							if ($index) $index --;
 							else { // only add tag if within specified range
 								$found_obs[] = $ob;
@@ -178,5 +178,5 @@ if (! function_exists('data_search')) {
 		}
 		return $found_obs;
 	}
-	
+
 }

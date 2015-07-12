@@ -103,6 +103,7 @@ function local_file_import_init($import, $config){
 	$response['api'] = array();
 	$response['data'] = array();
 	$response['endpoint'] = path_concat($config['cgi_directory'], 'import_upload.php');
+	$response['method'] = 'post';
 	$response['data']['id'] = $id;
 	$response['data']['type'] = $import['type'];
 	$response['data']['extension'] = $import['extension'];

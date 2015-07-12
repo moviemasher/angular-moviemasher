@@ -17,12 +17,6 @@ module.exports = function(grunt) {
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
-		copy: {
-			moviemasher:{
-				src: '<%= uglify.moviemasher.dest %>',
-				dest: 'app/components/<%= pkg.name %>.min.js'
-			}
-		},
 		jshint: {
 			options: {
 				"-W086": true, /* allow fall through in switch statements */
@@ -58,8 +52,7 @@ module.exports = function(grunt) {
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.registerTask('default', ['concat', 'jshint', 'uglify', 'copy']);
+	grunt.registerTask('default', ['concat', 'jshint', 'uglify']);
 };

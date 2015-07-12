@@ -419,6 +419,9 @@
 							$amm.mash_id_change();
 						});
 					});
+					amm_resources.module.search({group:'filter'}, function(response) {
+						$amm.MovieMasher.register('filter', response);
+					});
 					amm_resources.module.search({group:'scaler'}, function(response) {
 						$amm.MovieMasher.register('scaler', response);
 					});
@@ -589,17 +592,18 @@
 										upload.api = import_init_response.api;
 										item.url = import_init_response.endpoint;
 										console.log(import_init_response.endpoint, import_init_response.data);
+										item.method = import_init_response.method;
 										item.upload();
 									} else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
 								}, function() {
-									console.error('import.init', arguments);
+									console.error('import.init problem uploading', arguments);
 									__problem_upload(upload, 'error');
 								});
 							};
 
 							// successfully uploaded actual file
 							uploader.onSuccessItem = function (item, import_upload_response) {
-								//console.info('uploaded', arguments);
+								console.info('onSuccessItem', arguments);
 								var upload;
 								upload = __upload_for_item(item);
 								if (upload) {
@@ -611,9 +615,9 @@
 										if (upload.api) {
 											upload.completed = 0.5;
 											if (amm_resources.import.api) $timeout(function(){
-												//console.log('Calling import.api', upload.api);
+												console.log('Calling import.api', upload.api);
 												amm_resources.import.api(upload.api, function(api_response){
-													//console.log('import.api', api_response);
+													console.log('import.api', api_response);
 
 													if (api_response.ok && amm_resources.import.monitor) {
 														upload.monitor = api_response.monitor;
@@ -632,7 +636,7 @@
 								__update_import_completed();
 							};
 							uploader.onErrorItem = function (item) {
-								console.error('uploading file', arguments);
+								console.error('onErrorItem', arguments);
 								var upload = __upload_for_item(item);
 								if (upload) {
 									upload.status = 'problem uploading ' + upload.file;

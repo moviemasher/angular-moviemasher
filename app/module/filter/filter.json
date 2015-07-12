@@ -1,0 +1,38 @@
+[
+	{
+		"id":"color",
+		"source": "../bower_components/moviemasher.js/dist/filters/color.js"
+	},
+	{
+		"id":"drawtext",
+		"source": "../bower_components/moviemasher.js/dist/filters/drawtext.js"
+	},
+	{
+		"id":"overlay",
+		"source": "../bower_components/moviemasher.js/dist/filters/overlay.js"
+	},
+	{
+		"id":"scale",
+		"source": "../bower_components/moviemasher.js/dist/filters/scale.js"
+	},
+	{
+		"id":"crop",
+		"source": "../bower_components/moviemasher.js/dist/filters/crop.js"
+	},
+	{
+		"id":"drawbox",
+		"source": "../bower_components/moviemasher.js/dist/filters/drawbox.js"
+	},
+	{
+		"id":"fade",
+		"source": "../bower_components/moviemasher.js/dist/filters/fade.js"
+	},
+	{
+		"id":"setsar",
+		"source": "../bower_components/moviemasher.js/dist/filters/setsar.js"
+	},
+	{
+		"id":"scale",
+		"source": "../bower_components/moviemasher.js/dist/filters/scale.js"
+	}
+]
