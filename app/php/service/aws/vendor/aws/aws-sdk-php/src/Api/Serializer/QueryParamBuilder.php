@@ -20,6 +20,10 @@ class QueryParamBuilder
             return $shape['queryName'];
         }
 
+        if (null !== $shape['locationName']) {
+            return $shape['locationName'];
+        }
+
         if ($this->isFlat($shape) && !empty($shape['member']['locationName'])) {
             return $shape['member']['locationName'];
         }
@@ -92,7 +96,8 @@ class QueryParamBuilder
         $items = $shape->getMember();
 
         if (!$this->isFlat($shape)) {
-            $prefix .= '.member';
+            $locationName = $shape->getMember()['locationName'] ?: 'member';
+            $prefix .= ".$locationName";
         } elseif ($name = $this->queryName($items)) {
             $parts = explode('.', $prefix);
             $parts[count($parts) - 1] = $name;

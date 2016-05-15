@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class JsonRpcParser extends AbstractParser
 {
+    use PayloadParserTrait;
+
     private $parser;
 
     /**
@@ -28,10 +30,11 @@ class JsonRpcParser extends AbstractParser
         ResponseInterface $response
     ) {
         $operation = $this->api->getOperation($command->getName());
-
-        return new Result($this->parser->parse(
+        $result = $this->parser->parse(
             $operation->getOutput(),
-            json_decode($response->getBody(), true)
-        ));
+            $this->parseJson($response->getBody())
+        );
+
+        return new Result($result ?: []);
     }
 }

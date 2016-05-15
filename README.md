@@ -2,7 +2,7 @@
 **[moviemasher.js](https://github.com/moviemasher/moviemasher.js "stands below angular-moviemasher, providing audiovisual playback handling and edit support in a web browser") | angular-moviemasher | [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb "sits behind angular-moviemasher, providing processor intensive video transcoding services through a simple API")**
 
 *Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP*
-#angular-moviemasher
+# angular-moviemasher
 
 Use angular-moviemasher to integrate audio/video editing features into your existing web site or as a starting point for further development. It builds upon both the moviemasher.js and moviemasher.rb projects, as well as the popular PHP middleware layer and AngularJS+Bootstrap for the UI (only Bootstrap's CSS is used, so no reliance on jQuery).
 
@@ -29,19 +29,17 @@ Additionally, the Movie Masher AMI is available in Marketplace and includes all 
 ### Docker Usage
 The [`moviemasher/angular-moviemasher`](https://registry.hub.docker.com/u/moviemasher/angular-moviemasher/) image on [docker.com](https://docker.com) is based off the official [`php:apache`](https://registry.hub.docker.com/_/php/) image, adding some configuration and copying this project into web root. The Dockerfile contains a **VOLUME** instruction for each directory it works with.
 
-- To make the web site available at your docker IP on port 8080:
+To make Movie Masher available at your docker IP on port 8080:
 
-    `docker run -d -p 8080:80 --name=angular moviemasher/angular-moviemasher`
+`docker-compose --file config/docker/development/docker-compose.yml up -d`
 
-    You'll need to subsequently execute `docker stop angular` and `docker rm angular` to stop serving the web site and remove the container created.
+This also runs the [`moviemasher/moviemasher.rb`](https://registry.hub.docker.com/u/moviemasher/moviemasher.rb/) image from [docker.com](https://docker.com), preconfigured to share volumes so uploading and rendering work as expected.
 
-All functions should be available at this juncture, except uploading and rendering which will trigger the saving of a job description file into **queue_directory**. Because there is a **VOLUME** instruction for this directory, it can be mounted by other containers - we'll attach it to one run from the [`moviemasher/moviemasher.rb`](https://registry.hub.docker.com/u/moviemasher/moviemasher.rb/) image which will handle the actual transcoding operation.
+To stop and remove the container:
 
-- To process queued jobs using shared volumes:
+`docker-compose --file config/docker/development/docker-compose.yml kill`
 
-	`docker run -d -t --volumes-from=angular --name=moviemasher moviemasher/moviemasher.rb process_loop`
-
-  Note the `t` switch - it's required for Ecasound to function properly. You'll need to subsequently execute `docker stop moviemasher` and `docker rm moviemasher` to stop queue processing and remove the container created. See the [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb) project for other ways to run its image.
+`docker-compose --file config/docker/development/docker-compose.yml rm -fv`
 
 
 ### How to Install on Your Web Host
@@ -66,7 +64,9 @@ It's important to remember this project is just an *example* deployment and not 
 
 ### Porting from PHP to Other Languages
 Each of the PHP endpoints requested by the JavaScript is configurable within the index.html file, so it can be overriden to point to scripts in other languages. The __default_config variable declaration near the top of the angular-moviemasher.js script file contains the PHP endpoints - note the nesting paths for the ones you want to change. These paths can be dash delimited and used as attributes within the main amm-ui tag to override values. For instance, the following will cause just the media metadata to be loaded from a Coldfusion endpoint:
-`<div class='amm-ui' amm-rest-media-search-url='cfm/media.cfm?group=:group'></div>`
+```html
+<div class='amm-ui' amm-rest-media-search-url='cfm/media.cfm?group=:group'></div>
+```
 
 ### Included Requirements
 - angular
@@ -86,22 +86,24 @@ Please join in the shareable economy by gifting your efforts towards improving t
 
 ### Developer Setup
 Various components of angular-moviemasher can be updated or rebuilt after installing git, npm, bower, grunt and composer. Once applications are installed `cd` to project directory and execute:
+- Applications: npm, bower, grunt, composer
+- Project: [moviemasher.js](https://github.com/moviemasher/moviemasher.js)
+
 
 1. npm install
-2. bower install
-3. grunt
-4. cd app/php/service/aws
-5. composer install
+1. bower install --production
+1. grunt
+1. cd app/php/service/aws
+1. composer install
 
-Or if docker is being used, a helpful development version of the image can be built by uncommenting the last section in Dockerfile. These commands add the components.
 
-- To build and run a development image, `cd` to project directory and execute:
+Or if docker is being used...
 
-  `sed -i '' 's/^## //' Dockerfile`
+`docker-compose --file config/docker/grunt/docker-compose.yml run --rm angularmoviemasher bower install --production`
 
-  `docker build --tag="moviemasher/angular-moviemaser:dev" .`
+`docker-compose --file config/docker/grunt/docker-compose.yml run --rm angularmoviemasher grunt`
 
-  `docker run -d -v $(pwd):/var/www/html/angular-moviemasher --name=angular moviemasher/angular-moviemaser:dev`
+`docker-compose --file config/docker/composer/docker-compose.yml run --rm angularmoviemasher composer install`
 
 ##### Known issues in this version
 - timeline allows clips to be positioned atop one another
@@ -120,4 +122,3 @@ Or if docker is being used, a helpful development version of the image can be bu
 - The `export_audio_frequency` key in moviemasher.ini has been renamed `export_audio_rate`.
 - The new `mash` key in mash inputs should be used for embedded mashes
 - The `source` key in mash inputs should only contain a source object
-

@@ -1,0 +1,12 @@
+
+FROM php:apache
+MAINTAINER Movie Masher <support@moviemasher.com>
+
+# install utilities needed by composer
+RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y zlib1g-dev && docker-php-ext-install zip
+
+# install composer PHP dependency manager globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR app/php/service/aws

@@ -40,7 +40,10 @@ module.exports = function(grunt) {
 				src: 'Gruntfile.js'
 			},
 			moviemasher: {
-				src: '<%= concat.moviemasher.dest %>'
+				src: 'src/**/*.js'
+			},
+			modules: {
+				src: 'app/module/**/*.json'
 			}
 		},
 		uglify: {
@@ -54,5 +57,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.registerTask('default', ['concat', 'jshint', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 };

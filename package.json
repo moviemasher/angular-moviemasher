@@ -1,11 +1,12 @@
 {
 	"name": "angular-moviemasher",
 	"description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"author": {
 		"name": "Movie Masher",
 		"email": "support@moviemasher.com"
 	},
+	"license": "MPL-2.0",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/moviemasher/angular-moviemasher.git"

@@ -1,0 +1,6 @@
+
+angularmoviemasher:
+  build: ../../../
+  dockerfile: ./config/docker/composer/Dockerfile
+  volumes:
+    - "../../../app:/var/www/html/app"

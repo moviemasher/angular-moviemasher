@@ -67,7 +67,7 @@
 }
 .amm-browser-media-label {
 	background-color: rgba(255,255,255,0.5);
-	color: #333333;	
+	color: #333333;
 	padding: 5px;
 	position:absolute;
 	right:0px;
@@ -218,7 +218,7 @@ amm-timeline-rule-back {
 	background-color: #000;
 	background-image: -webkit-linear-gradient(bottom, #000 0%, #3a3a3a 50%);
 		background-image: linear-gradient(bottom, #000 0%, #3a3a3a 50%);
-}	
+}
 amm-timeline-rule-icon {
 	color:aqua;
 	font-size: 20px;
@@ -274,7 +274,7 @@ amm-timeline-rule-line {
 }
 .amm-timeline-clip-label {
 	background-color: rgba(255,255,255,0.5);
-	color: #333333;	
+	color: #333333;
 	padding: 5px;
 	position:absolute;
 	right:0px;
@@ -286,7 +286,7 @@ amm-timeline-rule-line {
 	overflow-x:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}								
+}
 .amm-container{
 	position:relative;
 	height:100%;
@@ -300,7 +300,7 @@ amm-timeline-rule-line {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow-x:hidden;
-	
+
 	position: absolute;
 	height:34px;
 	line-height: 30px;
@@ -360,15 +360,11 @@ amm-timeline-rule-line {
 .amm-colorpicker-background {
 	display:inline-block;
 	background-color: #eee;
-	background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), 
+	background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
 	linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
 	background-size:10px 10px;
 	background-position:0 0, 5px 5px;
 	background-repeat: repeat;
-}
-/* fix for alpha sizing issue */
-.colorpicker.alpha {
-  min-width: 148px;
 }
 
 .pixelated {
@@ -385,7 +381,7 @@ amm-timeline-rule-line {
 	text-overflow: ellipsis;
 	overflow: hidden;
     white-space: nowrap;
-}   
+}
  /*   clear: left;
     text-align: right;
 */
@@ -421,7 +417,7 @@ amm-timeline-rule-line {
 	border: solid black 1px;
 	margin: 10px 100% 0px 10px;
 	background-color: darkgray;
-	background-image: linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%), 
+	background-image: linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%),
 	linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%);
 	background-size:10px 10px;
 	background-position:0 0, 5px 5px;
@@ -429,7 +425,7 @@ amm-timeline-rule-line {
 }
 .amm-canvas-container > span > canvas {
 	margin-bottom:-2px;
-	
+
 }
 .amm-canvas-container > span:after {
     content: attr(alt);
@@ -443,7 +439,7 @@ amm-timeline-rule-line {
 
 .amm-inspector-row {
     margin-bottom: 6px;
-    clear: right;	
+    clear: right;
 }
 .amm-inspector-row > input,
 .amm-inspector-row > textarea {

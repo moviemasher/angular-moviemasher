@@ -8,3 +8,4 @@ app/user/
 tmp
 .DS_Store
 .idea
+log

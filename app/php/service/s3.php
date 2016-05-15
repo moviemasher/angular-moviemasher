@@ -63,7 +63,7 @@ function s3_file_import_init($import, $config) {
 		if (! $err){
     $response['api'] = array();
     $response['data'] = array();
-    $response['method'] = 'put';
+    $response['method'] = 'post';
 
     $id = id_unique();
     $bucket = $config['s3_bucket'];
@@ -83,15 +83,25 @@ function s3_file_import_init($import, $config) {
     }
     try {
       $s3 = new Aws\S3\S3Client($options_array);
-      $cmd = $s3->getCommand('PutObject', [
-        'Bucket' => $config['s3_bucket'],
-        'Key'    => $key,
-        'ACL' => $config['s3_acl'],
-        'ContentType' => $import['mime'],
-      ]);
-      $request = $s3->createPresignedRequest($cmd, $config['s3_expires']);
-      // Get the actual presigned-url
-      $response['endpoint'] = $presignedUrl = (string) $request->getUri();
+      $formInputs = ['acl' => $config['s3_acl'], 'key' => $key];
+      if (! $config['aws_access_key_id']) {
+        $credentials = $s3->getCredentials()->wait();
+        $formInputs['x-amz-security-token'] = $credentials->getSecurityToken();
+      }
+      $policy = [
+        'expiration' => date(DATE_FORMAT_TIMESTAMP, time() + 5 * 60),
+        'conditions' => [['bucket' => $config['s3_bucket']]]
+      ];
+      foreach($formInputs as $k => $v) $policy['conditions'][] = [$k => $v];
+      $policy = json_encode($policy);
+      $postObject = new \Aws\S3\PostObject(
+          $s3,
+          $config['s3_bucket'],
+          $formInputs,
+          $policy
+      );
+      $response['data'] = $postObject->getFormInputs();
+      $response['endpoint'] = $postObject->getFormAttributes()['action'];
     } catch (Exception $e) {
       $err = $e->getMessage();
     }

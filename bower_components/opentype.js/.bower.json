@@ -1,6 +1,6 @@
 {
   "name": "opentype.js",
-  "version": "0.4.4",
+  "version": "0.4.11",
   "main": "dist/opentype.js",
   "keywords": [
     "vector",
@@ -19,13 +19,13 @@
   ],
   "dependencies": {},
   "homepage": "https://github.com/nodebox/opentype.js",
-  "_release": "0.4.4",
+  "_release": "0.4.11",
   "_resolution": {
     "type": "version",
-    "tag": "0.4.4",
-    "commit": "6528e7448fdb392c85c0f1be9caf3cebdfcea047"
+    "tag": "0.4.11",
+    "commit": "2c06ef27381171813f556fdc8d6d453da923ede8"
   },
-  "_source": "git://github.com/nodebox/opentype.js.git",
+  "_source": "https://github.com/nodebox/opentype.js.git",
   "_target": "^0.4.0",
   "_originalSource": "opentype.js"
 }

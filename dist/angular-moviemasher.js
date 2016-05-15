@@ -1,5 +1,5 @@
-/*! angular-moviemasher - v1.0.9 - 2015-07-12
-* Copyright (c) 2015 Movie Masher; Licensed  */
+/*! angular-moviemasher - v1.0.9 - 2016-05-15
+* Copyright (c) 2016 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
 	'use strict';
@@ -911,11 +911,11 @@
 					}
 					return false;
 				};
-				controller.pixels_from_frame = function(frame, rounding, quantize, dont_pad){
+				controller.pixels_from_frame = function(frame, rounding, quantize){
 					if (! quantize) quantize = $amm.player.mash.quantize;
 					var pps, pixels = 0;
 					if (frame) {
-						pps = controller.pixels_per_second(dont_pad);
+						pps = controller.pixels_per_second();
 						if (pps){
 							pixels = (frame / quantize) * pps;
 							if (rounding || (typeof rounding === "undefined")) pixels = Math[rounding || 'ceil'](pixels);
@@ -923,11 +923,11 @@
 					}
 					return pixels;
 				};
-				controller.frame_from_pixels = function(pixels, rounding, quantize, dont_pad) {
+				controller.frame_from_pixels = function(pixels, rounding, quantize) {
 					if (! quantize) quantize = $amm.player.mash.quantize;
 					var pps, frame = 0;
 					if (pixels) {
-						pps = controller.pixels_per_second(dont_pad);
+						pps = controller.pixels_per_second();
 						//console.log('pixels_per_second', pps)
 						if (pps){
 							frame = (pixels / pps) * quantize;
@@ -1065,7 +1065,7 @@
 				var __set_frame = function(eventObject){
 					scope.$apply(function(){
 						var rx = eventObject.pageX - __ruler_x;
-						var frame = controller.frame_from_pixels(rx, 'round', $amm.player.fps, true);
+						var frame = controller.frame_from_pixels(rx, 'round', $amm.player.fps);
 						//console.log('frame', frame, $amm.player.frames);
 						$amm.player.frame = Math.max(0, Math.min($amm.player.frames, frame));
 					} );
@@ -1099,7 +1099,7 @@
 				});
 				scope.amm_style_rule = function(){
 					var ob = {};
-					ob.left = controller.pixels_from_frame($amm.player.frame, 'floor', $amm.player.fps, true);
+					ob.left = controller.pixels_from_frame($amm.player.frame, 'floor', $amm.player.fps);
 					ob.left -= Math.floor(element[0].getBoundingClientRect().width / 2);
 					ob.left += scope.amm_track_controls_width() - controller.scrollLeft;
 					ob.left = String(ob.left) + 'px';

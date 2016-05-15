@@ -50,7 +50,6 @@ if (! $err) {
 	$json_str = json_encode(data_search($options, $config));
 }
 if ($err) {
-print $err;
 	log_file($err, $config);
 	print '[]';
 } else print $json_str;
