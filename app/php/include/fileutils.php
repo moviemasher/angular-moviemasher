@@ -21,7 +21,7 @@ if (! function_exists('file_dir_delete_recursive')) {
 		if ($path)
 		{
 			$file_prefix = '';
-			if (substr($path, -1) == '*') 
+			if (substr($path, -1) == '*')
 			{
 				$file_prefix = basename($path, '*');
 				$path = file_dir($path);
@@ -29,13 +29,13 @@ if (! function_exists('file_dir_delete_recursive')) {
 			if (file_exists($path) && is_dir($path))
 			{
 				$path = path_add_slash_end($path);
-			
-				if ($handle = opendir($path)) 
+
+				if ($handle = opendir($path))
 				{
 					$result = TRUE;
 					while ($result && (FALSE !== ($file = readdir($handle))))
 					{
-						if (($file != ".") && ($file != "..")) 
+						if (($file != ".") && ($file != ".."))
 						{
 							if ($file_prefix && (substr($file, 0, strlen($file_prefix)) != $file_prefix))
 							{
@@ -88,19 +88,19 @@ if (! function_exists('file_move_extension')) {
 		{
 			$archive_path = path_add_slash_end($archive_path);
 			$media_path = path_add_slash_end($media_path);
-		
+
 			// make sure archive path exists
 			if (file_exists($archive_path))
 			{
 				// make sure we have somewhere to move to
-				if (file_safe($media_path, $config)) 
+				if (file_safe($media_path, $config))
 				{
-					if ($handle = opendir($archive_path)) 
+					if ($handle = opendir($archive_path))
 					{
 						$result = TRUE;
 						while ($result && (FALSE !== ($file = readdir($handle))))
 						{
-							if ($file != "." && $file != "..") 
+							if ($file != "." && $file != "..")
 							{
 								if (is_file($archive_path . $file))
 								{
@@ -119,7 +119,7 @@ if (! function_exists('file_move_extension')) {
 }
 if (! function_exists('file_move_upload')) {
 	function file_move_upload($from, $to){
-		return @move_uploaded_file($from, $to);
+		return move_uploaded_file($from, $to);
 	}
 }
 if (! function_exists('file_move')) {
@@ -161,7 +161,7 @@ if (! function_exists('file_safe')) {
 				if ($ext) array_pop($dirs); // get rid of file name if path is file
 				$to_create = array();
 				$dir = join('/', $dirs);
-			
+
 				while ($dirs && (! file_exists($dir))) {
 					$to_create[] = array_pop($dirs);
 					$dir = join('/', $dirs);
@@ -187,12 +187,12 @@ if (! function_exists('files_in_dir')) {
 		if ($dir && is_dir($dir))
 		{
 			$dir = path_add_slash_end($dir);
-			if ($handle = opendir($dir)) 
+			if ($handle = opendir($dir))
 			{
 				$result = array();
 				while (FALSE !== ($file = readdir($handle)))
 				{
-					if ($file != "." && $file != "..") 
+					if ($file != "." && $file != "..")
 					{
 						$full_path = $dir . $file;
 						if (! $just_names) $file = $full_path;
@@ -218,12 +218,12 @@ if (! function_exists('files_in_dir')) {
 if (! function_exists('files_in_dir_recursive')) {
 	function files_in_dir_recursive($full_path) {
 		$files = array();
-		if (is_dir($full_path)) 
+		if (is_dir($full_path))
 		{
-			if ($dh = opendir($full_path)) 
+			if ($dh = opendir($full_path))
 			{
 				if (substr($full_path, -1) != '/') $full_path .= '/';
-				while (($file = readdir($dh)) !== false) 
+				while (($file = readdir($dh)) !== false)
 				{
 					if (substr($file, 0, 1) != '.')
 					{
@@ -247,7 +247,7 @@ if (! function_exists('file_mode')) {
 			if ($changing_mask) $old_mask = @umask($config['chmod_umask']);
 			@chmod($path, octdec($config[$key]));
 			if ($changing_mask)  @umask($old_mask);
-		}	
+		}
 		return $result;
 	}
 }

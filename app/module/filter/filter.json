@@ -38,5 +38,9 @@
   {
     "id":"convolution",
     "source": "../bower_components/moviemasher.js/dist/filters/convolution.js"
+  },
+  {
+    "id":"chromakey",
+    "source": "../bower_components/moviemasher.js/dist/filters/chromakey.js"
   }
 ]

@@ -1,44 +1,9 @@
-/*! angular-moviemasher - v1.0.9 - 2016-05-15
+/*! angular-moviemasher - v1.0.11 - 2016-05-25
 * Copyright (c) 2016 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
 	'use strict';
-	//console.log('evaluating angular-moviemasher.js', module);
-	var __php_parsed_error = function(response){
-		console.error('response error', response);
-		var key = 0, value, values = [];
-		value = response[key];
-		while(value){
-			values.push(value);
-			key++;
-			value = response[key];
-		}
-		return values.join('');
-	};
-	var __globalx_to_local = function(x, element) {
-		return x - element[0].getBoundingClientRect().left;
-	};
-	var __indexOf = function(a, v){
-		var i, z;
-		if (a) {
-			if (a.indexOf) return a.indexOf(v);
-			z = a.length;
-			for (i = 0; i < z; i++) {
-				if (a[i] === v) return i;
-			}
-		}
-		return -1;
-	};
-	var __next_directive_element = function(target){
-		var directive;
-		while(target){
-			directive = target.data('amm-directive');
-			if (directive) break;
-			target = target.parent();
-		}
-		return target;
-	};
-	var __default_config = {
+  var __default_config = {
 		rest: {
 			media: {
 				search: {
@@ -99,7 +64,40 @@
 			},
 		}
 	};
-
+	var __globalx_to_local = function(x, element) {
+		return x - element[0].getBoundingClientRect().left;
+	};
+	var __indexOf = function(a, v){
+		var i, z;
+		if (a) {
+			if (a.indexOf) return a.indexOf(v);
+			z = a.length;
+			for (i = 0; i < z; i++) {
+				if (a[i] === v) return i;
+			}
+		}
+		return -1;
+	};
+	var __next_directive_element = function(target){
+		var directive;
+		while(target){
+			directive = target.data('amm-directive');
+			if (directive) break;
+			target = target.parent();
+		}
+		return target;
+	};
+  var __php_parsed_error = function(response){
+		console.error('response error', response);
+		var key = 0, value, values = [];
+		value = response[key];
+		while(value){
+			values.push(value);
+			key++;
+			value = response[key];
+		}
+		return values.join('');
+	};
 	var module = angular.module('angular.moviemasher', [
 		'ngResource',
 		'colorpicker.module',
@@ -701,8 +699,6 @@
 			link: function(scope) {
 				//console.log('amm-browser link');
 				scope.amm_inspector_include = function(target){
-					//console.log('amm_inspector_include', target);
-
 					var include, media;
 					if (target) {
 						if (target === $amm.player.mash) include = 'views/inspector/mash.html';

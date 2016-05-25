@@ -366,7 +366,9 @@ amm-timeline-rule-line {
 	background-position:0 0, 5px 5px;
 	background-repeat: repeat;
 }
-
+.colorpicker > .dropdown-menu {
+  min-width: 150px;
+}
 .pixelated {
 	image-rendering: -moz-crisp-edges;
 	image-rendering: -o-crisp-edges;

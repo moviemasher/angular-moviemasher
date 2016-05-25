@@ -11,7 +11,7 @@
 		"shadowcolor": { "type": "rgba", "value": "rgba(0,0,0,0)" },
 		"shadowx": { "type": "number", "value": 0.015 },
 		"shadowy": { "type": "number", "value": 0.015 },
-		"background": { "type": "rgb", "value": "rgb(255,255,255)" },
+		"background": { "type": "hex", "value": "#ffffff" },
 		"fontface": { "type": "font", "value": "com.moviemasher.font.default" }
 	},
 	"filters": [{

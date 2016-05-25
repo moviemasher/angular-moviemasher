@@ -142,6 +142,7 @@ if (! function_exists('data_search')) {
 						foreach ($glob_files as $file_path) {
 							$obs = json_array(file_get($file_path));
 							$html_path = str_replace('.json', '.html', $file_path);
+							if (!file_exists($html_path)) $html_path = dirname($file_path) . '/' . $group . '.html';
 							if (file_exists($html_path)) {
 								$html_path = substr($html_path, strlen(path_add_slash_end($dir_host)) - 1);
 								for ($i = 0; $i < sizeof($obs); $i++){

@@ -13,7 +13,7 @@ RUN mkdir -p -m 0777 /var/www/user-data
 VOLUME /tmp/moviemasher/log
 VOLUME /tmp/moviemasher/queue
 VOLUME /tmp/moviemasher/temporary
-VOLUME /var/www/html/user-media
+VOLUME /var/www/html
 
 # install our php configuration
 COPY config/docker/php.ini /usr/local/etc/php/conf.d/moviemasher.ini
