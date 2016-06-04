@@ -6,16 +6,16 @@ load_utils('auth','path','date','json','http','log');
 require('aws/vendor/autoload.php'); // pull in aws-sdk
 
 function sqs_client_enqueue($data, $config){
-	$result = array();
-	$err = '';
-	$region =  (empty($config['sqs_region']) ? (empty($config['s3_region']) ? 'us-east-1' : $config['s3_region']) : $config['sqs_region']); // fallback to same region as s3 bucket
-	$message_id = '';
-  $options_array = [
+  $result = array();
+  $err = '';
+  $region =  (empty($config['sqs_region']) ? (empty($config['s3_region']) ? 'us-east-1' : $config['s3_region']) : $config['sqs_region']); // fallback to same region as s3 bucket
+  $message_id = '';
+  $options_array = array(
     'version' => 'latest',
     'region'  => $region
-  ];
+  );
   if ($config['aws_secret_access_key'] && $config['aws_access_key_id']) {
-    $options_array['credentials'] = [];
+    $options_array['credentials'] = array();
     $options_array['credentials']['key'] = $config['aws_access_key_id'];
     $options_array['credentials']['secret'] = $config['aws_secret_access_key'];
   }
@@ -31,15 +31,13 @@ function sqs_client_enqueue($data, $config){
   } catch (Exception $e) {
     $err = $e->getMessage();
   }
-	if ($err) $result['error'] = $err;
-	return $result;
+  if ($err) $result['error'] = $err;
+  return $result;
 }
 
 function sqs_client_config_error($config = array()){
-	$err = '';
-	if ((! $err) && empty($config['sqs_queue_url'])) $err = 'Configuration option sqs_queue_url required';
-//	if ((! $err) && empty($config['aws_access_key_id'])) $err = 'Configuration option aws_access_key_id required';
-//	if ((! $err) && empty($config['aws_secret_access_key'])) $err = 'Configuration option aws_secret_access_key required';
-	if ((! $err) && empty($config['temporary_directory'])) $err = 'Configuration option temporary_directory required';
-	return $err;
+  $err = '';
+  if ((! $err) && empty($config['sqs_queue_url'])) $err = 'Configuration option sqs_queue_url required';
+  if ((! $err) && empty($config['temporary_directory'])) $err = 'Configuration option temporary_directory required';
+  return $err;
 }

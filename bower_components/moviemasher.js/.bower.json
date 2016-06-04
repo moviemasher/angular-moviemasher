@@ -1,7 +1,7 @@
 {
   "name": "moviemasher.js",
   "main": "dist/moviemasher.js",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "homepage": "http://www.moviemasher.com",
   "authors": [
     {
@@ -40,13 +40,13 @@
     "grunt-contrib-uglify": "^0.4.0",
     "jshint-stylish": "^0.2.0"
   },
-  "_release": "4.0.15",
+  "_release": "4.0.16",
   "_resolution": {
     "type": "version",
-    "tag": "4.0.15",
-    "commit": "f328af33eff77c913d150841a7aa20e566b4d711"
+    "tag": "4.0.16",
+    "commit": "3f6dd11a3578270de72eee7c80a81cb41dbd49f0"
   },
   "_source": "https://github.com/moviemasher/moviemasher.js.git",
-  "_target": "4.0.15",
+  "_target": "4.0.16",
   "_originalSource": "moviemasher.js"
 }

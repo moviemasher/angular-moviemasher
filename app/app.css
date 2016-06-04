@@ -2,386 +2,386 @@
 *,
 *:before,
 *:after {
-	-webkit-box-sizing: border-box;
-		 -moz-box-sizing: border-box;
-					box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .amm-ui{
-	position: absolute;
-	top: 20px;
-	bottom: 20px;
-	left: 20px;
-	right: 20px;
-	-webkit-user-select: none;
-		 -moz-user-select: none;
-			-ms-user-select: none;
-			 -o-user-select: none;
-					user-select: none;
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 .amm-player{
-	position:absolute;
-	width: 256px;
-	height: 144px;
-	top:34px;
+  position:absolute;
+  width: 256px;
+  height: 144px;
+  top:34px;
 }
 .amm-browser,
 .amm-inspector,
 .amm-timeline {
-	position:absolute;
-	width: 100%;
-	top:34px;
-	bottom:34px;
-	background-color: #525252;
-	background-image: -webkit-linear-gradient(left, #525252 0%, #797979 63%);
-		background-image: linear-gradient(left, #525252 0%, #797979 63%);
+  position:absolute;
+  width: 100%;
+  top:34px;
+  bottom:34px;
+  background-color: #525252;
+  background-image: -webkit-linear-gradient(left, #525252 0%, #797979 63%);
+    background-image: linear-gradient(left, #525252 0%, #797979 63%);
 }
 .amm-player-panel{
-	width: 256px; /* preview.width */
-	height: 212px; /* preview.height + head.height + foot.height */
+  width: 256px; /* preview.width */
+  height: 212px; /* preview.height + head.height + foot.height */
 }
 .amm-browser-panel{
-	position: absolute;
-	left: 276px; /* player.width + buffer */
-	height: 212px; /* player.height */
-	top:0px;
-	right: 340px;
+  position: absolute;
+  left: 276px; /* player.width + buffer */
+  height: 212px; /* player.height */
+  top:0px;
+  right: 340px;
 }
 .amm-browser {
-	overflow-y: auto;
-	-webkit-overflow-y-scrolling: none;
+  overflow-y: auto;
+  -webkit-overflow-y-scrolling: none;
 }
 .amm-browser-media {
-	display:inline-block;
-	position:relative;
- 	margin: 20px 0px 0px 20px;
- 	width: 142px; /* browser-media-icon.width + 2 * border */
- 	height: 76px; /* browser-media-icon.height + 2 * border */
- 	background-color: lightgray;
-	border-radius: 6px;
-	border: solid 2px gray;
-	box-shadow: 2px 2px 4px #333333;
+  display:inline-block;
+  position:relative;
+   margin: 20px 0px 0px 20px;
+   width: 142px; /* browser-media-icon.width + 2 * border */
+   height: 76px; /* browser-media-icon.height + 2 * border */
+   background-color: lightgray;
+  border-radius: 6px;
+  border: solid 2px gray;
+  box-shadow: 2px 2px 4px #333333;
 }
 .amm-browser-media:hover {
-	border: solid 2px lightgray;
+  border: solid 2px lightgray;
 }
 .amm-browser-media-label {
-	background-color: rgba(255,255,255,0.5);
-	color: #333333;
-	padding: 5px;
-	position:absolute;
-	right:0px;
-	left:0px;
-	bottom:0px;
-	border-bottom-right-radius: 6px;
-	border-bottom-left-radius: 6px;
-	border-top: solid 1px gray;
-	overflow-x:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  background-color: rgba(255,255,255,0.5);
+  color: #333333;
+  padding: 5px;
+  position:absolute;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top: solid 1px gray;
+  overflow-x:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .amm-browser-media-icon {
-	display:inline-block;
- 	width: 138px; /* should be divisor of player.width */
- 	height: 72px; /* should be divisor of player.height */
-	border-radius: 6px;
-	background-size: cover;
-	background-position:center;
+  display:inline-block;
+   width: 138px; /* should be divisor of player.width */
+   height: 72px; /* should be divisor of player.height */
+  border-radius: 6px;
+  background-size: cover;
+  background-position:center;
 }
 .amm-inspector {
-	overflow: auto;
+  overflow: auto;
 }
 .amm-inspector-panel {
-	position: absolute;
-	width: 320px;
-	right: 0px;
-	top:0px;
-	bottom:0px;
+  position: absolute;
+  width: 320px;
+  right: 0px;
+  top:0px;
+  bottom:0px;
 }
 .amm-inspector-form{
-	margin: 20px;
-	color:white;
+  margin: 20px;
+  color:white;
 }
 .amm-inspector-effects {
-	width:100%;
-	height: 115px;
-	background-color: lightgray;
-	border-color:gray;
-	border-radius: 6px;
-	position:relative;
-	padding: 0px;
-	padding-bottom: 5px;
-	overflow: auto;
+  width:100%;
+  height: 115px;
+  background-color: lightgray;
+  border-color:gray;
+  border-radius: 6px;
+  position:relative;
+  padding: 0px;
+  padding-bottom: 5px;
+  overflow: auto;
 }
 .amm-inspector-effect-container{
-	width:100%;
-	padding: 5px 5px 0px;
+  width:100%;
+  padding: 5px 5px 0px;
 }
 .amm-inspector-effect {
-	background-color: white;
-	border: solid 2px gray;
-	height: 50px;
-	border-radius: 6px;
-	position:relative;
-	color: black;
-	padding: 5px;
+  background-color: white;
+  border: solid 2px gray;
+  height: 50px;
+  border-radius: 6px;
+  position:relative;
+  color: black;
+  padding: 5px;
 
 }
 .amm-timeline-panel{
-	position: absolute;
-	right: 340px;
-	top: 232px; /* player.height + buffer */
-	left:0px;
-	bottom:0px;
+  position: absolute;
+  right: 340px;
+  top: 232px; /* player.height + buffer */
+  left:0px;
+  bottom:0px;
 }
 
 amm-timeline-track-controls {
-	position:absolute;
-	width: 100px;
-	top:20px;
-	bottom:0px;
-	overflow: hidden;
-	text-align:center;
-	color:lightgray;
-	border-right: 1px solid lightgray;
-	z-index: 56001;
-	background-color: #3a3a3a;
-	background-image: -webkit-linear-gradient(bottom, #3a3a3a 0%, #000 50%);
-		background-image: linear-gradient(bottom, #3a3a3a 0%, #000 50%);
+  position:absolute;
+  width: 100px;
+  top:20px;
+  bottom:0px;
+  overflow: hidden;
+  text-align:center;
+  color:lightgray;
+  border-right: 1px solid lightgray;
+  z-index: 56001;
+  background-color: #3a3a3a;
+  background-image: -webkit-linear-gradient(bottom, #3a3a3a 0%, #000 50%);
+    background-image: linear-gradient(bottom, #3a3a3a 0%, #000 50%);
 
 }
 amm-timeline-track.amm-drop-dragover {
-	border: 1px solid red;
+  border: 1px solid red;
 }
 amm-timeline-track {
-	height: 64px;
-	padding:2px;
-	display:block;
+  height: 64px;
+  padding:2px;
+  display:block;
 }
 .amm-border-bottom {
-	border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 }
 .amm-border-right {
-	border-right: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 }
 amm-timeline-track-controls amm-timeline-track {
-	line-height: 60px;
- 	font-size: 30px;
- 	width:100%;
+  line-height: 60px;
+   font-size: 30px;
+   width:100%;
 }
 .amm-timeline {
-	-webkit-box-sizing: content-box;
-		-moz-box-sizing: content-box;
-			box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+      box-sizing: content-box;
 
 }
 .amm-timeline-tracks {
-	position:absolute;
-	right: 0px;
-	left: 100px;
-	top:20px;
-	bottom:0px;
-	overflow: auto;
+  position:absolute;
+  right: 0px;
+  left: 100px;
+  top:20px;
+  bottom:0px;
+  overflow: auto;
 }
 .amm-drop-dragover > .amm-timeline-drop,
 .amm-drop-dragover > .amm-effects-drop{
-	background: rgba(255,255,255,0.5);
-	border: 2px solid rgba(20,20,20,0.6);
-	border-radius: inherit;
+  background: rgba(255,255,255,0.5);
+  border: 2px solid rgba(20,20,20,0.6);
+  border-radius: inherit;
 }
 
 amm-timeline-ruler,
 amm-timeline-rule {
-	position: absolute;
-	top:0;
-	bottom:0px;
+  position: absolute;
+  top:0;
+  bottom:0px;
 }
 amm-timeline-ruler {
-	left:0;
-	right:0;
-	display:inline-block;
-	overflow: hidden;
+  left:0;
+  right:0;
+  display:inline-block;
+  overflow: hidden;
 }
 amm-timeline-rule {
-	pointer-events: none;
-	z-index: 56000;
-	text-align: center;
+  pointer-events: none;
+  z-index: 56000;
+  text-align: center;
 }
 amm-timeline-rule-back {
-	pointer-events: none;
-	position:absolute;
-	left:0;
-	right:0;
-	top:0;
-	height:20px;
-	display:block;
-	background-color: #000;
-	background-image: -webkit-linear-gradient(bottom, #000 0%, #3a3a3a 50%);
-		background-image: linear-gradient(bottom, #000 0%, #3a3a3a 50%);
+  pointer-events: none;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:20px;
+  display:block;
+  background-color: #000;
+  background-image: -webkit-linear-gradient(bottom, #000 0%, #3a3a3a 50%);
+    background-image: linear-gradient(bottom, #000 0%, #3a3a3a 50%);
 }
 amm-timeline-rule-icon {
-	color:aqua;
-	font-size: 20px;
-	display:block;
+  color:aqua;
+  font-size: 20px;
+  display:block;
 }
 amm-timeline-rule-line {
-	width: 3px;
-	background-color: aqua;
-	display:inline-block;
-	height:100%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: -16px;
+  width: 3px;
+  background-color: aqua;
+  display:inline-block;
+  height:100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -16px;
 }
 .amm-timeline-drop,
 .amm-effects-drop {
-	position: absolute;
-	left:0;
-	right:0;
-	top:0;
-	bottom:0;
+  position: absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
 }
 .amm-timeline-drop {
-	left:100px;
-	top:20px;
+  left:100px;
+  top:20px;
 }
 .amm-drop-indicator {
-	position: absolute;
-	left:0;
-	right:0;
-	height:5px;
-	background-color:darkgray;
+  position: absolute;
+  left:0;
+  right:0;
+  height:5px;
+  background-color:darkgray;
 }
 .amm-timeline-clip {
-	display:inline-block;
-	position:relative;
- 	height: 60px;
- 	background-color: lightgray;
-	border-radius: 6px;
-	border: solid 2px gray;
-	overflow: hidden;
+  display:inline-block;
+  position:relative;
+   height: 60px;
+   background-color: lightgray;
+  border-radius: 6px;
+  border: solid 2px gray;
+  overflow: hidden;
 }
 .amm-timeline-clip:hover {
-	border: solid 2px darkgray;
+  border: solid 2px darkgray;
 }
 .amm-timeline-clip-icon {
-	display:inline-block;
-	width: 120px;
-	height: 60px;
-	border-radius: 6px;
-	background-size: cover;
-	background-position:center;
+  display:inline-block;
+  width: 120px;
+  height: 60px;
+  border-radius: 6px;
+  background-size: cover;
+  background-position:center;
 }
 .amm-timeline-clip-label {
-	background-color: rgba(255,255,255,0.5);
-	color: #333333;
-	padding: 5px;
-	position:absolute;
-	right:0px;
-	left:0px;
-	bottom:0px;
-	border-bottom-right-radius: 6px;
-	border-bottom-left-radius: 6px;
-	border-top: solid 1px gray;
-	overflow-x:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  background-color: rgba(255,255,255,0.5);
+  color: #333333;
+  padding: 5px;
+  position:absolute;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top: solid 1px gray;
+  overflow-x:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .amm-container{
-	position:relative;
-	height:100%;
+  position:relative;
+  height:100%;
 }
 .amm-panel {
- 	border-radius: 4px;
-	box-shadow: 2px 2px 4px #333333;
+   border-radius: 4px;
+  box-shadow: 2px 2px 4px #333333;
 }
 .amm-head,
 .amm-foot {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow-x:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x:hidden;
 
-	position: absolute;
-	height:34px;
-	line-height: 30px;
-	left:0px;
-	right: 0px;
-	padding-left:4px;
-	padding-right:4px;
-	background-color: #B5B5B5;
-	background-image: -webkit-linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
-		background-image: linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
+  position: absolute;
+  height:34px;
+  line-height: 30px;
+  left:0px;
+  right: 0px;
+  padding-left:4px;
+  padding-right:4px;
+  background-color: #B5B5B5;
+  background-image: -webkit-linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
+    background-image: linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
 }
 .amm-head{
-	top:0px;
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
+  top:0px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 .amm-foot{
-	bottom:0px;
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
+  bottom:0px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .amm-head select {
-	max-width: 180px;
+  max-width: 180px;
 }
 .amm-foot input {
-	width: 50px;
+  width: 50px;
 }
 
 .amm-selected {
-	border-color: #990000;
+  border-color: #990000;
 }
 .amm-selected:hover {
-	border-color: #FF0000;
+  border-color: #FF0000;
 }
 
 .amm-mouseless {
-	pointer-events: none;
+  pointer-events: none;
 }
 
 .amm-colorpicker,
 .amm-colorpicker-background,
 .amm-colorpicker button {
-	border-radius: 3px;
-	height: 24px;
-	width: 24px;
-	position:absolute;
+  border-radius: 3px;
+  height: 24px;
+  width: 24px;
+  position:absolute;
 }
 .amm-colorpicker button {
-	background: none;
+  background: none;
 }
 .amm-colorpicker {
-	position:relative;
-	display:inline;
-	margin-left: 10px;
+  position:relative;
+  display:inline;
+  margin-left: 10px;
 }
 .amm-colorpicker-background {
-	display:inline-block;
-	background-color: #eee;
-	background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
-	linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
-	background-size:10px 10px;
-	background-position:0 0, 5px 5px;
-	background-repeat: repeat;
+  display:inline-block;
+  background-color: #eee;
+  background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
+  linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
+  background-size:10px 10px;
+  background-position:0 0, 5px 5px;
+  background-repeat: repeat;
 }
 .colorpicker > .dropdown-menu {
   min-width: 150px;
 }
 .pixelated {
-	image-rendering: -moz-crisp-edges;
-	image-rendering: -o-crisp-edges;
-	image-rendering: -webkit-optimize-contrast;
-	-ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
 }
 
 .amm-width100 {
-	width: 100%;
+  width: 100%;
 }
 .amm-ellipse {
-	text-overflow: ellipsis;
-	overflow: hidden;
+  text-overflow: ellipsis;
+  overflow: hidden;
     white-space: nowrap;
 }
  /*   clear: left;
@@ -389,54 +389,54 @@ amm-timeline-rule-line {
 */
 
 .amm-error {
-	color: red;
-	width:200px;
-	margin-left: 10px;
-	display: inline-block;
-	cursor: pointer;
+  color: red;
+  width:200px;
+  margin-left: 10px;
+  display: inline-block;
+  cursor: pointer;
 }
 .amm-progress {
-	display:inline-block;
-	width:200px;
-	height:20px;
-	padding-top:6px;
+  display:inline-block;
+  width:200px;
+  height:20px;
+  padding-top:6px;
 }
 
 .amm-canvas-container {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom:0;
-	z-index: 57000;
-	overflow-x: hidden;
-	overflow-y:auto;
-	background-color: #eee;
-	padding-bottom: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 57000;
+  overflow-x: hidden;
+  overflow-y:auto;
+  background-color: #eee;
+  padding-bottom: 10px;
 }
 .amm-canvas-container > span {
-	display:table;
-	border: solid black 1px;
-	margin: 10px 100% 0px 10px;
-	background-color: darkgray;
-	background-image: linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%),
-	linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%);
-	background-size:10px 10px;
-	background-position:0 0, 5px 5px;
-	background-repeat: repeat;
+  display:table;
+  border: solid black 1px;
+  margin: 10px 100% 0px 10px;
+  background-color: darkgray;
+  background-image: linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%),
+  linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 50%, gray 75%);
+  background-size:10px 10px;
+  background-position:0 0, 5px 5px;
+  background-repeat: repeat;
 }
 .amm-canvas-container > span > canvas {
-	margin-bottom:-2px;
+  margin-bottom:-2px;
 
 }
 .amm-canvas-container > span:after {
     content: attr(alt);
-	background-color: black;
-	color:white;
-	display:inline-block;
-	width:100%;
-	padding: 3px;
-	margin-top:-3px;
+  background-color: black;
+  color:white;
+  display:inline-block;
+  width:100%;
+  padding: 3px;
+  margin-top:-3px;
 }
 
 .amm-inspector-row {
@@ -445,7 +445,7 @@ amm-timeline-rule-line {
 }
 .amm-inspector-row > input,
 .amm-inspector-row > textarea {
-	width: 120px;
+  width: 120px;
     color:#555;
     float: right;
 }
@@ -456,9 +456,9 @@ amm-timeline-rule-line {
 .amm-inspector-row > input[type="range"],
 .amm-inspector-row > input[type="text"],
 .amm-inspector-row > textarea {
-	width: 200px;
+  width: 200px;
 }
 .amm-inspector-row > input[type="number"] {
-	width: 80px;
+  width: 80px;
 }
 

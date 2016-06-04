@@ -19,22 +19,22 @@ if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Probl
 if ((! $err) && (! load_utils('api'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
-	$config = config_get();
-	$err = config_error($config);
-	$log_responses = $config['log_response'];
+  $config = config_get();
+  $err = config_error($config);
+  $log_responses = $config['log_response'];
 }
 if (! $err) { // see if the user is authenticated (does not redirect or exit)
-	if (! auth_ok()) $err = 'Unauthenticated access';
+  if (! auth_ok()) $err = 'Unauthenticated access';
 }
 if (! $err) { // pull in other configuration and check for required input
-	if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
-	else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
+  if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
+  else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
 }
 if (! $err) { 
-	if ($config['log_request']) log_file(print_r($request, 1), $config);
-	$result = api_import($request, array('include_progress' => 1), $config);
-	if (! empty($result['error'])) $err = $result['error'];
-	else $response['monitor'] = array('job' => $result['id']);
+  if ($config['log_request']) log_file(print_r($request, 1), $config);
+  $result = api_import($request, array('include_progress' => 1), $config);
+  if (! empty($result['error'])) $err = $result['error'];
+  else $response['monitor'] = array('job' => $result['id']);
 }
 if ($err) $response['error'] = $err;
 else $response['ok'] = 1;

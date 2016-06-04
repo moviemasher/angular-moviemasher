@@ -12,15 +12,15 @@ include_once(dirname(__FILE__) . '/loadutils.php');
 load_utils('file');
 
 if (! function_exists('archive_extract')) {
-	function archive_extract($path, $archive_dir, $config = array()) {
-		$result = FALSE;
-		if (class_exists('Archive_Tar')) {
-			if (file_safe(path_concat($archive_dir, 'file.txt'), $config)) {
-				$tar = new Archive_Tar($path);
-				$tar->extract($archive_dir);
-				$result = file_exists($archive_dir);
-			}
-		}
-		return $result;
-	}
+  function archive_extract($path, $archive_dir, $config = array()) {
+    $result = FALSE;
+    if (class_exists('Archive_Tar')) {
+      if (file_safe(path_concat($archive_dir, 'file.txt'), $config)) {
+        $tar = new Archive_Tar($path);
+        $tar->extract($archive_dir);
+        $result = file_exists($archive_dir);
+      }
+    }
+    return $result;
+  }
 }

@@ -1,7 +1,7 @@
 {
-	"label": "Chromakey",
-	"type": "effect",
-	"id": "com.moviemasher.effect.chromakey",
+  "label": "Chromakey",
+  "type": "effect",
+  "id": "com.moviemasher.effect.chromakey",
   "properties": {
     "chroma_blend": { "type": "number", "value": 0.01 },
     "chroma_similarity": { "type": "number", "value": 0.5 },
@@ -23,5 +23,5 @@
         }
       ]
     }
-	]
+  ]
 }

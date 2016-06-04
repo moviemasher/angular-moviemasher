@@ -1,11 +1,11 @@
 <?php
 
 function json_array($json_str){
-	$str = trim($json_str);
-	if ('[' != $str[0]) $str = "[$str]";
-	$obs = json_decode($str, TRUE);
-	if (! $obs) $obs = array();
-	return $obs;
+  $str = trim($json_str);
+  if ('[' != $str[0]) $str = "[$str]";
+  $obs = json_decode($str, TRUE);
+  if (! $obs) $obs = array();
+  return $obs;
 }
 if (! function_exists('json_encode')) { // in case it's not there for some reason
   function json_encode($a=false) {

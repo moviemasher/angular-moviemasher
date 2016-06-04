@@ -42,11 +42,11 @@ To stop and remove the containers:
 - `docker stop moviemasher_rb`
 - `docker rm moviemasher_rb`
 
-The project also includes several docker-compose files in version 2 format, so you might need to update your Docker installation in order to utilize them. The simplest does what the commands above do, after download the repository and `cd` into its project directory and execute:
-- `docker-compose --file config/docker/production/production.yml up -d`
+The project also includes several docker-compose files in version 2 format, so you might need to update your Docker installation in order to utilize them. The simplest does what the commands above do - after downloading the repository `cd` into the *config/docker/production* directory and execute:
+- `docker-compose up -d`
 
 To stop and remove the containers:
-- `docker-compose --file config/docker/production/production.yml down -v`
+- `docker-compose down -v`
 
 See Developer Setup below for several other helpful docker-compose files.
 
@@ -107,32 +107,32 @@ Docker is used extensively to develop this project, specifically to update compo
 
 - `composer install`
 
-Or if docker is being used...
+Or if docker is being used `cd` into the *config/docker/grunt* or *config/docker/composer* directory and execute...
 
-- `docker-compose --file config/docker/grunt/grunt.yml run --rm grunt`
+- `docker-compose run --rm grunt`
 
-- `docker-compose --file config/docker/grunt/grunt.yml run --rm grunt bower install --production`
+- `docker-compose run --rm grunt bower install --production`
 
-- `docker-compose --file config/docker/composer/composer.yml run --rm composer`
+- `docker-compose run --rm composer`
 
 It's also possible to run Movie Masher entirely from source code by first downloading the other two Movie Masher projects into the same directory that contains this repository:
 
 - [moviemasher.js](https://github.com/moviemasher/moviemasher.js)
 - [moviemasher.rb](https://github.com/moviemasher/moviemasher.rb)
 
-Then to make Movie Masher available at your Docker IP on port 8080:
+Then to make Movie Masher available at your Docker IP on port 8080, `cd` into the *config/docker/development* directory and execute:
 
-- `docker-compose --file config/docker/development/development.yml up -d`
+- `docker-compose up -d`
 
 This essentially does the same as the `production` docker-compose command above, but actually builds special `development` images from source. It also mounts the relevant directories from each project, so changes to them can be made during runtime. Changes made to JavaScript typically require grunt be run (see above) and changes made to moviemasher.rb require that its container be restarted:
 
-- `docker-compose --file config/docker/development/development.yml restart moviemasher_rb`
+- `docker-compose restart moviemasher_rb`
 
 If any errors are encountered during transcoding, the job related files from moviemasher.rb will all be in `tmp/error`, including its log. And there might be additional information in the logs for both projects in the `log` directory.
 
 To stop and remove the containers:
 
-- `docker-compose --file config/docker/development/development.yml down -v`
+- `docker-compose down -v`
 
 #### Known issues in this version
 - timeline allows clips to be positioned atop one another

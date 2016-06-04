@@ -16,24 +16,24 @@ if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Probl
 if ((! $err) && (! load_utils('auth','data'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
-	$config = config_get();
-	$err = config_error($config);
+  $config = config_get();
+  $err = config_error($config);
 }
 // autheticate the user (will exit if not possible)
 if ((! $err) && (! auth_ok())) auth_challenge($config);
 
 if (! $err) { 
-	$id = (empty($_GET['id']) ? 0 : $_GET['id']);
-	// see if we want requests logged, and potentially do so
-	$log_responses = (empty($config['log_response']) ? '' : $config['log_response']);
-	if ($config['log_request']) log_file($_SERVER['QUERY_STRING'], $config);
-	// make sure required parameters have been sent
-	if (! $id ) $err = 'Parameter id required';
+  $id = (empty($_GET['id']) ? 0 : $_GET['id']);
+  // see if we want requests logged, and potentially do so
+  $log_responses = (empty($config['log_response']) ? '' : $config['log_response']);
+  if ($config['log_request']) log_file($_SERVER['QUERY_STRING'], $config);
+  // make sure required parameters have been sent
+  if (! $id ) $err = 'Parameter id required';
 }
 if (! $err) { 
-	$mash_data = data_mash($id, auth_userid(), $config);
-	if (! empty($mash_data['error'])) $err = $mash_data['error'];
-	else $response['data'] = $mash_data;
+  $mash_data = data_mash($id, auth_userid(), $config);
+  if (! empty($mash_data['error'])) $err = $mash_data['error'];
+  else $response['data'] = $mash_data;
 }
 if ($err) $response['error'] = $err;
 else $response['ok'] = 1;

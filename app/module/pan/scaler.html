@@ -1,24 +1,24 @@
 <div class='amm-inspector-row'>
-	<select class="form-control-sm" ng-model="$amm.player.selectedClip.scaler.direction"
-		ng-change="$amm.player.change('scaler.direction')"
-	>
-		<option value='0'>Top</option>
-		<option value='1'>Right</option>
-		<option value='2'>Bottom</option>
-		<option value='3'>Left</option>
-		<option value='4'>Top Right</option>
-		<option value='5'>Bottom Right</option>
-		<option value='6'>Bottom Left</option>
-		<option value='7'>Top Left</option>
-	</select>
-	<label>Direction:</label>
+  <select class="form-control-sm" ng-model="$amm.player.selectedClip.scaler.direction"
+    ng-change="$amm.player.change('scaler.direction')"
+  >
+    <option value='0'>Top</option>
+    <option value='1'>Right</option>
+    <option value='2'>Bottom</option>
+    <option value='3'>Left</option>
+    <option value='4'>Top Right</option>
+    <option value='5'>Bottom Right</option>
+    <option value='6'>Bottom Left</option>
+    <option value='7'>Top Left</option>
+  </select>
+  <label>Direction:</label>
 </div>
 <div class='amm-inspector-row'>
-	<input type="range" type="range" 
-		step="0.001" min="1" max="3" 
-		ng-change="$amm.player.change('scaler.scale')" 
-		ng-model="$amm.player.selectedClip.scaler.scale"
-	/>
-	<label>Scale:</label>
-	{{$amm.player.selectedClip.scaler.scale}}
+  <input type="range" type="range" 
+    step="0.001" min="1" max="3" 
+    ng-change="$amm.player.change('scaler.scale')" 
+    ng-model="$amm.player.selectedClip.scaler.scale"
+  />
+  <label>Scale:</label>
+  {{$amm.player.selectedClip.scaler.scale}}
 </div>

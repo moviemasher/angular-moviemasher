@@ -19,23 +19,23 @@ if (! @include_once(dirname(__FILE__) . '/include/loadutils.php')) $err = 'Probl
 if ((! $err) && (! load_utils('auth','service'))) $err = 'Problem loading utility scripts';
 
 if (! $err) { // pull in configuration so we can log other errors
-	$config = config_get();
-	$err = config_error($config);
-	$log_responses = $config['log_response'];
+  $config = config_get();
+  $err = config_error($config);
+  $log_responses = $config['log_response'];
 }
 // autheticate the user (will exit if not possible)
 if ((! $err) && (! auth_ok())) auth_challenge($config);
 
 if (! $err) { // pull in other configuration and check for required input
-	if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
-	else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
+  if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
+  else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
 }
 if (! $err) { 
-	if ($config['log_request']) log_file(print_r($request, 1), $config);
-	$request['uid'] = auth_userid();
-	$request['mime'] = (empty($request['type']) ? '' : $request['type']);
-	$request['type'] = '';
-	$response = service_import_init($request, $config);
+  if ($config['log_request']) log_file(print_r($request, 1), $config);
+  $request['uid'] = auth_userid();
+  $request['mime'] = (empty($request['type']) ? '' : $request['type']);
+  $request['type'] = '';
+  $response = service_import_init($request, $config);
 }
 if ($err) $response['error'] = $err;
 if (empty($response['error'])) $response['ok'] = 1;

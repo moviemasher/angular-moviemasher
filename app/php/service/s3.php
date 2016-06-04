@@ -58,9 +58,9 @@ function s3_file_destination($output, $config, $prefix = 's3'){
   );
 }
 function s3_file_import_init($import, $config) {
-		$response = array();
-		$err = '';
-		if (! $err){
+    $response = array();
+    $err = '';
+    if (! $err){
     $response['api'] = array();
     $response['data'] = array();
     $response['method'] = 'post';
@@ -72,12 +72,12 @@ function s3_file_import_init($import, $config) {
     // remove bucket name from url if it's there
     if (substr($key, 0, strlen($bucket)) == $bucket) $key = substr($key, strlen(path_add_slash_end($bucket)));
     $key = path_concat(path_concat(path_concat($key, $import['uid']), $id), $config['import_original_basename'] . '.' . $import['extension']);
-    $options_array = [
+    $options_array = array(
       'version' => 'latest',
       'region'  => $region
-    ];
+    );
     if ($config['aws_secret_access_key'] && $config['aws_access_key_id']) {
-      $options_array['credentials'] = [];
+      $options_array['credentials'] = array();
       $options_array['credentials']['key'] = $config['aws_access_key_id'];
       $options_array['credentials']['secret'] = $config['aws_secret_access_key'];
     }
