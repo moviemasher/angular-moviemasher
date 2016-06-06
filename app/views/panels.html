@@ -3,9 +3,9 @@
   <div class='amm-container'>
     <div class='amm-head'>
       <img src='logo.png' style="height:100%;padding:6px;"/>
-      <select ng-if="amm_resources.mash.search" 
-        class='form-control-sm' 
-        ng-model="$amm.mash_id" 
+      <select ng-if="amm_resources.mash.search"
+        class='form-control-sm'
+        ng-model="$amm.mash_id"
         ng-change="$amm.mash_id_change()"
         ng-options="s.id as s.label for s in $amm.mashes"
       ><option value=''>New Mash...</option></select>
@@ -21,7 +21,7 @@
             </button>
           </td>
           <td>
-            <input type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>            
+            <input type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
           </td>
           <td class='amm-width100 text-center'>
             {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
@@ -35,8 +35,8 @@
           <td>
             <input type="range" name="volume" step="0.05" value="" min="0" max="1" ng-model="$amm.player.volume" ng-disabled="$amm.player.muted"/>
           </td>
-        </tr>  
-      </table>  
+        </tr>
+      </table>
     </div>
   </div>
 </div>
@@ -102,17 +102,17 @@
     </div>
     <div class='amm-foot'>
     </div>
-  </div>  
+  </div>
 </div>
 <div class='amm-panel amm-timeline-panel'>
   <div class='amm-container'>
     <div class='amm-head'>
       <button type="button" ng-disabled="! $amm.player.can('undo')" class="btn btn-default btn-sm" ng-click="$amm.player.undo()">
-        <i class="glyphicon glyphicon-chevron-left"></i> 
+        <i class="glyphicon glyphicon-chevron-left"></i>
         Undo
       </button>
       <button type="button" ng-disabled="! $amm.player.can('redo')" class="btn btn-default btn-sm" ng-click="$amm.player.redo()">
-        Redo 
+        Redo
         <i class="glyphicon glyphicon-chevron-right"></i>
       </button>
       <button type="button" ng-disabled="! $amm.player.can('split')" class="btn btn-default btn-sm" ng-click="$amm.player.split()">
@@ -126,10 +126,10 @@
         <i class="glyphicon glyphicon-trash"></i>
         Clear
       </button>
-      
+
       <span ng-if="amm_resources.export.init">
         <button ng-disabled="!$amm.selected_mash.source" type="button" class="btn btn-default btn-sm" ng-click="amm_view_mash()">
-          <i class="glyphicon glyphicon-eye-open"></i> 
+          <i class="glyphicon glyphicon-eye-open"></i>
           View
         </button>
         <button type="button" ng-disabled="! $amm.can('render')" class="btn btn-default btn-sm" ng-click="$amm.render()">
@@ -159,7 +159,7 @@
       <amm-timeline-track-controls>
         <amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom">
           <i class="glyphicon" ng-class="{'glyphicon-tasks':track.index, 'glyphicon-facetime-video':!track.index}"></i>
-          {{track.index}}        
+          {{track.index}}
         </amm-timeline-track>
         <amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-bottom">
           <i class="glyphicon glyphicon-music"></i>
@@ -202,10 +202,10 @@
             </button>
           </td>
           <td>
-            <input type="range" name="amm_zoom" step="0.05" value="" min="0" max="1" ng-model="amm_zoom" ng-disabled="!$amm.player.duration"/>
+            <input type="range" name="amm_zoom" step="0.05" value="" min="0" max="0.95" ng-model="amm_zoom" ng-disabled="!$amm.player.duration"/>
           </td>
           <td>
-            <button type="button" class="btn btn-default btn-sm" ng-click="amm_zoom=1">
+            <button type="button" class="btn btn-default btn-sm" ng-click="amm_zoom=0.95">
               <span>Zoom In</span>
               <i class="glyphicon glyphicon-zoom-in"></i>
             </button>

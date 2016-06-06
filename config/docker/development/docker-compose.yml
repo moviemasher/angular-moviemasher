@@ -13,7 +13,7 @@ services:
       - "../../../app:/var/www/html/angular-moviemasher/app"
       - "../../../dist:/var/www/html/angular-moviemasher/dist"
       - "../../../bower_components:/var/www/html/angular-moviemasher/bower_components"
-      - "../../../../moviemasher.js/dist:/var/www/html/angular-moviemasher/bower_components/moviemasher.js/dist"
+      - "../../../../moviemasher.js:/var/www/html/angular-moviemasher/bower_components/moviemasher.js"
   moviemasher_rb:
     build:
       context: ../../../../moviemasher.rb/
