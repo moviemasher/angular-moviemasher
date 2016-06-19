@@ -23,6 +23,7 @@ services:
       - angular_moviemasher
     volumes:
       - "../../../tmp/error:/tmp/moviemasher/error"
+      - "../../../tmp/render:/tmp/moviemasher/render"
       - "../../../../moviemasher.rb/:/mnt/moviemasher.rb"
-    command: process_loop -v debug
+    command: process_loop -v debug --render_save=1
     tty: true

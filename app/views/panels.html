@@ -12,28 +12,32 @@
     </div>
     <div class='amm-player'></div>
     <div class='amm-foot'>
-      <table amm-synced>
+      <table>
         <tr>
           <td>
-            <button type="button" class="btn btn-default btn-sm" ng-click="$amm.player.paused=!$amm.player.paused">
+            <button type="button" class="btn btn-default btn-xs" ng-click="$amm.player.paused=!$amm.player.paused">
               <span class="hide">{{$amm.player.paused ? 'Play' : 'Pause'}}</span>
               <i class='glyphicon' ng-class="{'glyphicon-play': $amm.player.paused, 'glyphicon-pause': !$amm.player.paused}"></i>
             </button>
           </td>
-          <td>
-            <input type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
+          <td amm-synced>
+            <input class='amm-pos' type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
           </td>
-          <td class='amm-width100 text-center'>
-            {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
+          <td amm-synced class='amm-width100 text-center'>
+            <small>
+              {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
+            </small>
           </td>
           <td>
-            <button type="button" class="btn btn-default btn-sm" ng-click="$amm.player.muted=!$amm.player.muted">
-              <span class="hide">{{$amm.player.muted ? 'Unmute' : 'Mute'}}</span>
+            <button  type="button" class="btn btn-default btn-xs"
+              popover-append-to-body='true'
+              popover-trigger="outsideClick"
+              uib-popover-template="'views/browser/volume.html'"
+            >
               <i class="glyphicon" ng-class="{'glyphicon-volume-off':$amm.player.muted, 'glyphicon-volume-down': ((! $amm.player.muted) && ($amm.player.volume < 0.5)), 'glyphicon-volume-up': ((! $amm.player.muted) && ($amm.player.volume >= 0.5))}"></i>
             </button>
           </td>
           <td>
-            <input type="range" name="volume" step="0.05" value="" min="0" max="1" ng-model="$amm.player.volume" ng-disabled="$amm.player.muted"/>
           </td>
         </tr>
       </table>
@@ -58,20 +62,10 @@
       </select>
     </div>
     <div class='amm-browser' nv-file-drop uploader="uploader">
-      <div amm-drag-media="media" ng-repeat="media in amm_media" class='amm-browser-media'></div>
-      <div ng-if='$amm.canvas_container_visible' class='amm-canvas-container'></div>
+      <div ng-repeat="media in amm_media" class="amm-browser-media-container" amm-drag-media="media"></div>
+      </div>
     </div>
     <div class='amm-foot'>
-      <!--
-      <button type="button" class="btn btn-default btn-sm" ng-click="log_mash()">
-        <i class="glyphicon glyphicon-eye-open"></i>
-        Mash
-      </button>
-      <button type="button" class="btn btn-default btn-sm" ng-click="$amm.canvas_container_visible=!$amm.canvas_container_visible">
-        <i class="glyphicon glyphicon-eye-open"></i>
-        Canvases
-      </button>
-      -->
       <span ng-if="amm_resources.import.init" ng-hide="amm_import_completed">
         Drag files into the browser above to upload them
       </span>
@@ -132,10 +126,11 @@
           <i class="glyphicon glyphicon-eye-open"></i>
           View
         </button>
-        <button type="button" ng-disabled="! $amm.can('render')" class="btn btn-default btn-sm" ng-click="$amm.render()">
+        <button type="button" ng-disabled="(!$amm.can('render')) || (amm_export_completed>0&&amm_export_completed<1)" class="btn btn-default btn-sm" ng-click="$amm.render()">
           <i class="glyphicon glyphicon-hd-video"></i>
           Render
         </button>
+
         <div class="amm-progress" ng-show="amm_export_completed>0&&amm_export_completed<1">
           <div class="progress">
             <div style="min-width:25px;width:{{amm_export_completed * 100 | number:0}}%" class="progress-bar" role="progressbar">

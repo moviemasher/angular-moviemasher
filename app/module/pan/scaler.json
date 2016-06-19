@@ -2,14 +2,14 @@
   "label": "Pan",
   "type": "scaler",
   "id": "com.moviemasher.scaler.pan",
-  "properties": { 
+  "properties": {
     "scale": { "type": "size1", "value": 1.25 },
-    "direction": { "type": "direction8", "value": 0 }
+    "direction": { "type": "direction8", "value": 1 }
   },
   "filters": [
     {
       "id": "crop",
-      "description": "crop down diagonals and center", 
+      "description": "crop down diagonals and center",
       "parameters": [
         {
           "name": "out_w",
@@ -46,7 +46,7 @@
     },
     {
       "id": "scale",
-      "description": "scale (proudly for diagonals)", 
+      "description": "scale (proudly for diagonals)",
       "parameters": [
         {
           "name": "w",
@@ -57,7 +57,7 @@
             },{
               "condition": "true",
               "value": "mm_horz(scale, true)"
-            }              
+            }
           ]
         },{
           "name": "h",
@@ -68,7 +68,7 @@
             },{
               "condition": "true",
               "value": "mm_vert(scale, true)"
-            }              
+            }
           ]
         }
       ]
@@ -108,7 +108,7 @@
               "condition": "direction",
               "is": 6,
               "value": "floor(((in_w-mm_width)*(1.0-mm_t)))"
-            }              
+            }
           ]
         },{
           "name": "y",
@@ -137,7 +137,7 @@
               "condition": "direction",
               "is": 4,
               "value": "(in_h-mm_height)-((in_h-mm_height) * mm_t)"
-            }              
+            }
           ]
         }
       ]

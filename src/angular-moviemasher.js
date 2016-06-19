@@ -98,8 +98,10 @@
   };
   var module = angular.module('angular.moviemasher', [
     'ngResource',
+    'ngAnimate',
     'colorpicker.module',
     'angularFileUpload',
+    'ui.bootstrap',
   ]); // angular.moviemasher
   module.config([
     '$httpProvider',
@@ -174,7 +176,6 @@
       controller: [
         '$scope', '$window', '$interval', 'amm_resources',
         function($scope, $window, $interval, amm_resources) {
-
           $scope.amm_resources = amm_resources;
           var __action_index = -1;
           $amm.player.did = function(removed_count){
@@ -372,7 +373,23 @@
             if (url) style['background-image'] = 'url(' + url + ')';
             return style;
           };
-
+          $scope.amm_media_icon_url = function(media){
+            var url;
+            if (media.icon) url = media.icon;
+            else {
+              switch(media.type) {
+                case 'image': {
+                  url = (media.url || media.source);
+                  break;
+                }
+                case 'audio': {
+                  url = media.wave;
+                  break;
+                }
+              }
+            }
+            return url;
+          };
         }
       ],
       link: function(scope, element, attributes){
@@ -575,14 +592,14 @@
                 upload.name = post_data.name;
                 __uploads.unshift(upload);
                 __update_import_completed();
-                console.log('calling import.init', post_data);
+                //console.log('calling import.init', post_data);
                 var __problem_upload = function(upload, status){
                   upload.completed = -1;
                   upload.status = status;
                   __update_import_completed();
                 };
                 amm_resources.import.init(post_data, function(import_init_response){
-                  console.log('import.init', import_init_response);
+                  //console.log('import.init', import_init_response);
                   if (import_init_response.ok){
                     upload.completed = 0.02;
                     item.formData.push(import_init_response.data);
@@ -591,7 +608,7 @@
                     }
                     upload.api = import_init_response.api;
                     item.url = import_init_response.endpoint;
-                    console.log(import_init_response.endpoint, import_init_response.data);
+                    //console.log(import_init_response.endpoint, import_init_response.data);
                     item.method = import_init_response.method;
                     item.upload();
                   } else __problem_upload(upload, (import_init_response.error || __php_parsed_error(import_init_response)));
@@ -615,9 +632,9 @@
                     if (upload.api) {
                       upload.completed = 0.5;
                       if (amm_resources.import.api) $timeout(function(){
-                        console.log('Calling import.api', upload.api);
+                        //console.log('Calling import.api', upload.api);
                         amm_resources.import.api(upload.api, function(api_response){
-                          console.log('import.api', api_response);
+                          //console.log('import.api', api_response);
 
                           if (api_response.ok && amm_resources.import.monitor) {
                             upload.monitor = api_response.monitor;
@@ -678,7 +695,7 @@
       restrict: "AEC",
       templateUrl: 'views/browser/clip.html',
       link: function(scope, element, attributes) {
-        element.attr("draggable", true);
+        //element.attr("draggable", true);
         element.bind("dragstart", function(eventObject) {
           var attribute = attributes.ammDragMedia;
           var media = $parse(attribute)(scope);
@@ -1103,8 +1120,8 @@
         });
         scope.amm_style_rule = function(){
           var ob = {};
-          ob.left = controller.pixels_from_frame($amm.player.frame, 'floor', $amm.player.fps);
-          ob.left -= Math.floor(element[0].getBoundingClientRect().width / 2);
+          ob.left = controller.pixels_from_frame($amm.player.frame, 'round', $amm.player.fps);
+          ob.left -= Math.round(element[0].getBoundingClientRect().width / 2);
           ob.left += scope.amm_track_controls_width() - controller.scrollLeft;
           ob.left = String(ob.left) + 'px';
           return ob;
@@ -1228,25 +1245,6 @@
       });
     },
   };}]); // ammTimelineClip
-  module.directive('ammCanvasContainer', [
-    '$amm',
-    function($amm) {
-      //console.log('amm-canvas-container');
-      return {
-        restrict: 'AEC',
-        replace: false,
-        link: function(scope, element) {
-          //console.log('amm-player link');
-          $amm.player.canvas_container = element[0];
-          $amm.player.redraw();
-          element.on('$destroy', function() {
-            $amm.player.canvas_container = null;
-            $amm.player.redraw();
-          });
-        }
-      };
-    }
-  ]); // ammCanvasContainer
   module.directive('ammSynced', ['$amm', '$interval', function($amm, $interval) { return {
     restrict: "AEC",
     link: function() {

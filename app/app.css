@@ -51,21 +51,29 @@
   overflow-y: auto;
   -webkit-overflow-y-scrolling: none;
 }
-.amm-browser-media {
+.amm-browser-media-container {
   display:inline-block;
   position:relative;
-   margin: 20px 0px 0px 20px;
-   width: 142px; /* browser-media-icon.width + 2 * border */
-   height: 76px; /* browser-media-icon.height + 2 * border */
-   background-color: lightgray;
+  margin: 20px 0px 0px 20px;
+  width: 142px; /* browser-media-icon.width + 2 * border */
+  height: 76px; /* browser-media-icon.height + 2 * border */
+}
+.amm-browser-media {
+  display:inline-block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   border-radius: 6px;
   border: solid 2px gray;
+  background-color: lightgray;
   box-shadow: 2px 2px 4px #333333;
 }
 .amm-browser-media:hover {
   border: solid 2px lightgray;
 }
-.amm-browser-media-label {
+.amm-timeline-clip-label {
   background-color: rgba(255,255,255,0.5);
   color: #333333;
   padding: 5px;
@@ -80,13 +88,34 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.amm-browser-media-label {
+  background-color: rgba(255,255,255,0.5);
+  color: #333333;
+  padding: 5px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top: solid 1px gray;
+  overflow-x:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .amm-browser-media-icon {
   display:inline-block;
-   width: 138px; /* should be divisor of player.width */
-   height: 72px; /* should be divisor of player.height */
+  width: 138px; /* should be divisor of player.width */
+  height: 72px; /* should be divisor of player.height */
   border-radius: 6px;
-  background-size: cover;
-  background-position:center;
+  overflow: hidden;
+}
+.amm-browser-media-icon > img {
+  width: 142px;
+  height: 76px;
+  border-radius: 6px;
+  border: solid 2px transparent;
+  margin: -2px;
 }
 .amm-inspector {
   overflow: auto;
@@ -134,7 +163,6 @@
   left:0px;
   bottom:0px;
 }
-
 amm-timeline-track-controls {
   position:absolute;
   width: 100px;
@@ -155,8 +183,9 @@ amm-timeline-track.amm-drop-dragover {
 }
 amm-timeline-track {
   height: 64px;
-  padding:2px;
+  padding:1px;
   display:block;
+  border: 1px solid transparent;
 }
 .amm-border-bottom {
   border-bottom: 1px solid lightgray;
@@ -189,7 +218,6 @@ amm-timeline-track-controls amm-timeline-track {
   border: 2px solid rgba(20,20,20,0.6);
   border-radius: inherit;
 }
-
 amm-timeline-ruler,
 amm-timeline-rule {
   position: absolute;
@@ -254,9 +282,8 @@ amm-timeline-rule-line {
 }
 .amm-timeline-clip {
   display:inline-block;
-  position:relative;
-   height: 60px;
-   background-color: lightgray;
+  height: 60px;
+  background-color: lightgray;
   border-radius: 6px;
   border: solid 2px gray;
   overflow: hidden;
@@ -269,23 +296,11 @@ amm-timeline-rule-line {
   width: 120px;
   height: 60px;
   border-radius: 6px;
-  background-size: cover;
-  background-position:center;
+  overflow: hidden;
 }
-.amm-timeline-clip-label {
-  background-color: rgba(255,255,255,0.5);
-  color: #333333;
-  padding: 5px;
-  position:absolute;
-  right:0px;
-  left:0px;
-  bottom:0px;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-top: solid 1px gray;
-  overflow-x:hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.amm-timeline-clip-icon > img {
+  max-height: 60px;
+  width: 100%;
 }
 .amm-container{
   position:relative;
@@ -300,7 +315,6 @@ amm-timeline-rule-line {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x:hidden;
-
   position: absolute;
   height:34px;
   line-height: 30px;
@@ -322,25 +336,21 @@ amm-timeline-rule-line {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-
 .amm-head select {
   max-width: 180px;
 }
 .amm-foot input {
   width: 50px;
 }
-
 .amm-selected {
   border-color: #990000;
 }
 .amm-selected:hover {
   border-color: #FF0000;
 }
-
 .amm-mouseless {
   pointer-events: none;
 }
-
 .amm-colorpicker,
 .amm-colorpicker-background,
 .amm-colorpicker button {
@@ -369,13 +379,6 @@ amm-timeline-rule-line {
 .colorpicker > .dropdown-menu {
   min-width: 150px;
 }
-.pixelated {
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  -ms-interpolation-mode: nearest-neighbor;
-}
-
 .amm-width100 {
   width: 100%;
 }
@@ -384,13 +387,10 @@ amm-timeline-rule-line {
   overflow: hidden;
     white-space: nowrap;
 }
- /*   clear: left;
-    text-align: right;
-*/
-
 .amm-error {
   color: red;
   width:200px;
+  height: 20px;
   margin-left: 10px;
   display: inline-block;
   cursor: pointer;
@@ -399,9 +399,12 @@ amm-timeline-rule-line {
   display:inline-block;
   width:200px;
   height:20px;
-  padding-top:6px;
+  position: relative;
+  overflow: hidden;
+  padding-top:2px;
+  margin-top: -6px;
+  margin-bottom: -6px;
 }
-
 .amm-canvas-container {
   position: absolute;
   left: 0;
@@ -438,7 +441,6 @@ amm-timeline-rule-line {
   padding: 3px;
   margin-top:-3px;
 }
-
 .amm-inspector-row {
     margin-bottom: 6px;
     clear: right;
@@ -452,6 +454,7 @@ amm-timeline-rule-line {
 .amm-inspector-row > select {
     float: right;
     width: 200px;
+    color: black;
 }
 .amm-inspector-row > input[type="range"],
 .amm-inspector-row > input[type="text"],
@@ -461,4 +464,112 @@ amm-timeline-rule-line {
 .amm-inspector-row > input[type="number"] {
   width: 80px;
 }
+
+
+input[type=range].amm-pos {
+  -webkit-appearance: none;
+  width: 80px;
+  margin: -1px 0;
+  margin-left: 5px;
+}
+
+input[type=range].amm-pos:focus {
+  outline: none;
+}
+input[type=range].amm-pos::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 11px;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+input[type=range].amm-pos::-webkit-slider-thumb {
+  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+  border: 0px solid #ff1e00;
+  height: 9px;
+  width: 20px;
+  border-radius: 2px;
+  background: #00ffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: 0px;
+}
+input[type=range].amm-pos:focus::-webkit-slider-runnable-track {
+  background: rgba(38, 38, 38, 0.5);
+}
+input[type=range].amm-pos::-moz-range-track {
+  width: 100%;
+  height: 11px;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+input[type=range].amm-pos::-moz-range-thumb {
+  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+  border: 0px solid #ff1e00;
+  height: 9px;
+  width: 20px;
+  border-radius: 2px;
+  background: #00ffff;
+  cursor: pointer;
+}
+input[type=range].amm-pos::-ms-track {
+  width: 100%;
+  height: 11px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range].amm-pos::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
+}
+input[type=range].amm-pos::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
+}
+input[type=range].amm-pos::-ms-thumb {
+  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
+  border: 0px solid #ff1e00;
+  width: 20px;
+  border-radius: 2px;
+  background: #00ffff;
+  cursor: pointer;
+  height: 9px;
+}
+input[type=range].amm-pos:focus::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+}
+input[type=range].amm-pos:focus::-ms-fill-upper {
+  background: rgba(38, 38, 38, 0.5);
+}
+.amm-slider-vert-container > button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+.amm-slider-vert-container {
+  display: inline-block;
+  width: 11px;
+  height: 100px;
+}
+input[type=range].amm-slider-vert {
+  width: 70px;
+  top: 14px;
+  right: 25px;
+  position: absolute;
+  transform: rotate(270deg);
+  transform-origin: 100% 0%;
+}
+
+button:focus {outline:0 !important;}
 

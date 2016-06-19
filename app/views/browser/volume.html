@@ -1,0 +1,10 @@
+<div class='amm-slider-vert-container'>
+  <input type="range" name="volume"
+    class='amm-slider-vert amm-pos'
+    step="0.05" min="0" max="1"
+    ng-model="$amm.player.volume" value=""
+  />
+  <button type="button" class="btn btn-danger btn-xs" ng-model="$amm.player.muted" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" zng-click="$amm.player.muted=!$amm.player.muted">
+      <i class='glyphicon glyphicon-volume-off'></i>
+  </button>
+</div>

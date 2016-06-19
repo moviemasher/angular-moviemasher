@@ -42,5 +42,9 @@
   {
     "id":"chromakey",
     "source": "../bower_components/moviemasher.js/dist/filters/chromakey.js"
+  },
+  {
+    "id":"blend",
+    "source": "../bower_components/moviemasher.js/dist/filters/blend.js"
   }
 ]
