@@ -88,17 +88,15 @@ function s3_file_import_init($import, $config) {
         $credentials = $s3->getCredentials()->wait();
         $formInputs['x-amz-security-token'] = $credentials->getSecurityToken();
       }
-      $policy = [
-        'expiration' => date(DATE_FORMAT_TIMESTAMP, time() + 5 * 60),
-        'conditions' => [['bucket' => $config['s3_bucket']]]
-      ];
-      foreach($formInputs as $k => $v) $policy['conditions'][] = [$k => $v];
-      $policy = json_encode($policy);
-      $postObject = new \Aws\S3\PostObject(
+      $conditions = [['bucket' => $config['s3_bucket']]];
+      $expiration = date(DATE_FORMAT_TIMESTAMP, time() + 5 * 60);
+      foreach($formInputs as $k => $v) $conditions[] = [$k => $v];
+      $postObject = new \Aws\S3\PostObjectV4(
           $s3,
           $config['s3_bucket'],
           $formInputs,
-          $policy
+          $conditions,
+          $expiration
       );
       $response['data'] = $postObject->getFormInputs();
       $response['endpoint'] = $postObject->getFormAttributes()['action'];

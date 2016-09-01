@@ -30,7 +30,7 @@ use GuzzleHttp\Promise;
  * $a = CredentialProvider::ini(null, '/path/to/file.ini');
  * // Then try an INI file at this location.
  * $b = CredentialProvider::ini(null, '/path/to/other-file.ini');
- * // Then try loading from envrionment variables.
+ * // Then try loading from environment variables.
  * $c = CredentialProvider::env();
  * // Combine the three providers together.
  * $composed = CredentialProvider::chain($a, $b, $c);
@@ -50,7 +50,8 @@ class CredentialProvider
     /**
      * Create a default credential provider that first checks for environment
      * variables, then checks for the "default" profile in ~/.aws/credentials,
-     * and finally checks for credentials using EC2 instance profile
+     * then tries to make GET Request to fetch credentials if Ecs environment
+     * variable is presented, and finally checks for EC2 instance profile
      * credentials.
      *
      * This provider is automatically wrapped in a memoize function that caches
@@ -63,6 +64,8 @@ class CredentialProvider
     public static function defaultProvider(array $config = [])
     {
         $instanceProfileProvider = self::instanceProfile($config);
+        $ecsCredentialProvider = self::ecsCredentials($config);
+
         if (isset($config['credentials'])
             && $config['credentials'] instanceof CacheInterface
         ) {
@@ -76,6 +79,7 @@ class CredentialProvider
             self::chain(
                 self::env(),
                 self::ini(),
+                $ecsCredentialProvider,
                 $instanceProfileProvider
             )
         );
@@ -245,6 +249,21 @@ class CredentialProvider
     public static function instanceProfile(array $config = [])
     {
         return new InstanceProfileProvider($config);
+    }
+
+    /**
+     * Credential provider that creates credentials using
+     * ecs credentials by a GET request, whose uri is specified
+     * by environment variable
+     *
+     * @param array $config Array of configuration data.
+     *
+     * @return EcsCredentialProvider
+     * @see Aws\Credentials\EcsCredentialProvider for $config details.
+     */
+    public static function ecsCredentials(array $config = [])
+    {
+        return new EcsCredentialProvider($config);
     }
 
     /**

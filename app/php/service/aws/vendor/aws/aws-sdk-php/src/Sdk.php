@@ -8,6 +8,10 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionAcm(array $args = [])
  * @method \Aws\ApiGateway\ApiGatewayClient createApiGateway(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionApiGateway(array $args = [])
+ * @method \Aws\ApplicationAutoScaling\ApplicationAutoScalingClient createApplicationAutoScaling(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionApplicationAutoScaling(array $args = [])
+ * @method \Aws\ApplicationDiscoveryService\ApplicationDiscoveryServiceClient createApplicationDiscoveryService(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionApplicationDiscoveryService(array $args = [])
  * @method \Aws\AutoScaling\AutoScalingClient createAutoScaling(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionAutoScaling(array $args = [])
  * @method \Aws\CloudFormation\CloudFormationClient createCloudFormation(array $args = [])
@@ -36,6 +40,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionCodePipeline(array $args = [])
  * @method \Aws\CognitoIdentity\CognitoIdentityClient createCognitoIdentity(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionCognitoIdentity(array $args = [])
+ * @method \Aws\CognitoIdentityProvider\CognitoIdentityProviderClient createCognitoIdentityProvider(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionCognitoIdentityProvider(array $args = [])
  * @method \Aws\CognitoSync\CognitoSyncClient createCognitoSync(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionCognitoSync(array $args = [])
  * @method \Aws\ConfigService\ConfigServiceClient createConfigService(array $args = [])
@@ -68,6 +74,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionElasticBeanstalk(array $args = [])
  * @method \Aws\ElasticLoadBalancing\ElasticLoadBalancingClient createElasticLoadBalancing(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionElasticLoadBalancing(array $args = [])
+ * @method \Aws\ElasticLoadBalancingV2\ElasticLoadBalancingV2Client createElasticLoadBalancingV2(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionElasticLoadBalancingV2(array $args = [])
  * @method \Aws\ElasticTranscoder\ElasticTranscoderClient createElasticTranscoder(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionElasticTranscoder(array $args = [])
  * @method \Aws\ElasticsearchService\ElasticsearchServiceClient createElasticsearchService(array $args = [])
@@ -82,6 +90,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionGlacier(array $args = [])
  * @method \Aws\Iam\IamClient createIam(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionIam(array $args = [])
+ * @method \Aws\ImportExport\ImportExportClient createImportExport(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionImportExport(array $args = [])
  * @method \Aws\Inspector\InspectorClient createInspector(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionInspector(array $args = [])
  * @method \Aws\Iot\IotClient createIot(array $args = [])
@@ -90,6 +100,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionIotDataPlane(array $args = [])
  * @method \Aws\Kinesis\KinesisClient createKinesis(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionKinesis(array $args = [])
+ * @method \Aws\KinesisAnalytics\KinesisAnalyticsClient createKinesisAnalytics(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionKinesisAnalytics(array $args = [])
  * @method \Aws\Kms\KmsClient createKms(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionKms(array $args = [])
  * @method \Aws\Lambda\LambdaClient createLambda(array $args = [])
@@ -112,8 +124,12 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionRoute53Domains(array $args = [])
  * @method \Aws\S3\S3Client createS3(array $args = [])
  * @method \Aws\S3\S3MultiRegionClient createMultiRegionS3(array $args = [])
+ * @method \Aws\ServiceCatalog\ServiceCatalogClient createServiceCatalog(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionServiceCatalog(array $args = [])
  * @method \Aws\Ses\SesClient createSes(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionSes(array $args = [])
+ * @method \Aws\SnowBall\SnowBallClient createSnowBall(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionSnowBall(array $args = [])
  * @method \Aws\Sns\SnsClient createSns(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionSns(array $args = [])
  * @method \Aws\Sqs\SqsClient createSqs(array $args = [])
@@ -135,7 +151,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.17.3';
+    const VERSION = '3.19.3';
 
     /** @var array Arguments for creating clients */
     private $args;
@@ -186,7 +202,6 @@ class Sdk
         // Get information about the service from the manifest file.
         $service = manifest($name);
         $namespace = $service['namespace'];
-        $args = $this->mergeArgs($namespace, $service, $args);
 
         // Instantiate the client class.
         $client = "Aws\\{$namespace}\\{$namespace}Client";

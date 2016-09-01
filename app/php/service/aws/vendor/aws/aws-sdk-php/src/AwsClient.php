@@ -258,18 +258,24 @@ class AwsClient implements AwsClientInterface
 
     private function addSignatureMiddleware()
     {
-        // Sign requests. This may need to be modified later to support
-        // variable signatures per/operation.
+        $api = $this->getApi();
+        $provider = $this->signatureProvider;
+        $version = $this->config['signature_version'];
+        $name = $this->config['signing_name'];
+        $region = $this->config['signing_region'];
+
+        $resolver = static function (
+            CommandInterface $c
+        ) use ($api, $provider, $name, $region, $version) {
+            if ('none' === $api->getOperation($c->getName())['authtype']) {
+                $version = 'anonymous';
+            }
+
+            return SignatureProvider::resolve($provider, $version, $name, $region);
+        };
+
         $this->handlerList->appendSign(
-            Middleware::signer(
-                $this->credentialProvider,
-                constantly(SignatureProvider::resolve(
-                    $this->signatureProvider,
-                    $this->config['signature_version'],
-                    $this->api->getSigningName(),
-                    $this->region
-                ))
-            ),
+            Middleware::signer($this->credentialProvider, $resolver),
             'signer'
         );
     }

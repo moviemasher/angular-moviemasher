@@ -1,0 +1,13 @@
+version: '2'
+services:
+  composer:
+    build:
+      context: ../../../
+      dockerfile: ./config/docker/composer/Dockerfile-composer
+    image: angular_moviemasher_composer
+    volumes:
+      - "../../../app/php/service/aws:/mnt/aws"
+      - "./entry-composer.sh:/mnt/entry-composer.sh"
+    environment:
+      COMPOSER_ALLOW_SUPERUSER: 1
+    entrypoint: /mnt/entry-composer.sh

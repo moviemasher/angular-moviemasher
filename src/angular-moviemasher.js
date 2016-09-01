@@ -375,18 +375,22 @@
           };
           $scope.amm_media_icon_url = function(media){
             var url;
-            if (media.icon) url = media.icon;
-            else {
-              switch(media.type) {
-                case 'image': {
-                  url = (media.url || media.source);
-                  break;
-                }
-                case 'audio': {
-                  url = media.wave;
-                  break;
+            if (media) {
+              if (media.icon) url = media.icon;
+              else {
+                switch(media.type) {
+                  case 'image': {
+                    url = (media.url || media.source);
+                    break;
+                  }
+                  case 'audio': {
+                    url = media.wave;
+                    break;
+                  }
                 }
               }
+            } else {
+              console.error('amm_media_icon_url received invalid parameter', media);
             }
             return url;
           };

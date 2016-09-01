@@ -16,6 +16,7 @@ use Aws\CommandInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Psr7;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Client used to interact with **Amazon Simple Storage Service (Amazon S3)**.
@@ -48,6 +49,8 @@ use GuzzleHttp\Psr7;
  * @method \GuzzleHttp\Promise\Promise deleteObjectAsync(array $args = [])
  * @method \Aws\Result deleteObjects(array $args = [])
  * @method \GuzzleHttp\Promise\Promise deleteObjectsAsync(array $args = [])
+ * @method \Aws\Result getBucketAccelerateConfiguration(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getBucketAccelerateConfigurationAsync(array $args = [])
  * @method \Aws\Result getBucketAcl(array $args = [])
  * @method \GuzzleHttp\Promise\Promise getBucketAclAsync(array $args = [])
  * @method \Aws\Result getBucketCors(array $args = [])
@@ -94,8 +97,12 @@ use GuzzleHttp\Psr7;
  * @method \GuzzleHttp\Promise\Promise listObjectVersionsAsync(array $args = [])
  * @method \Aws\Result listObjects(array $args = [])
  * @method \GuzzleHttp\Promise\Promise listObjectsAsync(array $args = [])
+ * @method \Aws\Result listObjectsV2(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listObjectsV2Async(array $args = [])
  * @method \Aws\Result listParts(array $args = [])
  * @method \GuzzleHttp\Promise\Promise listPartsAsync(array $args = [])
+ * @method \Aws\Result putBucketAccelerateConfiguration(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise putBucketAccelerateConfigurationAsync(array $args = [])
  * @method \Aws\Result putBucketAcl(array $args = [])
  * @method \GuzzleHttp\Promise\Promise putBucketAclAsync(array $args = [])
  * @method \Aws\Result putBucketCors(array $args = [])
@@ -152,6 +159,27 @@ class S3Client extends AwsClient implements S3ClientInterface
                     . 'result of injecting the bucket into the URL. This '
                     . 'option is useful for interacting with CNAME endpoints.',
             ],
+            'use_accelerate_endpoint' => [
+                'type' => 'config',
+                'valid' => ['bool'],
+                'doc' => 'Set to true to send requests to an S3 Accelerate'
+                    . ' endpoint by default. Can be enabled or disabled on'
+                    . ' individual operations by setting'
+                    . ' \'@use_accelerate_endpoint\' to true or false. Note:'
+                    . ' you must enable S3 Accelerate on a bucket before it can'
+                    . ' be accessed via an Accelerate endpoint.',
+                'default' => false,
+            ],
+            'use_dual_stack_endpoint' => [
+                'type' => 'config',
+                'valid' => ['bool'],
+                'doc' => 'Set to true to send requests to an S3 Dual Stack'
+                    . ' endpoint by default, which enables IPv6 Protocol.'
+                    . ' Can be enabled or disabled on individual operations by setting'
+                    . ' \'@use_dual_stack_endpoint\' to true or false. Note:'
+                    . ' you cannot use it together with an accelerate endpoint.',
+                'default' => false,
+            ],
         ];
     }
 
@@ -168,6 +196,16 @@ class S3Client extends AwsClient implements S3ClientInterface
      *   interacting with CNAME endpoints.
      * - calculate_md5: (bool) Set to false to disable calculating an MD5
      *   for all Amazon S3 signed uploads.
+     * - use_accelerate_endpoint: (bool) Set to true to send requests to an S3
+     *   Accelerate endpoint by default. Can be enabled or disabled on
+     *   individual operations by setting '@use_accelerate_endpoint' to true or
+     *   false. Note: you must enable S3 Accelerate on a bucket before it can be
+     *   accessed via an Accelerate endpoint.
+     * - use_dual_stack_endpoint: (bool) Set to true to send requests to an S3
+     *   Dual Stack endpoint by default, which enables IPv6 Protocol.
+     *   Can be enabled or disabled on individual operations by setting
+     *   '@use_dual_stack_endpoint\' to true or false. Note:
+     *   you cannot use it together with an accelerate endpoint.
      *
      * @param array $args
      */
@@ -181,7 +219,17 @@ class S3Client extends AwsClient implements S3ClientInterface
             Middleware::contentType(['PutObject', 'UploadPart']),
             's3.content_type'
         );
-
+        $stack->appendBuild(
+            AccelerateMiddleware::wrap($this->getConfig('use_accelerate_endpoint')),
+            's3.use_accelerate_endpoint'
+        );
+        $stack->appendBuild(
+            DualStackMiddleware::wrap(
+                $this->getRegion(),
+                $this->getConfig('use_dual_stack_endpoint')
+            ),
+            's3.use_dual_stack_endpoint'
+        );
         // Use the bucket style middleware when using a "bucket_endpoint" (for cnames)
         if ($this->getConfig('bucket_endpoint')) {
             $stack->appendBuild(BucketEndpointMiddleware::wrap(), 's3.bucket_endpoint');
@@ -219,12 +267,15 @@ class S3Client extends AwsClient implements S3ClientInterface
 
     public function createPresignedRequest(CommandInterface $command, $expires)
     {
+        $command = clone $command;
+        $command->getHandlerList()->remove('signer');
+
         /** @var \Aws\Signature\SignatureInterface $signer */
         $signer = call_user_func(
             $this->getSignatureProvider(),
             $this->getConfig('signature_version'),
-            $this->getApi()->getSigningName(),
-            $this->getRegion()
+            $this->getConfig('signing_name'),
+            $this->getConfig('signing_region')
         );
 
         return $signer->presign(

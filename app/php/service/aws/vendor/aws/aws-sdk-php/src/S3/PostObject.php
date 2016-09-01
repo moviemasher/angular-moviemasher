@@ -5,9 +5,7 @@ use Aws\Credentials\CredentialsInterface;
 use GuzzleHttp\Psr7\Uri;
 
 /**
- * Encapsulates the logic for getting the data for an S3 object POST upload form
- *
- * @link http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOST.html
+ * @deprecated
  */
 class PostObject
 {
