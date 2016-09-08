@@ -1,6 +1,6 @@
-/*!
- * Bootstrap v3.3.6 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
+/*! PATRICK HENRY
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -1106,7 +1106,6 @@ a:focus {
   text-decoration: underline;
 }
 a:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -1277,18 +1276,19 @@ h3,
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 12px;
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 10px;
 }
 h6,
 .h6 {
-  font-size: 12px;
+  font-size: 8px;
 }
 p {
   margin: 0 0 10px;
+  font-size:10px;
 }
 .lead {
   margin-bottom: 20px;
@@ -2537,7 +2537,6 @@ select[size] {
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3029,7 +3028,6 @@ select[multiple].input-lg {
 .btn.focus,
 .btn:active.focus,
 .btn.active.focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3986,7 +3984,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 0px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -5004,11 +5002,15 @@ a.badge:focus {
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 20px;
-  line-height: 1.42857143;
+  margin-bottom: 15px;
+  line-height: 1;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 0px;
+  width:32%;
+  margin-left:1%;
+  float:left;
+  height:250px;
   -webkit-transition: border .2s ease-in-out;
        -o-transition: border .2s ease-in-out;
           transition: border .2s ease-in-out;
@@ -5880,15 +5882,16 @@ button.close {
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
   outline: 0;
+  height:100%;
 }
 .modal.fade .modal-dialog {
-  -webkit-transition: -webkit-transform .3s ease-out;
-       -o-transition:      -o-transform .3s ease-out;
-          transition:         transform .3s ease-out;
-  -webkit-transform: translate(0, -25%);
-      -ms-transform: translate(0, -25%);
-       -o-transform: translate(0, -25%);
-          transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform .1s ease-out;
+       -o-transition:      -o-transform .1s ease-out;
+          transition:         transform .1s ease-out;
+  -webkit-transform: translate(0, -20%);
+      -ms-transform: translate(0, -20%);
+       -o-transform: translate(0, -20%);
+          transform: translate(0, -20%);
 }
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
@@ -5902,8 +5905,7 @@ button.close {
 }
 .modal-dialog {
   position: relative;
-  width: auto;
-  margin: 10px;
+  width: 100%;
 }
 .modal-content {
   position: relative;
@@ -5912,7 +5914,7 @@ button.close {
           background-clip: padding-box;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
+  border-radius: 0px;
   outline: 0;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
@@ -5948,6 +5950,7 @@ button.close {
 .modal-body {
   position: relative;
   padding: 15px;
+  height:380px;
 }
 .modal-footer {
   padding: 15px;

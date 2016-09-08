@@ -6,7 +6,9 @@
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
-
+body{
+background-color:#6e6e6e;
+}
 .amm-ui{
   position: absolute;
   top: 20px;
@@ -20,32 +22,31 @@
           user-select: none;
 }
 .amm-player{
-  position:absolute;
-  width: 256px;
-  height: 144px;
-  top:34px;
+  height: 640px;
+    position: absolute;
+    top: 22px;
+    width: 1315px;
 }
 .amm-browser,
-.amm-inspector,
 .amm-timeline {
   position:absolute;
   width: 100%;
   top:34px;
   bottom:34px;
   background-color: #525252;
-  background-image: -webkit-linear-gradient(left, #525252 0%, #797979 63%);
-    background-image: linear-gradient(left, #525252 0%, #797979 63%);
+ 
 }
 .amm-player-panel{
-  width: 256px; /* preview.width */
-  height: 212px; /* preview.height + head.height + foot.height */
+  width: 70%; /* preview.width */
+  height: 90%; /* preview.height + head.height + foot.height */
 }
 .amm-browser-panel{
-  position: absolute;
-  left: 276px; /* player.width + buffer */
-  height: 212px; /* player.height */
-  top:0px;
-  right: 340px;
+  height: 70%;
+    left: 5%;
+    position: absolute;
+    top: 40%;
+    width: 90%;
+    z-index: 1200000;
 }
 .amm-browser {
   overflow-y: auto;
@@ -68,7 +69,6 @@
   border-radius: 6px;
   border: solid 2px gray;
   background-color: lightgray;
-  box-shadow: 2px 2px 4px #333333;
 }
 .amm-browser-media:hover {
   border: solid 2px lightgray;
@@ -119,9 +119,12 @@
 }
 .amm-inspector {
   overflow: auto;
+  width: 100%;
+  top:0px;
+  bottom:34px;
+  background-color: #525252;
 }
 .amm-inspector-panel {
-  position: absolute;
   width: 320px;
   right: 0px;
   top:0px;
@@ -159,27 +162,27 @@
 .amm-timeline-panel{
   position: absolute;
   right: 340px;
-  top: 232px; /* player.height + buffer */
   left:0px;
   bottom:0px;
+  height:25%;
+  overflow-y: auto;
+  width:70%;
 }
 amm-timeline-track-controls {
   position:absolute;
-  width: 100px;
+  width: 50px;
   top:20px;
   bottom:0px;
   overflow: hidden;
   text-align:center;
-  color:lightgray;
+  color:darkgray;
   border-right: 1px solid lightgray;
   z-index: 56001;
   background-color: #3a3a3a;
-  background-image: -webkit-linear-gradient(bottom, #3a3a3a 0%, #000 50%);
-    background-image: linear-gradient(bottom, #3a3a3a 0%, #000 50%);
 
 }
 amm-timeline-track.amm-drop-dragover {
-  border: 1px solid red;
+  border: 1px solid yellow;
 }
 amm-timeline-track {
   height: 64px;
@@ -194,8 +197,8 @@ amm-timeline-track {
   border-right: 1px solid lightgray;
 }
 amm-timeline-track-controls amm-timeline-track {
-  line-height: 60px;
-   font-size: 30px;
+  line-height: 30px;
+   font-size: 15px;
    width:100%;
 }
 .amm-timeline {
@@ -211,6 +214,14 @@ amm-timeline-track-controls amm-timeline-track {
   top:20px;
   bottom:0px;
   overflow: auto;
+}
+
+.sidebar-accord{
+  width:500px;
+  height:800px;
+  float:right;
+  position:absolute;
+  margin-left:70%;
 }
 .amm-drop-dragover > .amm-timeline-drop,
 .amm-drop-dragover > .amm-effects-drop{
@@ -244,17 +255,18 @@ amm-timeline-rule-back {
   height:20px;
   display:block;
   background-color: #000;
-  background-image: -webkit-linear-gradient(bottom, #000 0%, #3a3a3a 50%);
-    background-image: linear-gradient(bottom, #000 0%, #3a3a3a 50%);
-}
+  }
 amm-timeline-rule-icon {
-  color:aqua;
+  color:#eb7a1e;
   font-size: 20px;
   display:block;
 }
 amm-timeline-rule-line {
   width: 3px;
-  background-color: aqua;
+  background-color: #eb7a1e;
+  -webkit-box-shadow: 1px 1px 5px 1px rgba(235, 122, 30,0.4);
+-moz-box-shadow: 1px 1px 5px 1px rgba(235, 122, 30,0.4);
+box-shadow: 1px 1px 5px 1px rgba(235, 122, 30,0.4);
   display:inline-block;
   height:100%;
   margin-left: auto;
@@ -308,7 +320,6 @@ amm-timeline-rule-line {
 }
 .amm-panel {
    border-radius: 4px;
-  box-shadow: 2px 2px 4px #333333;
 }
 .amm-head,
 .amm-foot {
@@ -322,9 +333,9 @@ amm-timeline-rule-line {
   right: 0px;
   padding-left:4px;
   padding-right:4px;
-  background-color: #B5B5B5;
-  background-image: -webkit-linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
-    background-image: linear-gradient(bottom, #B5B5B5 0%, #DBDBDB 63%);
+  background-color: #242424;
+  color:#cacaca;
+  
 }
 .amm-head{
   top:0px;
@@ -332,9 +343,36 @@ amm-timeline-rule-line {
   border-top-right-radius: 4px;
 }
 .amm-foot{
-  bottom:0px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+   border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    bottom: 0;
+    position: absolute;
+}
+
+.player-head{
+  background-color: #242424;
+    border-radius: 4px 4px 0px 0px;
+    display: block;
+    float: left;
+    height: 50px;
+    padding: 2%;
+    position: relative;
+    width: 100%;
+    z-index: 100000;
+
+}
+
+.player-footer{
+  background-color: #242424;
+    border-radius: 0 0 4px 4px;
+    display: block;
+    float: left;
+    height: 50px;
+    padding: 1%;
+    position: relative;
+    top: 609px;
+    width: 100%;
+    z-index: 100000;
 }
 .amm-head select {
   max-width: 180px;
@@ -480,13 +518,11 @@ input[type=range].amm-pos::-webkit-slider-runnable-track {
   width: 100%;
   height: 11px;
   cursor: pointer;
-  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
   background: rgba(0, 0, 0, 0.5);
   border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0);
 }
 input[type=range].amm-pos::-webkit-slider-thumb {
-  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
   border: 0px solid #ff1e00;
   height: 9px;
   width: 20px;
@@ -503,13 +539,11 @@ input[type=range].amm-pos::-moz-range-track {
   width: 100%;
   height: 11px;
   cursor: pointer;
-  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
   background: rgba(0, 0, 0, 0.5);
   border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0);
 }
 input[type=range].amm-pos::-moz-range-thumb {
-  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
   border: 0px solid #ff1e00;
   height: 9px;
   width: 20px;
@@ -529,16 +563,13 @@ input[type=range].amm-pos::-ms-fill-lower {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
-  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
 }
 input[type=range].amm-pos::-ms-fill-upper {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
-  box-shadow: 2px 2px 2px rgba(54, 53, 56, 0.3), 0px 0px 2px rgba(67, 65, 69, 0.3);
 }
 input[type=range].amm-pos::-ms-thumb {
-  box-shadow: 0px 0px 1px #670000, 0px 0px 0px #810000;
   border: 0px solid #ff1e00;
   width: 20px;
   border-radius: 2px;
