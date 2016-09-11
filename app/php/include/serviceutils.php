@@ -255,7 +255,7 @@ if (! function_exists('service_export_module_source')) {
 function __export_progress_callback($payload, $config){
   return auth_data(array(
     'host' => $config['callback_host'],
-    'type' => 'http',
+    'type' => $config['callback_protocol'],
     'trigger' => 'progress',
     'path' => path_concat($config['callback_directory'], 'export_progress.php'),
     'data' => $payload,
@@ -264,7 +264,7 @@ function __export_progress_callback($payload, $config){
 function __export_complete_callback($payload, $config){
   return auth_data(array(
     'host' => $config['callback_host'],
-    'type' => 'http',
+    'type' => $config['callback_protocol'],
     'trigger' => 'complete',
     'path' => path_concat($config['callback_directory'], 'export_complete.php'),
     'data' => $payload,
@@ -273,7 +273,7 @@ function __export_complete_callback($payload, $config){
 function __import_progress_callback($payload, $config){
   return auth_data(array(
     'host' => $config['callback_host'],
-    'type' => 'http',
+    'type' => $config['callback_protocol'],
     'trigger' => 'progress',
     'path' => path_concat($config['callback_directory'], 'import_progress.php'),
     'data' => $payload,
@@ -282,7 +282,7 @@ function __import_progress_callback($payload, $config){
 function __import_complete_callback($payload, $config){
   return auth_data(array(
     'host' => $config['callback_host'],
-    'type' => 'http',
+    'type' => $config['callback_protocol'],
     'trigger' => 'complete',
     'path' => path_concat($config['callback_directory'], 'import_complete.php'),
     'data' => $payload,

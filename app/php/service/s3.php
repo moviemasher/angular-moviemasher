@@ -9,14 +9,15 @@ function s3_file_source($input, $config){
   return array(
     'name' => $config['import_original_basename'],
     'extension' => $input['extension'],
-    'type' => 'http',
+    'type' => $config['user_media_protocol'],
     'host' => $config['user_media_host'],
     'path' => path_concat(path_concat($config['user_media_url'], $input['uid']), $input['id']),
   );
 }
 function s3_file_import_url($import, $config){
   $uid = (empty($import['uid']) ? '' : $import['uid']);
-  return path_concat('http://' . $config['user_media_host'], path_concat($config['user_media_url'], $uid));
+
+  return path_concat($config['user_media_protocol'] . '://' . $config['user_media_host'], path_concat($config['user_media_url'], $uid));
 }
 function s3_file_export_url($import, $config){
  return s3_file_import_url($import, $config);
@@ -43,10 +44,10 @@ function s3_file_config_error($config = array()){
 }
 function s3_file_export_module_source($config){
   return array(
+    'type' => $config['module_protocol'],
     'host' => $config['module_host'],
     'directory' => $config['module_directory'],
-    'method' => 'get',
-    'type' => 'http'
+    'method' => 'get'
   );
 }
 function s3_file_destination($output, $config, $prefix = 's3'){

@@ -17,12 +17,12 @@
     "upload",
     "module"
   ],
-  "version": "2.3.3",
-  "_release": "2.3.3",
+  "version": "2.3.4",
+  "_release": "2.3.4",
   "_resolution": {
     "type": "version",
-    "tag": "v2.3.3",
-    "commit": "4f5005763dd71f1df4e56727f5a2f3de8dfa4f75"
+    "tag": "v2.3.4",
+    "commit": "4589f9b6a1c5cc4948755a74d9ef6a78e80eea52"
   },
   "_source": "https://github.com/nervgh/angular-file-upload.git",
   "_target": "~2.3.1",

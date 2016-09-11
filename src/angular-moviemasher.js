@@ -699,7 +699,6 @@
       restrict: "AEC",
       templateUrl: 'views/browser/clip.html',
       link: function(scope, element, attributes) {
-        //element.attr("draggable", true);
         element.bind("dragstart", function(eventObject) {
           var attribute = attributes.ammDragMedia;
           var media = $parse(attribute)(scope);

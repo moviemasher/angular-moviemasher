@@ -1,4 +1,4 @@
-/*! angular-moviemasher - v1.0.15 - 2016-08-31
+/*! angular-moviemasher - v1.0.16 - 2016-09-11
 * Copyright (c) 2016 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
@@ -701,7 +701,6 @@
       restrict: "AEC",
       templateUrl: 'views/browser/clip.html',
       link: function(scope, element, attributes) {
-        //element.attr("draggable", true);
         element.bind("dragstart", function(eventObject) {
           var attribute = attributes.ammDragMedia;
           var media = $parse(attribute)(scope);

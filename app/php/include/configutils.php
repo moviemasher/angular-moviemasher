@@ -3,12 +3,14 @@
 // A convenient place to suppress errors and avoid corrupt json responses
 ini_set('display_errors', 0);
 
+
 include_once(dirname(__FILE__) . '/loadutils.php');
 load_utils('service','http','log','path');
 
 if (! function_exists('config_defaults')) {
   function config_defaults($config = array()) {
     $config['authentication'] =  (empty($config['authentication']) ? '' : $config['authentication']);
+    $config['authentication_callback_mode'] =  (empty($config['authentication_callback_mode']) ? 'http' : $config['authentication_callback_mode']);
     $config['aws_access_key_id'] =  (empty($config['aws_access_key_id']) ? '' : $config['aws_access_key_id']);
     $config['aws_secret_access_key'] =  (empty($config['aws_secret_access_key']) ? '' : $config['aws_secret_access_key']);
     $config['export_audio_codec_audio'] = (empty($config['export_audio_codec_audio']) ? 'libmp3lame' : $config['export_audio_codec_audio']);
@@ -35,11 +37,13 @@ if (! function_exists('config_defaults')) {
     $config['import_image_quality'] = (empty($config['import_image_quality']) ? '1' : $config['import_image_quality']);
     $config['import_original_basename'] = (empty($config['import_original_basename']) ? 'original' : $config['import_original_basename']);
     $config['import_waveform_backcolor'] = (empty($config['import_waveform_backcolor']) ? 'FFFFFF' : $config['import_waveform_backcolor']);
-    $config['import_waveform_basename'] = (empty($config['import_waveform_basename']) ? 'waveform' : $config['import_waveform_basename']);    
+    $config['import_waveform_basename'] = (empty($config['import_waveform_basename']) ? 'waveform' : $config['import_waveform_basename']);
     $config['import_waveform_dimensions'] = (empty($config['import_waveform_dimensions']) ? '8000x32' : $config['import_waveform_dimensions']);
     $config['import_waveform_extension'] = (empty($config['import_waveform_extension']) ? 'png' : $config['import_waveform_extension']);
     $config['import_waveform_forecolor'] = (empty($config['import_waveform_forecolor']) ? '000000' : $config['import_waveform_forecolor']);
     $config['module_host'] = (empty($config['module_host']) ? $_SERVER['HTTP_HOST'] : http_get_contents($config['module_host']));
+    $config['module_directory'] = (empty($config['module_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['module_directory']);
+    $config['module_protocol'] = (empty($config['module_protocol']) ? 'http' : $config['module_protocol']);
     $config['user_media_host'] = (empty($config['user_media_host']) ? $_SERVER['HTTP_HOST'] : http_get_contents($config['user_media_host']));
     $config['callback_host'] = (empty($config['callback_host']) ? $_SERVER['HTTP_HOST'] : http_get_contents($config['callback_host']));
     $config['log_request'] = (empty($config['log_request']) ? '' : $config['log_request']);
@@ -52,11 +56,12 @@ if (! function_exists('config_defaults')) {
     $config['log_file'] = (empty($config['log_file']) ? '' : $config['log_file']);
     $config['callback_directory'] = (empty($config['callback_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end($config['web_root_directory']))) : $config['callback_directory']);
     $config['install_directory'] = (empty($config['install_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['install_directory']);
+    $config['callback_protocol'] = (empty($config['callback_protocol']) ? 'http' : $config['callback_protocol']);
     $config['cgi_directory'] = (empty($config['cgi_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))) : $config['cgi_directory']);
     $config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))), 'user'));
     $config['user_media_url'] = (isset($config['user_media_url']) ? $config['user_media_url'] : $config['user_media_directory']);
+    $config['user_media_protocol'] = (isset($config['user_media_protocol']) ? 'http' : $config['user_media_protocol']);
     $config['user_data_directory'] = (isset($config['user_data_directory']) ? $config['user_data_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
-    $config['module_directory'] = (empty($config['module_directory']) ? substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))) : $config['module_directory']);
     $config['s3_bucket'] = (empty($config['s3_bucket']) ? '' : $config['s3_bucket']);
     $config['s3_region'] = (empty($config['s3_region']) ? '' : $config['s3_region']);
     $config['sqs_queue_url'] = (empty($config['sqs_queue_url']) ? '' : $config['sqs_queue_url']);
@@ -87,8 +92,11 @@ if (! function_exists('config_error')) {
 }
 if (! function_exists('config_get')) {
   function config_get() {
-    $ini_path = 'moviemasher.ini';
-    $config = @parse_ini_file($ini_path);
+
+
+// this constant can be defined before calling this method to easily override
+    if (! defined('MM_INI_FILE')) define('MM_INI_FILE', 'moviemasher.ini');
+    $config = @parse_ini_file(MM_INI_FILE);
     if (! $config) $config = array();
     else $config = config_defaults($config);
     return $config;
