@@ -24,7 +24,6 @@ if (! function_exists('http_execute_array')) {
 if (! function_exists('http_get_contents')) {
   function http_get_contents($url) {
     if (http_is_url($url)) {
-      echo $url;
       $result = http_retrieve($url);
       if (! $result['error']) $url = $result['result'];
       else $url = '';
