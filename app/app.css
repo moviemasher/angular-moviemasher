@@ -222,6 +222,7 @@ amm-timeline-track-controls amm-timeline-track {
   float:right;
   position:absolute;
   margin-left:70%;
+  top:-30px;
 }
 .amm-drop-dragover > .amm-timeline-drop,
 .amm-drop-dragover > .amm-effects-drop{
@@ -604,3 +605,14 @@ input[type=range].amm-slider-vert {
 
 button:focus {outline:0 !important;}
 
+#videoElement {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}
+
+
+video { 
+   position:absolute;
+   visibility:hidden;
+}
