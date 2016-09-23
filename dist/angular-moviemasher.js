@@ -100,6 +100,7 @@
   };
   var module = angular.module('angular.moviemasher', [
     'ngResource',
+     'webcam',
     'ngAnimate',
     'colorpicker.module',
     'angularFileUpload',
@@ -248,12 +249,12 @@
                   __monitor_export(export_init_response, rendering_mash_id);
                 } else {
                   $scope.amm_export_status = (export_init_response.error || __php_parsed_error(export_init_response));
-                  $scope.amm_export_completed = -1;
+                  $scope.amm_export_completed = -1;
                 }
               }, function(export_init_error_response) {
                 console.error('export.init', export_init_error_response);
                 $scope.amm_export_status = 'error response from export init';
-                $scope.amm_export_completed = -1;
+                $scope.amm_export_completed = -1;
               });
             }
           };
@@ -280,13 +281,13 @@
                 //console.log('mash.save', save_response);
                 if (save_response.ok) {
                   if (saving_mash_id === $amm.mash_id) {
-                    __action_index = action_index;
+                    __action_index = action_index;
                     if (__unsaved_mashes[saving_mash_id]) delete __unsaved_mashes[saving_mash_id];
                     var m = __mash_for_id(saving_mash_id);
                     if (m) m.label = $amm.player.mash.label;
                     if (and_load_mash_id) {
                       $amm.mash_id = and_load_mash_id;
-                       $amm.mash_id_change();
+                       $amm.mash_id_change();
                     }
                   }
                 } else $window.alert(save_response.error || __php_parsed_error(save_response));

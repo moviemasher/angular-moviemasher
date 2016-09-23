@@ -1,3 +1,5 @@
+$(function(){
+
 'use strict';
 
 /* globals MediaRecorder */
@@ -17,7 +19,7 @@ var recBtn = document.querySelector('button#rec');
 var pauseResBtn = document.querySelector('button#pauseRes');
 var stopBtn = document.querySelector('button#stop');
 
-var videoElement = document.querySelector('video');
+var videoElement = document.querySelector('video')
 var dataElement = document.querySelector('#data');
 var downloadLink = document.querySelector('a#downloadLink');
 
@@ -27,11 +29,10 @@ function errorCallback(error){
   console.log('navigator.getUserMedia error: ', error);
 }
 
-/*
+
 var mediaSource = new MediaSource();
 mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
 var sourceBuffer;
-*/
 
 var mediaRecorder;
 var chunks = [];
@@ -55,7 +56,7 @@ function startRecording(stream) {
     mediaRecorder = new MediaRecorder(stream);
   }
 
-  pauseResBtn.textContent = "Pause";
+  //pauseResBtn.textContent = "Pause";
 
   mediaRecorder.start(10);
 
@@ -124,9 +125,9 @@ function onBtnRecordClicked (){
     alert('MediaRecorder not supported on your browser, use Firefox 30 or Chrome 49 instead.');
   }else {
     navigator.getUserMedia(constraints, startRecording, errorCallback);
-    recBtn.disabled = true;
-    pauseResBtn.disabled = false;
-    stopBtn.disabled = false;
+    //recBtn.disabled = true;
+    //pauseResBtn.disabled = false;
+    //stopBtn.disabled = false;
   }
 }
 
@@ -134,9 +135,9 @@ function onBtnStopClicked(){
   mediaRecorder.stop();
   videoElement.controls = true;
 
-  recBtn.disabled = false;
-  pauseResBtn.disabled = true;
-  stopBtn.disabled = true;
+  //button#rec.disabled = false;
+  //pauseResBtn.disabled = true;
+  //stopBtn.disabled = true;
 }
 
 function onPauseResumeClicked(){
@@ -157,7 +158,9 @@ function onPauseResumeClicked(){
 
 
 function log(message){
-  dataElement.innerHTML = dataElement.innerHTML+'<br>'+message ;
+ 
+console.log('logigin');
+ // dataElement.innerHTML = dataElement.innerHTML+'<br>'+message ;
 }
 
 
@@ -225,3 +228,7 @@ function getBrowser(){
 
   return browserName;
 }
+});
+
+
+

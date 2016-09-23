@@ -35,14 +35,14 @@ angular.module('webcam', [])
         onStream: '&',
         onStreaming: '&',
         placeholder: '=',
-        config: '=channel'
+        config: '=?channel'
       },
       link: function postLink($scope, element) {
         var videoElem = null,
             videoStream = null,
             placeholder = null;
 
-        $scope.config = $scope.config || {};
+        $scope.config =$scope.config || {};
 
         var _removeDOMElement = function _removeDOMElement(DOMel) {
           if (DOMel) {

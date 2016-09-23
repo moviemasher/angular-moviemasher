@@ -614,5 +614,4 @@ button:focus {outline:0 !important;}
 
 video { 
    position:absolute;
-   visibility:hidden;
-}
+z-index:4000000}
