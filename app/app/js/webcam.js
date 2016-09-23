@@ -171,7 +171,7 @@ angular.module('webcam', [])
         $scope.$on('STOP_WEBCAM', stopWebcam);
 
         startWebcam();
-
+        
       }
     };
   });

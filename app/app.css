@@ -612,6 +612,21 @@ button:focus {outline:0 !important;}
 }
 
 
+.hidden {
+        display: none;
+   {
+
+.visible {
+        display: inline-block;
+   }
+
 video { 
-   position:absolute;
 z-index:4000000}
+
+
+.webcam{
+  width:400;
+  float:left;
+  position:absolute;
+
+}

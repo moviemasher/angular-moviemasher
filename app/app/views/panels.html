@@ -1,3 +1,4 @@
+
 <div class='amm-panel amm-player-panel'>
 
 
@@ -67,14 +68,18 @@
 <div class="container sidebar-accord">
 
 <!--Start Acord-->
-  <h2 data-toggle="collapse" data-target="#Capture-Panel">Capture</h2><br>
+  <h2 data-toggle="collapse" onclick="toggle_visibility()">Capture</h2><br>
 
-  <div id="Capture-Panel" class="collapse"><!-- capture container -->
+  <div id="CapturePanel" class=hidden><!-- capture container -->
   <!-- new version -->
 
+<webcam id="webcamview" on-stream="onStream(stream)"
+        on-access-denied="onError(err)"
+        on-streaming="onSuccess()">
+</webcam>
 
-<webcam id="webcamview"></webcam>
-
+<button ng-click="startCamera()">Start camera!</button>
+<button ng-click="stopCamera()">Stop camera!</button>
 
 
   <!-- end new version -->

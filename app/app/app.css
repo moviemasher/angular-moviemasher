@@ -615,3 +615,10 @@ button:focus {outline:0 !important;}
 video { 
    position:absolute;
 z-index:4000000}
+
+.hidden {
+        display: none;
+   {
+   .visible {
+        display: block;
+   }
