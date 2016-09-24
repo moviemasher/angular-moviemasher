@@ -68,14 +68,11 @@
 <div class="container sidebar-accord">
 
 <!--Start Acord-->
-  <h2 data-toggle="collapse" onclick="toggle_visibility()">Capture</h2><br>
+  <h2 data-toggle="collapse" onclick="toggle_visibilityCapture()">Capture</h2><br>
 
   <div id="CapturePanel" class=hidden><!-- capture container -->
   <!-- new version -->
 
-
-
-<hr>
 <video id="video" height="300" width="300"></video>
     <br><br><a href="http://qnimate.com/capturing-webcam-video-and-microphone-audio-using-javascript/">&#8592; Back to the tutorial</a>
           <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=qnimate" id="_carbonads_js"></script>
@@ -99,9 +96,9 @@
 
 
 
-  <h2 data-toggle="collapse" data-target="#Inspector-Panel">Inspector</h2><br>
+  <h2 onclick="toggle_visibilityInspector()">Inspector</h2><br>
 
-  <div id="Inspector-Panel" class="collapse">
+  <div id="InspectorPanel" class="hidden">
    <div class='amm-inspector-panel'>
 
       <span ng-switch="$amm.player.selectedClips.length">
@@ -122,9 +119,9 @@
 
 
 
-<h2 data-toggle="collapse" data-target="#Content-Panel">Content Import</h2><br>
+<h2 onclick="toggle_visibilityImport()" >Content Import</h2><br>
 
-<div id="Content-Panel" class="collapse">
+<div id="ContentPanel" class="hidden">
    
 
 <div class='amm-panel amm-browser-panel'>
