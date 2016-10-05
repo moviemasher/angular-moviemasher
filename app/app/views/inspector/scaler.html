@@ -1,0 +1,8 @@
+<div class='amm-inspector-row'>
+  <select class="form-control-sm" ng-model="$amm.player.selectedClip.scaler.id"
+    ng-change="$amm.player.change('scaler.id')"
+    ng-options="scaler.id as scaler.label for scaler in $amm.registered.scaler"
+  ></select>
+  <label>Scaling:</label>
+</div>
+<div ng-include="amm_inspector_include($amm.player.selectedClip.scaler)">

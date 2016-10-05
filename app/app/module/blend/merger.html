@@ -1,0 +1,26 @@
+<div class='amm-inspector-row'>
+  <label>Mode:</label>
+  <select class="form-control-sm"
+    ng-model="$amm.player.selectedClip.merger.mode"
+    ng-change="$amm.player.change('merger.mode')"
+    ng-options="mode.id as mode.label for mode in $amm.MovieMasher.Constant.property_types.mode.values"
+  ></select>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="0" max="1"
+    ng-change="$amm.player.change('merger.top')"
+    ng-model="$amm.player.selectedClip.merger.top"
+  />
+  <label>Top:</label>
+  {{$amm.player.selectedClip.merger.top}}
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="0" max="1"
+    ng-change="$amm.player.change('merger.left')"
+    ng-model="$amm.player.selectedClip.merger.left"
+  />
+  <label>Left:</label>
+  {{$amm.player.selectedClip.merger.left}}
+</div>

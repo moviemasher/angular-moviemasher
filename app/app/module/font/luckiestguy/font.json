@@ -1,0 +1,8 @@
+[
+  {
+    "label": "Luckiest Guy",
+    "id":"ttf.luckiestguy",
+    "type":"font",
+    "source": "module/font/luckiestguy/luckiestguy/LuckiestGuy.ttf"
+  }
+]

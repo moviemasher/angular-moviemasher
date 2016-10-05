@@ -1,0 +1,9 @@
+[
+  {
+    "label": "Chunk",
+    "id":"ttf.chunk",
+    "type":"font",
+    "source": "module/font/chunk/theleagueof-chunk/Chunk.ttf",
+    "family":"ChunkFive"
+  }
+]

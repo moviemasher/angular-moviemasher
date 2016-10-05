@@ -1,0 +1,10 @@
+<div class='amm-inspector-row'>
+  <input type='text' class='form-input' ng-change="$amm.player.change('label')" ng-model="$amm.player.mash.label" placeholder="Mashed Video Title" />
+  <label>Label:</label>
+</div>
+<div class='amm-inspector-row'>
+  <label>Background Color:</label>
+  <div class="amm-colorpicker">
+    <button colorpicker="rgb" ng-style="{'background-color':$amm.player.mash.backcolor}" type="button" ng-change="$amm.player.change('backcolor')" ng-model="$amm.player.mash.backcolor"></button>
+  </div>
+</div>

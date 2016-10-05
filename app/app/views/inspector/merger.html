@@ -1,0 +1,8 @@
+<div class='amm-inspector-row'>
+  <select class="form-control-sm" ng-model="$amm.player.selectedClip.merger.id"
+    ng-change="$amm.player.change('merger.id')"
+    ng-options="merger.id as merger.label for merger in $amm.registered.merger"
+  ></select>
+  <label>Merging:</label>
+</div>
+<div ng-include="amm_inspector_include($amm.player.selectedClip.merger)">

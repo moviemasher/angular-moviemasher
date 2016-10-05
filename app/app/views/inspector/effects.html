@@ -1,0 +1,13 @@
+<div class='amm-inspector-row'>
+  <label>Effects ({{$amm.player.selectedClipOrMash.effects.length}}):</label>
+  <span ng-if="$amm.player.selectedEffect">
+    {{$amm.player.media($amm.player.selectedEffect).label}}
+  </span>
+  <div class='amm-inspector-effects'>
+    <div class='amm-effects-drop' ng-mousedown='$amm.player.selectEffect(false, $event.shiftKey)'></div>
+    <div class='amm-inspector-effect-container' ng-repeat="effect in $amm.player.selectedClipOrMash.effects" ng-mousedown='$amm.player.selectEffect(effect, $event.shiftKey);' ng-include="'views/inspector/effects_item.html'"></div>
+    <div ng-show="amm_drag.index > -1" class='amm-drop-indicator amm-mouseless' ng-style="{top: (amm_drag.index * amm_drag.effect_height) + 'px'}"></div>
+  </div>
+</div>
+
+<div ng-if="$amm.player.selectedEffect" ng-include="amm_inspector_include($amm.player.selectedEffect)"></div>

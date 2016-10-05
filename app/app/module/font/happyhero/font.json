@@ -1,0 +1,8 @@
+[
+  {
+    "label": "Happy Hero",
+    "id":"ttf.happyhero",
+    "type":"font",
+    "source": "module/font/happyhero/happy_hero/happy-hero.ttf"
+  }
+]

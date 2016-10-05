@@ -1,0 +1,9 @@
+[
+  {
+    "label": "Josefin",
+    "id":"ttf.josefin",
+    "type":"font",
+    "source": "module/font/josefin/josefin/JosefinSansStd-Light.ttf",
+    "family":"Josefin Sans Std"
+  }
+]

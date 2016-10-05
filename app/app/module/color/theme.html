@@ -1,0 +1,8 @@
+<div ng-include="'views/inspector/label.html'"></div>
+<div ng-include="'views/inspector/visual.html'"></div>
+<div class='amm-inspector-row'>
+  <label>Color:</label>
+  <div class="amm-colorpicker">
+    <button colorpicker="rgb" ng-style="{'background-color':$amm.player.selectedClip.color}" type="button" ng-change="$amm.player.change('color')" ng-model="$amm.player.selectedClip.color"></button>
+  </div>
+</div>

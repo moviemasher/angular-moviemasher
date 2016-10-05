@@ -1,0 +1,15 @@
+[
+  {
+    "label": "Tangerine Bold",
+    "id":"ttf.tangerine.bold",
+    "type":"font",
+    "source": "module/font/tangerine/tangerine/Tangerine_Bold.ttf"
+  },
+  {
+    "label": "Tangerine",
+    "id":"ttf.tangerine",
+    "type":"font",
+    "source": "module/font/tangerine/tangerine/Tangerine_Regular.ttf",
+    "family": "Tangerine"
+  }
+]

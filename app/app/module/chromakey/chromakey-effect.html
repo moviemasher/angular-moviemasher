@@ -1,0 +1,24 @@
+<div class='amm-inspector-row'>
+  <label>Color:</label>
+  <div class="amm-colorpicker">
+    <button colorpicker="rgb" ng-style="{'background-color':$amm.player.selectedEffect.chroma_color}" type="button" ng-change="$amm.player.change('chroma_color')" ng-model="$amm.player.selectedEffect.chroma_color"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.01" min="0.01" max="1.0"
+    ng-change="$amm.player.change('chroma_similarity')"
+    ng-model="$amm.player.selectedEffect.chroma_similarity"
+  />
+  <label>Similarity:</label>
+  {{$amm.player.selectedEffect.chroma_similarity}}
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.01" min="0.0" max="1.0"
+    ng-change="$amm.player.change('chroma_blend')"
+    ng-model="$amm.player.selectedEffect.chroma_blend"
+  />
+  <label>Blend:</label>
+  {{$amm.player.selectedEffect.chroma_blend}}
+</div>

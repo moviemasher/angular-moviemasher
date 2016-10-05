@@ -1,0 +1,4 @@
+<div ng-if="$amm.supported">
+  <div ng-include="'views/panels.html'"></div>      
+</div>
+<div ng-if="!$amm.supported" ng-bind="'Sorry, your browser does not seem to be supported'"></div>

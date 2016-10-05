@@ -1,0 +1,52 @@
+
+version <future>:
+- freeze frame
+
+version 1.0.14:
+  - new blend merger with support for compositing blend modes
+  - added angular-bootstrap and angular-animate dependencies
+  - fixed issues related to crossorigin images used in icons
+  - reimplemented volume slider as pop up
+  - removed experimental flag from export_audio_codec option
+  - removed preset switch from export_video_codec option
+  - better styling of player sliders
+
+version 1.0.13:
+- fixed paths in index.max.html
+- mount all of moviemasher.js in development container
+- fixed errant zoom/scrolling behavior
+
+version 1.0.12:
+- more forgiving of bad PHP responses (v4.0.16)
+- simpler docker-compose commands in README
+
+version 1.0.11:
+- chromakey effect
+- improvements to documentation
+
+version 1.0.10:
+- sepia, blur, and other color channel mixer effects
+- upgraded angular and other bower components
+- support for docker-compose
+- switched indent_style to double spaces
+
+version 1.0.9:
+- support for Roles via aws-sdk-php
+- upgraded angular file uploader
+
+version 1.0.8:
+- color theme RGB fix
+- load php utility script
+- better support for third party services
+- now including duration in complete callback
+- new split clip feature
+- no longer using sslv3 in AWS requests
+
+version 1.0.6:
+- proper Bower dependency structure
+
+version 1.0.5:
+- added ignore to bower.json
+
+version 1.0.4:
+- docker support added

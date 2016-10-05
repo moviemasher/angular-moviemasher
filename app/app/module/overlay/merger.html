@@ -1,0 +1,18 @@
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="0" max="1"
+    ng-change="$amm.player.change('merger.top')"
+    ng-model="$amm.player.selectedClip.merger.top"
+  />
+  <label>Top:</label>
+  {{$amm.player.selectedClip.merger.top}}
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="0" max="1"
+    ng-change="$amm.player.change('merger.left')"
+    ng-model="$amm.player.selectedClip.merger.left"
+  />
+  <label>Left:</label>
+  {{$amm.player.selectedClip.merger.left}}
+</div>

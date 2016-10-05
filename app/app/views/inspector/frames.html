@@ -1,0 +1,6 @@
+<div class='amm-inspector-row'>
+  <input type='number' min="1" step="1" size="3" class='form-input' ng-change="$amm.player.change('frames')" ng-model="$amm.player.selectedClip.frames" />
+  <label>Length:</label>
+  ({{ $amm.player.selectedClip.frames | secondsFromFrames : $amm.player.mash.quantize | displaySeconds  : $amm.player.mash.quantize}})
+  secs
+</div>

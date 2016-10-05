@@ -1,0 +1,34 @@
+{
+  "name": "angular-moviemasher",
+  "main": "angular-moviemasher.js",
+  "homepage": "http://www.moviemasher.com",
+  "authors": [ {"name": "Movie Masher", "email": "support@moviemasher.com" }],
+  "description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
+  "version": "1.0.17",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.5",
+    "angular-resource": "~1.5.5",
+    "angular-animate": "~1.5.5",
+    "angular-file-upload": "~2.3.1",
+    "bootstrap": "~3.3.6",
+    "angular-bootstrap": "~1.3.3",
+    "angular-bootstrap-colorpicker": "~3.0.25",
+    "moviemasher.js": "4.0.20"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "jshint-stylish": "^0.2.0"
+  },
+  "appPath": "app"
+}

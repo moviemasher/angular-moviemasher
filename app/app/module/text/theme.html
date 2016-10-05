@@ -1,0 +1,67 @@
+<div ng-include="'views/inspector/label.html'"></div>
+<div ng-include="'views/inspector/visual.html'"></div>
+<div class='amm-inspector-row'>
+  <input type="text" ng-change="$amm.player.change('string')" ng-model="$amm.player.selectedClip.string"/>
+  <label>String:</label>
+</div>
+<div ng-include="'views/inspector/font.html'"></div>
+<div class='amm-inspector-row'>
+  <label>Font Color:</label>
+  <div class="amm-colorpicker">
+    <div class="amm-colorpicker-background"></div>
+    <button colorpicker="rgba" ng-style="{'background-color':$amm.player.selectedClip.color}" type="button" colorpicker-parent="true" ng-change="$amm.player.change('color')" ng-model="$amm.player.selectedClip.color"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <label>Shadow Color:</label>
+  <div class="amm-colorpicker">
+    <div class="amm-colorpicker-background"></div>
+    <button colorpicker="rgba" ng-style="{'background-color':$amm.player.selectedClip.shadowcolor}" type="button" colorpicker-parent="true" ng-change="$amm.player.change('shadowcolor')" ng-model="$amm.player.selectedClip.shadowcolor"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="-0.05" max="0.05"
+    ng-change="$amm.player.change('shadowx')"
+    ng-model="$amm.player.selectedClip.shadowx"
+  />
+  <label>Shadow X:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="-0.05" max="0.05"
+    ng-change="$amm.player.change('shadowy')"
+    ng-model="$amm.player.selectedClip.shadowy"
+  />
+  <label>Shadow Y:</label>
+</div>
+<div class='amm-inspector-row'>
+  <label>Background Color:</label>
+  <div class="amm-colorpicker">
+    <button colorpicker="rgb" ng-style="{'background-color':$amm.player.selectedClip.background}" type="button" colorpicker-parent="true" ng-change="$amm.player.change('background')" ng-model="$amm.player.selectedClip.background"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="-1" max="2"
+    ng-change="$amm.player.change('x')"
+    ng-model="$amm.player.selectedClip.x"
+  />
+  <label>X:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="-1" max="2"
+    ng-change="$amm.player.change('y')"
+    ng-model="$amm.player.selectedClip.y"
+  />
+  <label>Y:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.001" min="0.01" max="3"
+    ng-change="$amm.player.change('size')"
+    ng-model="$amm.player.selectedClip.size"
+  />
+  <label>Size:</label>
+</div>

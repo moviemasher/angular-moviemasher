@@ -1,0 +1,9 @@
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="0" max="2" 
+    ng-change="$amm.player.change('gain')" 
+    ng-model="$amm.player.selectedClip.gain"
+  />
+  <label>Gain:</label>
+  {{$amm.player.selectedClip.gain}}
+</div>

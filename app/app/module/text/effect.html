@@ -1,0 +1,59 @@
+<div class='amm-inspector-row'>
+  <input type="text" ng-change="$amm.player.changeEffect('string')" ng-model="$amm.player.selectedEffect.string"/>
+  <label>String:</label>
+</div>
+<div ng-include="'views/inspector/effect_font.html'"></div>
+<div class='amm-inspector-row'>
+  <label>Font Color:</label>
+  <div class="amm-colorpicker">
+    <div class="amm-colorpicker-background"></div>
+    <button colorpicker="rgba" ng-style="{'background-color':$amm.player.selectedEffect.color}" type="button" ng-change="$amm.player.changeEffect('color')" ng-model="$amm.player.selectedEffect.color" colorpicker-position="top"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <label>Shadow Color:</label>
+  <div class="amm-colorpicker">
+    <div class="amm-colorpicker-background"></div>
+    <button colorpicker="rgba" ng-style="{'background-color':$amm.player.selectedEffect.shadowcolor}" type="button" ng-change="$amm.player.changeEffect('shadowcolor')" ng-model="$amm.player.selectedEffect.shadowcolor"></button>
+  </div>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="-0.05" max="0.05" 
+    ng-change="$amm.player.changeEffect('shadowx')" 
+    ng-model="$amm.player.selectedEffect.shadowx"
+  />
+  <label>Shadow X:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="-0.05" max="0.05" 
+    ng-change="$amm.player.changeEffect('shadowy')" 
+    ng-model="$amm.player.selectedEffect.shadowy"
+  />
+  <label>Shadow Y:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="-1" max="2" 
+    ng-change="$amm.player.changeEffect('x')" 
+    ng-model="$amm.player.selectedEffect.x"
+  />
+  <label>X:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="-1" max="2" 
+    ng-change="$amm.player.changeEffect('y')" 
+    ng-model="$amm.player.selectedEffect.y"
+  />
+  <label>Y:</label>
+</div>
+<div class='amm-inspector-row'>
+  <input type="range" 
+    step="0.001" min="0.01" max="3" 
+    ng-change="$amm.player.changeEffect('size')" 
+    ng-model="$amm.player.selectedEffect.size"
+  />
+  <label>Size:</label>
+</div>

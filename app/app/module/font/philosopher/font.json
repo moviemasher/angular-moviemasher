@@ -1,0 +1,8 @@
+[
+  {
+    "label": "Philosopher",
+    "id":"ttf.philosopher",
+    "type":"font",
+    "source": "module/font/philosopher/philosopher/Philosopher.ttf"
+  }
+]

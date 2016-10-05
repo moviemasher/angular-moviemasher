@@ -1,0 +1,7 @@
+<div class='amm-inspector-row'>
+  <select class="form-control-sm" ng-model="$amm.player.selectedClip.fontface"
+    ng-change="$amm.player.change('fontface')"
+    ng-options="font.id as font.label for font in $amm.registered.font"
+  ></select>
+  <label>Font:</label>
+</div>
