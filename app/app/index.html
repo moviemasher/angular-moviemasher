@@ -29,11 +29,7 @@
 <!--testing-->
 
 <script type="text/javascript">
-    //this function returns a blob representing webcam and/or microphone stream(or data) 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || null;
-
-    //we need to pass the stream properties to the getUserMedia function. Here audio and video is true means the blob should represent both webcam and microphone data
-    var video_audio_properties = {video: true, audio: true};
+   
 
     //we can also set webcam resolution and framerate in the above object.
     //mandatory properties must be satisfied by the getuserMedia otherwise thrown an error.
@@ -53,19 +49,20 @@
       console.log("Video capture error: ", error.code);
     }
 
-    if(navigator.getUserMedia != null)
-    {
-      navigator.getUserMedia(video_audio_properties, onSuccess, onError);
-    }
-    else
-    {
-      alert("microphone and webcam API not supported");
-    }
+    //if(navigator.getUserMedia != null)
+    //{
+      //navigator.getUserMedia(video_audio_properties, onSuccess, onError);
+    //}
+    //else
+    //{
+      //alert("microphone and webcam API not supported");
+    //}
 
 //video features start save upload save to file
 
 function recordfilming()
 {
+     document.getElementById('video').classList.toggle('hidden')
       navigator.getUserMedia(video_audio_properties, onSuccess, onError);
 console.log ("capture clicked fired!");
 
@@ -109,7 +106,7 @@ function PostBlob(audioBlob, videoBlob, fileName) {
 
  
 
-    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <!--<script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>-->
 
 
 

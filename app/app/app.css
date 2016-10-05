@@ -165,7 +165,7 @@ background-color:#6e6e6e;
   bottom:0px;
   height:25%;
   overflow-y: auto;
-  width:70%;
+  width:100%;
 }
 amm-timeline-track-controls {
   position:absolute;
@@ -220,8 +220,9 @@ amm-timeline-track-controls amm-timeline-track {
   height:800px;
   float:right;
   position:absolute;
-  margin-left:70%;
-  top:-30px;
+  margin-left:74%;
+  top:-16px;
+  border-left:solid 1px white;
 }
 .amm-drop-dragover > .amm-timeline-drop,
 .amm-drop-dragover > .amm-effects-drop{
@@ -370,7 +371,7 @@ box-shadow: 1px 1px 5px 1px rgba(235, 122, 30,0.4);
     height: 50px;
     padding: 1%;
     position: relative;
-    top: 609px;
+    top: 662px;
     width: 100%;
     z-index: 100000;
 }
@@ -612,7 +613,12 @@ button:focus {outline:0 !important;}
 
 
 video { 
-z-index:4000000}
+z-index:4000000;
+}
+
+.record{
+  padding:2%;
+}
 
 .hidden {
         display: none;
