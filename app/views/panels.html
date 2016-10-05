@@ -1,0 +1,214 @@
+
+<div class='amm-panel amm-player-panel'>
+  <div class='amm-container'>
+    <div class='amm-head'>
+      <img src='logo.png' style="height:100%;padding:6px;"/>
+      <select ng-if="amm_resources.mash.search"
+        class='form-control-sm'
+        ng-model="$amm.mash_id"
+        ng-change="$amm.mash_id_change()"
+        ng-options="s.id as s.label for s in $amm.mashes"
+      ><option value=''>New Mash...</option></select>
+    </div>
+    <div class='amm-player'></div>
+    <div class='amm-foot'>
+      <table>
+        <tr>
+          <td>
+            <button type="button" class="btn btn-default btn-xs" ng-click="$amm.player.paused=!$amm.player.paused">
+              <span class="hide">{{$amm.player.paused ? 'Play' : 'Pause'}}</span>
+              <i class='glyphicon' ng-class="{'glyphicon-play': $amm.player.paused, 'glyphicon-pause': !$amm.player.paused}"></i>
+            </button>
+          </td>
+          <td amm-synced>
+            <input class='amm-pos' type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
+          </td>
+          <td amm-synced class='amm-width100 text-center'>
+            <small>
+              {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
+            </small>
+          </td>
+          <td>
+            <button  type="button" class="btn btn-default btn-xs"
+              popover-append-to-body='true'
+              popover-trigger="outsideClick"
+              uib-popover-template="'views/browser/volume.html'"
+            >
+              <i class="glyphicon" ng-class="{'glyphicon-volume-off':$amm.player.muted, 'glyphicon-volume-down': ((! $amm.player.muted) && ($amm.player.volume < 0.5)), 'glyphicon-volume-up': ((! $amm.player.muted) && ($amm.player.volume >= 0.5))}"></i>
+            </button>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class='amm-panel amm-browser-panel'>
+  <div class='amm-container'>
+    <div class='amm-head'>
+      Media:
+      <select class='form-control-sm' ng-model="amm_browser_group" ng-change="amm_browser_group_change()">
+        <optgroup ng-if="amm_resources.media.search" label="Assets">
+          <option value='video'>Video</option>
+          <option value='audio'>Audio</option>
+          <option value='image'>Images</option>
+        </optgroup>
+        <optgroup ng-if="amm_resources.module.search" label="Modules">
+<!--
+          <option value='transition'>Transitions</option>
+ -->
+          <option value='effect'>Effects</option>
+          <option value='theme'>Themes</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class='amm-browser' nv-file-drop uploader="uploader">
+      <div ng-repeat="media in amm_media" class="amm-browser-media-container" amm-drag-media="media"></div>
+      </div>
+    </div>
+    <div class='amm-foot'>
+      <span ng-if="amm_resources.import.init" ng-hide="amm_import_completed">
+        Drag files into the browser above to upload them
+      </span>
+      <div class="amm-progress" ng-show="amm_import_completed>0&&amm_import_completed<1">
+        <div class="progress">
+          <div style="min-width:25px;width:{{amm_import_completed * 100 | number:0}}%" class="progress-bar" role="progressbar">
+            {{amm_import_completed * 100 | number:0}}%
+          </div>
+        </div>
+      </div>
+      <div ng-show="amm_import_completed==-1" class="amm-error amm-ellipse" ng-click="amm_import_displayed_status()">
+        <strong>&times; Error:</strong> {{amm_import_status}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class='amm-panel amm-inspector-panel'>
+  <div class='amm-container'>
+    <div class='amm-head'>
+      <span ng-switch="$amm.player.selectedClips.length">
+        <span ng-switch-when="0">Editing Mash: {{$amm.player.mash.label}}</span>
+        <span ng-switch-when="1">Editing Clip: {{$amm.player.media($amm.player.selectedClip).label}}</span>
+        <span ng-switch-default>Multiple Clips Selected</span>
+      </span>
+    </div>
+    <div class='amm-inspector'>
+      <div class='amm-inspector-form' ng-include="amm_inspector_include($amm.player.selectedClipOrMash)"></div>
+    </div>
+    <div class='amm-foot'>
+    </div>
+  </div>
+</div>
+<div class='amm-panel amm-timeline-panel'>
+  <div class='amm-container'>
+    <div class='amm-head'>
+      <button type="button" ng-disabled="! $amm.player.can('undo')" class="btn btn-default btn-sm" ng-click="$amm.player.undo()">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Undo
+      </button>
+      <button type="button" ng-disabled="! $amm.player.can('redo')" class="btn btn-default btn-sm" ng-click="$amm.player.redo()">
+        Redo
+        <i class="glyphicon glyphicon-chevron-right"></i>
+      </button>
+      <button type="button" ng-disabled="! $amm.player.can('split')" class="btn btn-default btn-sm" ng-click="$amm.player.split()">
+        Split
+      </button>
+      <button ng-if="amm_resources.mash.save" type="button" ng-disabled="! $amm.can('save')" class="btn btn-default btn-sm" ng-click="$amm.save()">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Save
+      </button>
+      <button ng-if="!amm_resources.mash.save" type="button" ng-disabled="!$amm.player.duration" class="btn btn-default btn-sm" ng-click="$amm.player.mash={}">
+        <i class="glyphicon glyphicon-trash"></i>
+        Clear
+      </button>
+
+      <span ng-if="amm_resources.export.init">
+        <button ng-disabled="!$amm.selected_mash.source" type="button" class="btn btn-default btn-sm" ng-click="amm_view_mash()">
+          <i class="glyphicon glyphicon-eye-open"></i>
+          View
+        </button>
+        <button type="button" ng-disabled="(!$amm.can('render')) || (amm_export_completed>0&&amm_export_completed<1)" class="btn btn-default btn-sm" ng-click="$amm.render()">
+          <i class="glyphicon glyphicon-hd-video"></i>
+          Render
+        </button>
+
+        <div class="amm-progress" ng-show="amm_export_completed>0&&amm_export_completed<1">
+          <div class="progress">
+            <div style="min-width:25px;width:{{amm_export_completed * 100 | number:0}}%" class="progress-bar" role="progressbar">
+              {{amm_export_completed * 100 | number:0}}%
+            </div>
+          </div>
+        </div>
+        <div ng-show="amm_export_completed==-1" class="amm-error amm-ellipse" ng-click="amm_export_displayed_status()">
+          <strong>&times; Error:</strong> {{amm_export_status}}
+        </div>
+      </span>
+    </div>
+    <div class='amm-timeline'>
+      <amm-timeline-ruler>
+        <amm-timeline-rule-back></amm-timeline-rule-back>
+        <amm-timeline-rule ng-style="amm_style_rule()">
+          <amm-timeline-rule-icon><i class='glyphicon glyphicon-chevron-down'></i></amm-timeline-rule-icon>
+          <amm-timeline-rule-line></amm-timeline-rule-line>
+        </amm-timeline-rule>
+      </amm-timeline-ruler>
+      <amm-timeline-track-controls>
+        <amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom">
+          <i class="glyphicon" ng-class="{'glyphicon-tasks':track.index, 'glyphicon-facetime-video':!track.index}"></i>
+          {{track.index}}
+        </amm-timeline-track>
+        <amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-bottom">
+          <i class="glyphicon glyphicon-music"></i>
+          {{track.index}}
+        </amm-timeline-track>
+      </amm-timeline-track-controls>
+      <div>
+        <div class='amm-timeline-drop'></div>
+        <amm-timeline-tracks>
+          <amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
+            <amm-timeline-clip ng-repeat="clip in track.clips" />
+          </amm-timeline-track>
+          <amm-timeline-track ng-repeat="track in $amm.player.mash.audio" class="amm-border-bottom" ng-style="{'width':amm_timeline_view_width() + 'px'}">
+            <amm-timeline-clip ng-repeat="clip in track.clips" />
+          </amm-timeline-track>
+        </amm-timeline-tracks>
+      </div>
+    </div>
+    <div class='form-inline amm-foot'>
+      <table>
+        <tr>
+          <td>
+            <button type="button" class="btn btn-default btn-sm" ng-click="$amm.player.addTrack('audio')">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span>Audio Track</span>
+              <i class="glyphicon glyphicon-music"></i>
+            </button>
+          </td>
+          <td class='amm-width100'>
+            <button type="button" class="btn btn-default btn-sm" ng-click="$amm.player.addTrack('video')">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span>Video Track</span>
+              <i class="glyphicon glyphicon-tasks"></i>
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default btn-sm" ng-click="amm_zoom=0">
+              <span>Zoom Out</span>
+              <i class="glyphicon glyphicon-zoom-out"></i>
+            </button>
+          </td>
+          <td>
+            <input type="range" name="amm_zoom" step="0.05" value="" min="0" max="0.95" ng-model="amm_zoom" ng-disabled="!$amm.player.duration"/>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default btn-sm" ng-click="amm_zoom=0.95">
+              <span>Zoom In</span>
+              <i class="glyphicon glyphicon-zoom-in"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

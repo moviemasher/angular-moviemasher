@@ -1,0 +1,9 @@
+<div class='amm-inspector-row'>
+  <input type="range"
+    step="0.1" min="0.1" max="10"
+    ng-change="$amm.player.change('speed')"
+    ng-model="$amm.player.selectedClip.speed"
+  />
+  <label>Speed:</label>
+  {{$amm.player.selectedClip.speed}}
+</div>
