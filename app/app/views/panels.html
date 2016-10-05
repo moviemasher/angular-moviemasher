@@ -1,13 +1,11 @@
 
 <div class='amm-panel amm-player-panel'>
 
-
-
-
   <ul class="nav nav-pills ct-blue">
 
 
-    <div class='player-footer'>
+    <div class="player-footer">
+      <div class="player-controls" style="width:400px; float:left;">
       <ul class="nav nav-pills ct-blue">
 
 
@@ -23,21 +21,31 @@
 
       </li>
 
-      <li class="active" popover-append-to-body='true'
-      popover-trigger="outsideClick"
-      uib-popover-template="'views/browser/volume.html'">
+      <li class="active" popover-append-to-body='true' popover-trigger="outsideClick" uib-popover-template="'views/browser/volume.html'">
       <i class="glyphicon" ng-class="{'glyphicon-volume-off':$amm.player.muted, 'glyphicon-volume-down': ((! $amm.player.muted) && ($amm.player.volume < 0.5)), 'glyphicon-volume-up': ((! $amm.player.muted) && ($amm.player.volume >= 0.5))}"></i>
     </a>
   </li>
 
+<li class="active">
+  <medium style="margin-left:30px;">
+    {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
+  </medium>
+</li>
+
+
 </ul>
+
+
+
+
+
+
+
 </div>
 
-<small>
-  {{$amm.player.currentTime | displaySeconds : $amm.player.mash.quantize : $amm.player.duration}}/{{$amm.player.duration | displaySeconds : $amm.player.mash.quantize}}
-</small>
 
 
+</div>
 
 
 
@@ -114,98 +122,113 @@
 
     <div id="InspectorPanel" class="hidden">
 
-<!--make new project -->
+      <!--make new project -->
 
- <div class="dropdown">
-
-<ul role="menu" aria-labelledby="dropdownMenu1">
-    <select ng-if="amm_resources.mash.search"
-    class='form-control-sm'
-    ng-model="$amm.mash_id"
-    ng-change="$amm.mash_id_change()"
-    ng-options="s.id as s.label for s in $amm.mashes"
-    ><option value=''>New Project...</option></select>
-    </ul>
-</div>
-    <!--end new project -->
-
-
-     <div class='amm-inspector-panel'>
-
-      <span ng-switch="$amm.player.selectedClips.length">
-        <span ng-switch-when="0">Editing Project: {{$amm.player.mash.label}}</span>
-        <span ng-switch-when="1">Editing Clip: {{$amm.player.media($amm.player.selectedClip).label}}</span>
-        <span ng-switch-default>Multiple Clips Selected</span>
-      </span>
-    </div>
-    <div class='amm-inspector'>
-      <div class='amm-inspector-form' ng-include="amm_inspector_include($amm.player.selectedClipOrMash)"></div>
-
-
-    </div>
-  </div>
-
-  <!-- End of Acord -->
-
-
-
-
-  <h2 onclick="toggle_visibilityImport()" >Content Import</h2><br>
-
-  <div id="ContentPanel" class="hidden">
-
-
-    <div class='amm-panel amm-browser-panel'>
-      <div class='amm-container'>
-        <div class='amm-head'>
-          Media:
-          <select class='dropdown-toggle form-control-sm' ng-model="amm_browser_group" ng-change="amm_browser_group_change()">
-            <optgroup ng-if="amm_resources.media.search" label="Assets">
-              <option value='video'>Video</option>
-              <option value='audio'>Audio</option>
-              <option value='image'>Images</option>
-            </optgroup>
-            <optgroup ng-if="amm_resources.module.search" label="Modules">
-              <option value='transition'>Transitions</option>
-              <option value='effect'>Effects</option>
-              <option value='theme'>Themes</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class='amm-browser' nv-file-drop uploader="uploader">
-          <div ng-repeat="media in amm_media" class="amm-browser-media-container" amm-drag-media="media"></div>
-        </div>
+      <div class="dropdown">
+<h4>Choose Project</h4>
+        <ul role="menu" aria-labelledby="dropdownMenu1">
+          <select ng-if="amm_resources.mash.search"
+          class='form-control-sm'
+          ng-model="$amm.mash_id"
+          ng-change="$amm.mash_id_change()"
+          ng-options="s.id as s.label for s in $amm.mashes"
+          ><option value=''>New Project...</option></select>
+        </ul>
       </div>
-      <div class='amm-foot'>
-        <span ng-if="amm_resources.import.init" ng-hide="amm_import_completed">
-          Drag files into the browser above to upload them
+      <!--end new project -->
+
+
+<div id="Meta">
+<h3> Meta Data</h3>
+
+  <tags-input ng-model="tags">
+    </tags-input>
+
+<input type="text" name="tags" placeholder="tags">
+<br>
+<textarea class="form-control" rows="5" placeholder="description"></textarea>
+
+   <input type="submit" value="update"></div>
+
+<hr>
+
+
+      <div class='amm-inspector-panel'>
+
+        <span ng-switch="$amm.player.selectedClips.length">
+          <span ng-switch-when="0">Editing Project: {{$amm.player.mash.label}}</span>
+          <span ng-switch-when="1">Editing Clip: {{$amm.player.media($amm.player.selectedClip).label}}</span>
+          <span ng-switch-default>Multiple Clips Selected</span>
         </span>
-        <div class="amm-progress" ng-show="amm_import_completed>0&&amm_import_completed<1">
-          <div class="progress">
-            <div style="min-width:25px;width:{{amm_import_completed * 100 | number:0}}%" class="progress-bar" role="progressbar">
-              {{amm_import_completed * 100 | number:0}}%
-            </div>
+      </div>
+      <div class='amm-inspector'>
+        <div class='amm-inspector-form' ng-include="amm_inspector_include($amm.player.selectedClipOrMash)"></div>
+
+
+      </div>
+    </div>
+
+    <!-- End of Acord -->
+
+
+
+
+    <h2 onclick="toggle_visibilityImport()" >Content Import</h2><br>
+
+    <div id="ContentPanel" class="hidden">
+
+
+      <div class='amm-panel amm-browser-panel'>
+        <div class='amm-container'>
+          <div class='amm-head'>
+            Media:
+            <select class='dropdown-toggle form-control-sm' ng-model="amm_browser_group" ng-change="amm_browser_group_change()">
+              <optgroup ng-if="amm_resources.media.search" label="Assets">
+                <option value='video'>Video</option>
+                <option value='audio'>Audio</option>
+                <option value='image'>Images</option>
+              </optgroup>
+              <optgroup ng-if="amm_resources.module.search" label="Modules">
+                <option value='transition'>Transitions</option>
+                <option value='effect'>Effects</option>
+                <option value='theme'>Themes</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class='amm-browser' nv-file-drop uploader="uploader">
+            <div ng-repeat="media in amm_media" class="amm-browser-media-container" amm-drag-media="media"></div>
           </div>
         </div>
-        <div ng-show="amm_import_completed==-1" class="amm-error amm-ellipse" ng-click="amm_import_displayed_status()">
-          <strong>&times; Error:</strong> {{amm_import_status}}
+        <div class='amm-foot'>
+          <span ng-if="amm_resources.import.init" ng-hide="amm_import_completed">
+            Drag files into the browser above to upload them
+          </span>
+          <div class="amm-progress" ng-show="amm_import_completed>0&&amm_import_completed<1">
+            <div class="progress">
+              <div style="min-width:25px;width:{{amm_import_completed * 100 | number:0}}%" class="progress-bar" role="progressbar">
+                {{amm_import_completed * 100 | number:0}}%
+              </div>
+            </div>
+          </div>
+          <div ng-show="amm_import_completed==-1" class="amm-error amm-ellipse" ng-click="amm_import_displayed_status()">
+            <strong>&times; Error:</strong> {{amm_import_status}}
+          </div>
         </div>
       </div>
+
+
+
+
+
+
     </div>
 
-
+    <!--End Acord-->
 
 
 
 
   </div>
-
-  <!--End Acord-->
-
-
-
-
-</div>
 
 
 </div>

@@ -222,7 +222,11 @@ amm-timeline-track-controls amm-timeline-track {
   position:absolute;
   margin-left:74%;
   top:-16px;
-  border-left:solid 1px white;
+
+-webkit-box-shadow: -8px 0px 0px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -8px 0px 0px 0px rgba(0,0,0,0.75);
+box-shadow: -8px 0px 0px 0px rgba(0,0,0,0.75);
+
 }
 .amm-drop-dragover > .amm-timeline-drop,
 .amm-drop-dragover > .amm-effects-drop{
@@ -507,7 +511,7 @@ box-shadow: 1px 1px 5px 1px rgba(235, 122, 30,0.4);
 
 input[type=range].amm-pos {
   -webkit-appearance: none;
-  width: 80px;
+  width: 100%;
   margin: -1px 0;
   margin-left: 5px;
 }
@@ -636,4 +640,19 @@ z-index:4000000;
 }
 .blur {
   +filter: blur(3px);
+}
+
+.timeplayer{
+position: absolute !important; 
+z-index: 900000 !important;
+width:200px;
+height:50px;
+float:left;
+}
+
+
+.player-controls{
+float:left;
+width:200px;
+position: relative;
 }

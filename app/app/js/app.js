@@ -1,5 +1,6 @@
 var mainapp = angular.module("testapp" , ['ngCamRecorder']);
 
+
 mainapp.controller("angular.moviemasher" , function ($scope) {
 
     var configuration  = {

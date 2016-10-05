@@ -18,13 +18,12 @@
     <script src="../bower_components/opentype.js/dist/opentype.min.js"></script>
     <script src="../bower_components/script.js/dist/script.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.js"></script>
 
 <script type="text/javascript" src="js/webcam.js"></script>
 <script type="text/javascript" src="js/ui.js"></script>
     <script src="../bower_components/moviemasher.js/dist/moviemasher.min.js"></script>
     <script src="../dist/angular-moviemasher.js"></script>
-
-
 
 <!--testing-->
 
@@ -102,7 +101,7 @@ function PostBlob(audioBlob, videoBlob, fileName) {
     <link rel="stylesheet" href="../bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css">
   <link rel="stylesheet" href="app.css" >
     <link rel="stylesheet" href="gsdk.css" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.min.css" />
 
  
 
@@ -124,7 +123,11 @@ function PostBlob(audioBlob, videoBlob, fileName) {
     <div class='amm-ui'></div>
 
 <!--<script src="js/capture.js"></script>-->
-
+<script>
+      angular.module('moviemasher', ['ngTagsInput']);
+        
+          
+    </script>
 
   </body>
 </html>
