@@ -44,7 +44,6 @@ background-color:#6e6e6e;
   height: 70%;
     left: 5%;
     position: absolute;
-    top: 40%;
     width: 90%;
     z-index: 1200000;
 }
@@ -613,7 +612,6 @@ button:focus {outline:0 !important;}
 
 
 video { 
-   position:absolute;
 z-index:4000000}
 
 .hidden {
@@ -622,3 +620,14 @@ z-index:4000000}
    .visible {
         display: block;
    }
+
+
+   .grayscale {
+  +filter: grayscale(1);
+}
+.sepia {
+  +filter: sepia(1);
+}
+.blur {
+  +filter: blur(3px);
+}
