@@ -38,7 +38,7 @@
     //we can also set webcam resolution and framerate in the above object.
     //mandatory properties must be satisfied by the getuserMedia otherwise thrown an error.
     //option properties will be satisfied if possible. Error will not be through if not satisfied.
-    video_audio_properties = {video: {mandatory: {minWidth: 300, minHeight: 300, minFrameRate: 30}, optional: [{ minFrameRate: 60 }]}, audio: true};
+    video_audio_properties = {video: {mandatory: {Width: 1280, Height: 720, minFrameRate: 30}, optional: [{ minFrameRate: 60 }]}, audio: true};
 
     function onSuccess(stream)
     {
@@ -61,8 +61,43 @@
     {
       alert("microphone and webcam API not supported");
     }
+
+//video features start save upload save to file
+
+function recordfilming()
+{
+      navigator.getUserMedia(video_audio_properties, onSuccess, onError);
+console.log ("capture clicked fired!");
+
+}
+
+    function stopfilming()
+    {
+            video.pause ();
+            console.log ("capture paused");
+
+    }
+
+function PostBlob(audioBlob, videoBlob, fileName) {
+        var formData = new FormData();
+        formData.append('filename', fileName);
+        formData.append('audio-blob', audioBlob);
+        formData.append('video-blob', videoBlob);
+        xhr('save.php', formData, function(ffmpeg_output) {
+            document.querySelector('h1').innerHTML = ffmpeg_output.replace(/\\n/g, '<br />');
+            preview.src = 'uploads/' + fileName + '-merged.webm';
+            preview.play();
+            preview.muted = false;
+        });
+    }
+
+
+
+
+
     </script>
 
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"> </script>
 
     <!--end test-->
 
@@ -73,6 +108,11 @@
 
 
  
+
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+
+
+
 
 
 
@@ -87,5 +127,7 @@
     <div class='amm-ui'></div>
 
 <!--<script src="js/capture.js"></script>-->
+
+
   </body>
 </html>
