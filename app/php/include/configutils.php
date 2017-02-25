@@ -60,7 +60,7 @@ if (! function_exists('config_defaults')) {
     $config['cgi_directory'] = (empty($config['cgi_directory']) ? substr(dirname(dirname(__FILE__)), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))) : $config['cgi_directory']);
     $config['user_media_directory'] = (isset($config['user_media_directory']) ? $config['user_media_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end(path_concat($config['web_root_directory'], $config['install_directory'])))), 'user'));
     $config['user_media_url'] = (isset($config['user_media_url']) ? $config['user_media_url'] : $config['user_media_directory']);
-    $config['user_media_protocol'] = (isset($config['user_media_protocol']) ? 'http' : $config['user_media_protocol']);
+    $config['user_media_protocol'] = (empty($config['user_media_protocol']) ? 'http' : $config['user_media_protocol']);
     $config['user_data_directory'] = (isset($config['user_data_directory']) ? $config['user_data_directory'] : path_concat(substr(dirname(dirname(dirname(__FILE__))), strlen(path_add_slash_end($config['web_root_directory']))), 'user'));
     $config['s3_bucket'] = (empty($config['s3_bucket']) ? '' : $config['s3_bucket']);
     $config['s3_region'] = (empty($config['s3_region']) ? '' : $config['s3_region']);
