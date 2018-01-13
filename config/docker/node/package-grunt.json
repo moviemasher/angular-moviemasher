@@ -1,0 +1,25 @@
+{
+  "name": "angular-moviemasher",
+  "description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
+  "version": "1.0.19",
+  "author": {
+    "name": "Movie Masher",
+    "email": "support@moviemasher.com"
+  },
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/moviemasher/angular-moviemasher.git"
+  },
+  "engines": {
+    "node": ">=6.11.3"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "jshint-stylish": "^0.2.0"
+  }
+}

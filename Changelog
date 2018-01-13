@@ -1,6 +1,26 @@
 
-version <future>:
-- freeze frame
+version 1.0.19:
+  - support for npm install
+  - fixed timeline rule's css
+  - updated aws-sdk-php to version 3.48
+  - new player.postition_step property for range slider
+
+version 1.0.18:
+  - updated JavaScript dependencies
+
+version 1.0.17:
+  - updated moviemasher.js
+  - fix for user_media_protocol default
+  - expose all classes in MovieMasher object
+
+version 1.0.16:
+  - fix issue with request signatures in eu-central region
+  - added option to control protocols of transfers
+  - added MM_INI_FILE constant for easier override
+  - added authentication_callback_mode option
+  - updated aws-sdk-php to version 3.19
+  - trap errors finding media
+  - fix for spit clip action
 
 version 1.0.14:
   - new blend merger with support for compositing blend modes

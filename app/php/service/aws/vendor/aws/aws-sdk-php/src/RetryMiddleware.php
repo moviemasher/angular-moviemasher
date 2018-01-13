@@ -2,11 +2,9 @@
 namespace Aws;
 
 use Aws\Exception\AwsException;
-use Exception;
 use Psr\Http\Message\RequestInterface;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7;
+use GuzzleHttp\Promise;
 
 /**
  * @internal Middleware that retries failures.
@@ -25,9 +23,11 @@ class RetryMiddleware
         'RequestLimitExceeded'                   => true,
         'Throttling'                             => true,
         'ThrottlingException'                    => true,
+        'ThrottledException'                     => true,
         'ProvisionedThroughputExceededException' => true,
         'RequestThrottled'                       => true,
         'BandwidthLimitExceeded'                 => true,
+        'RequestThrottledException'              => true,
     ];
 
     private $decider;
@@ -80,9 +80,9 @@ class RetryMiddleware
                 return true;
             } elseif (isset(self::$retryStatusCodes[$error->getStatusCode()])) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         };
     }
 
@@ -91,13 +91,13 @@ class RetryMiddleware
      *
      * Exponential backoff with jitter, 100ms base, 20 sec ceiling
      *
-     * @param $retries
+     * @param $retries - The number of retries that have already been attempted
      *
      * @return int
      */
     public static function exponentialDelay($retries)
     {
-        return mt_rand(0, (int) min(20000, (int) pow(2, $retries - 1) * 100));
+        return mt_rand(0, (int) min(20000, (int) pow(2, $retries) * 100));
     }
 
     /**
@@ -132,7 +132,7 @@ class RetryMiddleware
 
             if ($value instanceof \Exception || $value instanceof \Throwable) {
                 if (!$decider($retries, $command, $request, null, $value)) {
-                    return \GuzzleHttp\Promise\rejection_for(
+                    return Promise\rejection_for(
                         $this->bindStatsToReturn($value, $requestStats)
                     );
                 }

@@ -1,0 +1,48 @@
+{
+  "_from": "@moviemasher/moviemasher.js@=4.0.22",
+  "_id": "@moviemasher/moviemasher.js@4.0.22",
+  "_inBundle": false,
+  "_integrity": "sha512-NmwFO9ypP7dcOxurwe74ehN6tp5nAGN/SVw3IThtGEHiOtTyOF0+aQGjG7pmS3swIKhwvSobO8/ijRAKekEKBg==",
+  "_location": "/@moviemasher/moviemasher.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@moviemasher/moviemasher.js@=4.0.22",
+    "name": "@moviemasher/moviemasher.js",
+    "escapedName": "@moviemasher%2fmoviemasher.js",
+    "scope": "@moviemasher",
+    "rawSpec": "=4.0.22",
+    "saveSpec": null,
+    "fetchSpec": "=4.0.22"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@moviemasher/moviemasher.js/-/moviemasher.js-4.0.22.tgz",
+  "_shasum": "c83abb6ec987108099b1c4b8908b23b87b032075",
+  "_spec": "@moviemasher/moviemasher.js@=4.0.22",
+  "_where": "/",
+  "author": {
+    "name": "Movie Masher",
+    "email": "support@moviemasher.com"
+  },
+  "bugs": {
+    "url": "https://github.com/moviemasher/moviemasher.js/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "opentype.js": "=0.7.3",
+    "scriptjs": "=2.5.8"
+  },
+  "deprecated": false,
+  "description": "JavaScript library for realtime, browser-based video and audio editing",
+  "homepage": "https://github.com/moviemasher/moviemasher.js#readme",
+  "license": "MPL-2.0",
+  "name": "@moviemasher/moviemasher.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moviemasher/moviemasher.js.git"
+  },
+  "version": "4.0.22"
+}

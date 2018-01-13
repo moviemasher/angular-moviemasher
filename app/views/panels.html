@@ -21,7 +21,7 @@
             </button>
           </td>
           <td amm-synced>
-            <input class='amm-pos' type="range" name="position" step="0.001" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
+            <input class='amm-pos' type="range" name="position" step="{{$amm.player.position_step}}" value="" min="0" max="1" ng-model="$amm.player.position" ng-disabled="!$amm.player.duration"/>
           </td>
           <td amm-synced class='amm-width100 text-center'>
             <small>
@@ -55,9 +55,7 @@
           <option value='image'>Images</option>
         </optgroup>
         <optgroup ng-if="amm_resources.module.search" label="Modules">
-<!--
           <option value='transition'>Transitions</option>
- -->
           <option value='effect'>Effects</option>
           <option value='theme'>Themes</option>
         </optgroup>
@@ -146,13 +144,6 @@
       </span>
     </div>
     <div class='amm-timeline'>
-      <amm-timeline-ruler>
-        <amm-timeline-rule-back></amm-timeline-rule-back>
-        <amm-timeline-rule ng-style="amm_style_rule()">
-          <amm-timeline-rule-icon><i class='glyphicon glyphicon-chevron-down'></i></amm-timeline-rule-icon>
-          <amm-timeline-rule-line></amm-timeline-rule-line>
-        </amm-timeline-rule>
-      </amm-timeline-ruler>
       <amm-timeline-track-controls>
         <amm-timeline-track ng-repeat="track in $amm.player.mash.video | orderBy : 'index' : true" class="amm-border-bottom">
           <i class="glyphicon" ng-class="{'glyphicon-tasks':track.index, 'glyphicon-facetime-video':!track.index}"></i>
@@ -163,6 +154,13 @@
           {{track.index}}
         </amm-timeline-track>
       </amm-timeline-track-controls>
+      <amm-timeline-ruler>
+        <amm-timeline-rule-back></amm-timeline-rule-back>
+        <amm-timeline-rule ng-style="amm_style_rule()">
+          <amm-timeline-rule-icon><i class='glyphicon glyphicon-chevron-down'></i></amm-timeline-rule-icon>
+          <amm-timeline-rule-line></amm-timeline-rule-line>
+        </amm-timeline-rule>
+      </amm-timeline-ruler>
       <div>
         <div class='amm-timeline-drop'></div>
         <amm-timeline-tracks>

@@ -8,3 +8,5 @@ RUN apt-get update && apt-get install -y zlib1g-dev && docker-php-ext-install zi
 
 # install composer in /mnt directory
 RUN cd /mnt ; curl -sS https://getcomposer.org/installer | php ;
+
+WORKDIR /mnt/aws

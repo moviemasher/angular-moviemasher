@@ -1,26 +1,32 @@
 {
   "name": "angular-moviemasher",
-  "main": "angular-moviemasher.js",
+  "version": "1.0.19",
+  "main": "dist/angular-moviemasher.js",
   "homepage": "http://www.moviemasher.com",
   "authors": [ {"name": "Movie Masher", "email": "support@moviemasher.com" }],
   "description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
-  "version": "1.0.18",
+  "keywords": [
+    "movie-masher",
+    "video-masher",
+    "audio-masher",
+    "video-editor",
+    "audio-editor"
+  ],
+  "license": "MPL-2.0",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
-    "angular": "~1.5.5",
-    "angular-resource": "~1.5.5",
-    "angular-animate": "~1.5.5",
-    "angular-file-upload": "~2.3.1",
-    "bootstrap": "~3.3.6",
-    "angular-bootstrap": "~1.3.3",
-    "angular-bootstrap-colorpicker": "~3.0.25",
-    "moviemasher.js": "4.0.21"
+    "moviemasher.js": "4.0.22",
+    "angular-animate": "=1.6.6",
+    "angular-bootstrap-colorpicker": "~3.0.8",
+    "angular-ui-bootstrap": "=2.3.0",
+    "angular-file-upload": "=2.5.0",
+    "angular-resource": "=1.6.6",
+    "angular": "=1.6.6",
+    "bootstrap": "=3.3.6"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

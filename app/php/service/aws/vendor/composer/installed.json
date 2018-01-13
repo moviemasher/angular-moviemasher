@@ -1,252 +1,115 @@
 [
     {
-        "name": "mtdowling/jmespath.php",
-        "version": "2.3.0",
-        "version_normalized": "2.3.0.0",
+        "name": "aws/aws-sdk-php",
+        "version": "3.48.13",
+        "version_normalized": "3.48.13.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/jmespath/jmespath.php.git",
-            "reference": "192f93e43c2c97acde7694993ab171b3de284093"
+            "url": "https://github.com/aws/aws-sdk-php.git",
+            "reference": "e083a4dae6f460df1d02dcd827cf547592f5dc29"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/192f93e43c2c97acde7694993ab171b3de284093",
-            "reference": "192f93e43c2c97acde7694993ab171b3de284093",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e083a4dae6f460df1d02dcd827cf547592f5dc29",
+            "reference": "e083a4dae6f460df1d02dcd827cf547592f5dc29",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.4.0"
+            "ext-json": "*",
+            "ext-pcre": "*",
+            "ext-simplexml": "*",
+            "ext-spl": "*",
+            "guzzlehttp/guzzle": "^5.3.1|^6.2.1",
+            "guzzlehttp/promises": "~1.0",
+            "guzzlehttp/psr7": "^1.4.1",
+            "mtdowling/jmespath.php": "~2.2",
+            "php": ">=5.5"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.0"
+            "andrewsville/php-token-reflection": "^1.4",
+            "aws/aws-php-sns-message-validator": "~1.0",
+            "behat/behat": "~3.0",
+            "doctrine/cache": "~1.4",
+            "ext-dom": "*",
+            "ext-openssl": "*",
+            "nette/neon": "^2.3",
+            "phpunit/phpunit": "^4.8.35|^5.4.3",
+            "psr/cache": "^1.0"
         },
-        "time": "2016-01-05 18:25:05",
-        "bin": [
-            "bin/jp.php"
-        ],
+        "suggest": {
+            "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
+            "doctrine/cache": "To use the DoctrineCacheAdapter",
+            "ext-curl": "To send requests using cURL",
+            "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages"
+        },
+        "time": "2018-01-12T21:20:32+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.0-dev"
+                "dev-master": "3.0-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "JmesPath\\": "src/"
+                "Aws\\": "src/"
             },
             "files": [
-                "src/JmesPath.php"
+                "src/functions.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "MIT"
+            "Apache-2.0"
         ],
         "authors": [
             {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
+                "name": "Amazon Web Services",
+                "homepage": "http://aws.amazon.com"
             }
         ],
-        "description": "Declaratively specify how to extract elements from a JSON document",
+        "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
+        "homepage": "http://aws.amazon.com/sdkforphp",
         "keywords": [
-            "json",
-            "jsonpath"
-        ]
-    },
-    {
-        "name": "guzzlehttp/promises",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/promises.git",
-            "reference": "c10d860e2a9595f8883527fa0021c7da9e65f579"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/promises/zipball/c10d860e2a9595f8883527fa0021c7da9e65f579",
-            "reference": "c10d860e2a9595f8883527fa0021c7da9e65f579",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2016-05-18 16:56:05",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Promise\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle promises library",
-        "keywords": [
-            "promise"
-        ]
-    },
-    {
-        "name": "psr/http-message",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-fig/http-message.git",
-            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2016-08-06 14:39:51",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Psr\\Http\\Message\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
-            }
-        ],
-        "description": "Common interface for HTTP messages",
-        "homepage": "https://github.com/php-fig/http-message",
-        "keywords": [
-            "http",
-            "http-message",
-            "psr",
-            "psr-7",
-            "request",
-            "response"
-        ]
-    },
-    {
-        "name": "guzzlehttp/psr7",
-        "version": "1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/psr7.git",
-            "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
-            "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0",
-            "psr/http-message": "~1.0"
-        },
-        "provide": {
-            "psr/http-message-implementation": "1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2016-06-24 23:00:38",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Psr7\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "PSR-7 message implementation",
-        "keywords": [
-            "http",
-            "message",
-            "stream",
-            "uri"
+            "amazon",
+            "aws",
+            "cloud",
+            "dynamodb",
+            "ec2",
+            "glacier",
+            "s3",
+            "sdk"
         ]
     },
     {
         "name": "guzzlehttp/guzzle",
-        "version": "6.2.1",
-        "version_normalized": "6.2.1.0",
+        "version": "6.3.0",
+        "version_normalized": "6.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "3f808fba627f2c5b69e2501217bf31af349c1427"
+            "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/3f808fba627f2c5b69e2501217bf31af349c1427",
-            "reference": "3f808fba627f2c5b69e2501217bf31af349c1427",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f4db5a78a5ea468d4831de7f0bf9d9415e348699",
+            "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699",
             "shasum": ""
         },
         "require": {
             "guzzlehttp/promises": "^1.0",
-            "guzzlehttp/psr7": "^1.3.1",
+            "guzzlehttp/psr7": "^1.4",
             "php": ">=5.5"
         },
         "require-dev": {
             "ext-curl": "*",
-            "phpunit/phpunit": "^4.0",
+            "phpunit/phpunit": "^4.0 || ^5.0",
             "psr/log": "^1.0"
         },
-        "time": "2016-07-15 17:22:37",
+        "suggest": {
+            "psr/log": "Required for using the Log middleware"
+        },
+        "time": "2017-06-22T18:50:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -286,85 +149,232 @@
         ]
     },
     {
-        "name": "aws/aws-sdk-php",
-        "version": "3.19.3",
-        "version_normalized": "3.19.3.0",
+        "name": "guzzlehttp/promises",
+        "version": "v1.3.1",
+        "version_normalized": "1.3.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/aws/aws-sdk-php.git",
-            "reference": "1fdf5ec8743575a01d5953a84cd1d9438ce36d1a"
+            "url": "https://github.com/guzzle/promises.git",
+            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1fdf5ec8743575a01d5953a84cd1d9438ce36d1a",
-            "reference": "1fdf5ec8743575a01d5953a84cd1d9438ce36d1a",
+            "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
             "shasum": ""
         },
         "require": {
-            "guzzlehttp/guzzle": "^5.3.1|^6.2.1",
-            "guzzlehttp/promises": "~1.0",
-            "guzzlehttp/psr7": "~1.3.1",
-            "mtdowling/jmespath.php": "~2.2",
-            "php": ">=5.5"
+            "php": ">=5.5.0"
         },
         "require-dev": {
-            "andrewsville/php-token-reflection": "^1.4",
-            "aws/aws-php-sns-message-validator": "~1.0",
-            "behat/behat": "~3.0",
-            "doctrine/cache": "~1.4",
-            "ext-dom": "*",
-            "ext-json": "*",
-            "ext-openssl": "*",
-            "ext-pcre": "*",
-            "ext-simplexml": "*",
-            "ext-spl": "*",
-            "nette/neon": "^2.3",
-            "phpunit/phpunit": "~4.0|~5.0",
-            "psr/cache": "^1.0"
+            "phpunit/phpunit": "^4.0"
         },
-        "suggest": {
-            "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
-            "doctrine/cache": "To use the DoctrineCacheAdapter",
-            "ext-curl": "To send requests using cURL",
-            "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages"
-        },
-        "time": "2016-08-30 17:56:50",
+        "time": "2016-12-20T10:07:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.0-dev"
+                "dev-master": "1.4-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Aws\\": "src/"
+                "GuzzleHttp\\Promise\\": "src/"
             },
             "files": [
-                "src/functions.php"
+                "src/functions_include.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "Apache-2.0"
+            "MIT"
         ],
         "authors": [
             {
-                "name": "Amazon Web Services",
-                "homepage": "http://aws.amazon.com"
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
             }
         ],
-        "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
-        "homepage": "http://aws.amazon.com/sdkforphp",
+        "description": "Guzzle promises library",
         "keywords": [
-            "amazon",
-            "aws",
-            "cloud",
-            "dynamodb",
-            "ec2",
-            "glacier",
-            "s3",
-            "sdk"
+            "promise"
+        ]
+    },
+    {
+        "name": "guzzlehttp/psr7",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/psr7.git",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "psr/http-message": "~1.0"
+        },
+        "provide": {
+            "psr/http-message-implementation": "1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2017-03-20T17:10:46+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\Psr7\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            },
+            {
+                "name": "Tobias Schultze",
+                "homepage": "https://github.com/Tobion"
+            }
+        ],
+        "description": "PSR-7 message implementation that also provides common utility methods",
+        "keywords": [
+            "http",
+            "message",
+            "request",
+            "response",
+            "stream",
+            "uri",
+            "url"
+        ]
+    },
+    {
+        "name": "mtdowling/jmespath.php",
+        "version": "2.4.0",
+        "version_normalized": "2.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jmespath/jmespath.php.git",
+            "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+            "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2016-12-03T22:08:25+00:00",
+        "bin": [
+            "bin/jp.php"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "JmesPath\\": "src/"
+            },
+            "files": [
+                "src/JmesPath.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Declaratively specify how to extract elements from a JSON document",
+        "keywords": [
+            "json",
+            "jsonpath"
+        ]
+    },
+    {
+        "name": "psr/http-message",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T14:39:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "homepage": "https://github.com/php-fig/http-message",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
         ]
     }
 ]

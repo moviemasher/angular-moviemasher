@@ -1,0 +1,69 @@
+{
+  "_from": "angular-bootstrap-colorpicker@~3.0.8",
+  "_id": "angular-bootstrap-colorpicker@3.0.32",
+  "_inBundle": false,
+  "_integrity": "sha512-5BRShlkKStFxnEz/hgvY9edlmRY2KJiIfDTt+nNT0jkM5PMe4qmDuARtaw73TjIKZyjUvjXv9yzheWvqDYcfEQ==",
+  "_location": "/angular-bootstrap-colorpicker",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "angular-bootstrap-colorpicker@~3.0.8",
+    "name": "angular-bootstrap-colorpicker",
+    "escapedName": "angular-bootstrap-colorpicker",
+    "rawSpec": "~3.0.8",
+    "saveSpec": null,
+    "fetchSpec": "~3.0.8"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-bootstrap-colorpicker/-/angular-bootstrap-colorpicker-3.0.32.tgz",
+  "_shasum": "1080b1ab9802c1bae1919badb26417de6758ef3d",
+  "_spec": "angular-bootstrap-colorpicker@~3.0.8",
+  "_where": "/",
+  "author": {
+    "name": "Michal Zielenkiewicz"
+  },
+  "bugs": {
+    "url": "https://github.com/buberdds/angular-bootstrap-colorpicker/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Native AngularJS colorpicker directive",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-cli": "0.1.0",
+    "karma-coverage": "^0.5.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.6"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/buberdds/angular-bootstrap-colorpicker",
+  "keywords": [
+    "angular",
+    "color picker",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "main": "js/bootstrap-colorpicker-module.js",
+  "name": "angular-bootstrap-colorpicker",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buberdds/angular-bootstrap-colorpicker.git"
+  },
+  "scripts": {
+    "test": "karma start test/karma.conf.js"
+  },
+  "version": "3.0.32"
+}

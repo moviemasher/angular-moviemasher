@@ -1,5 +1,5 @@
-/*! angular-moviemasher - v1.0.18 - 2017-02-25
-* Copyright (c) 2017 Movie Masher; Licensed  */
+/*! angular-moviemasher - v1.0.19 - 2018-01-13
+* Copyright (c) 2018 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
   'use strict';
@@ -1254,6 +1254,7 @@
     restrict: "AEC",
     link: function() {
       $interval(function(){
+        //console.log('amm-synced');
         // essentially just calling scope.$digest();
       }, 100);
     }

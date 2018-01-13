@@ -1,0 +1,63 @@
+{
+  "_from": "angular-animate@=1.6.6",
+  "_id": "angular-animate@1.6.6",
+  "_inBundle": false,
+  "_integrity": "sha1-aSVkexQaBA0kG/ElBA8aFQ/NinA=",
+  "_location": "/angular-animate",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "angular-animate@=1.6.6",
+    "name": "angular-animate",
+    "escapedName": "angular-animate",
+    "rawSpec": "=1.6.6",
+    "saveSpec": null,
+    "fetchSpec": "=1.6.6"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.6.6.tgz",
+  "_shasum": "6925647b141a040d241bf125040f1a150fcd8a70",
+  "_spec": "angular-animate@=1.6.6",
+  "_where": "/",
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "AngularJS module for animations",
+  "homepage": "http://angularjs.org",
+  "jspm": {
+    "shim": {
+      "angular-animate": {
+        "deps": [
+          "angular"
+        ]
+      }
+    }
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "animation",
+    "client-side"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "angular-animate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.6.6"
+}

@@ -7,7 +7,6 @@ services:
     image: angular_moviemasher_composer
     volumes:
       - "../../../app/php/service/aws:/mnt/aws"
-      - "./entry-composer.sh:/mnt/entry-composer.sh"
     environment:
       COMPOSER_ALLOW_SUPERUSER: 1
-    entrypoint: /mnt/entry-composer.sh
+    command: php /mnt/composer.phar install

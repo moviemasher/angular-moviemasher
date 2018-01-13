@@ -9,18 +9,18 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @method ResponseInterface get($uri, array $options = [])
- * @method ResponseInterface head($uri, array $options = [])
- * @method ResponseInterface put($uri, array $options = [])
- * @method ResponseInterface post($uri, array $options = [])
- * @method ResponseInterface patch($uri, array $options = [])
- * @method ResponseInterface delete($uri, array $options = [])
- * @method Promise\PromiseInterface getAsync($uri, array $options = [])
- * @method Promise\PromiseInterface headAsync($uri, array $options = [])
- * @method Promise\PromiseInterface putAsync($uri, array $options = [])
- * @method Promise\PromiseInterface postAsync($uri, array $options = [])
- * @method Promise\PromiseInterface patchAsync($uri, array $options = [])
- * @method Promise\PromiseInterface deleteAsync($uri, array $options = [])
+ * @method ResponseInterface get(string|UriInterface $uri, array $options = [])
+ * @method ResponseInterface head(string|UriInterface $uri, array $options = [])
+ * @method ResponseInterface put(string|UriInterface $uri, array $options = [])
+ * @method ResponseInterface post(string|UriInterface $uri, array $options = [])
+ * @method ResponseInterface patch(string|UriInterface $uri, array $options = [])
+ * @method ResponseInterface delete(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface getAsync(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface headAsync(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface putAsync(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface postAsync(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface patchAsync(string|UriInterface $uri, array $options = [])
+ * @method Promise\PromiseInterface deleteAsync(string|UriInterface $uri, array $options = [])
  */
 class Client implements ClientInterface
 {
@@ -63,6 +63,8 @@ class Client implements ClientInterface
     {
         if (!isset($config['handler'])) {
             $config['handler'] = HandlerStack::create();
+        } elseif (!is_callable($config['handler'])) {
+            throw new \InvalidArgumentException('handler must be a callable');
         }
 
         // Convert the base_uri to a UriInterface
@@ -142,10 +144,10 @@ class Client implements ClientInterface
         $uri = Psr7\uri_for($uri === null ? '' : $uri);
 
         if (isset($config['base_uri'])) {
-            $uri = Psr7\Uri::resolve(Psr7\uri_for($config['base_uri']), $uri);
+            $uri = Psr7\UriResolver::resolve(Psr7\uri_for($config['base_uri']), $uri);
         }
 
-        return $uri->getScheme() === '' ? $uri->withScheme('http') : $uri;
+        return $uri->getScheme() === '' && $uri->getHost() !== '' ? $uri->withScheme('http') : $uri;
     }
 
     /**
@@ -350,6 +352,10 @@ class Client implements ClientInterface
                     $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_DIGEST;
                     $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
                     break;
+                case 'ntlm':
+                    $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_NTLM;
+                    $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
+                    break;
             }
         }
 
@@ -402,7 +408,7 @@ class Client implements ClientInterface
         throw new \InvalidArgumentException('Passing in the "body" request '
             . 'option as an array to send a POST request has been deprecated. '
             . 'Please use the "form_params" request option to send a '
-            . 'application/x-www-form-urlencoded request, or a the "multipart" '
+            . 'application/x-www-form-urlencoded request, or the "multipart" '
             . 'request option to send a multipart/form-data request.');
     }
 }

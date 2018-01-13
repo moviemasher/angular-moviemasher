@@ -1,11 +1,7 @@
-logs/*
+.DS_Store
+config/docker/node/node_modules*
 !.gitkeep
-node_modules*
-bower_components/grunt*
-bower_components/jshint*
-bower_components/jquery*
 app/user/
 tmp
-.DS_Store
 .idea
 log

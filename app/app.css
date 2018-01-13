@@ -232,7 +232,7 @@ amm-timeline-ruler {
 }
 amm-timeline-rule {
   pointer-events: none;
-  z-index: 56000;
+  z-index: 560000;
   text-align: center;
 }
 amm-timeline-rule-back {
@@ -257,7 +257,7 @@ amm-timeline-rule-line {
   background-color: aqua;
   display:inline-block;
   height:100%;
-  margin-left: auto;
+  margin-left: -2px;
   margin-right: auto;
   margin-top: -16px;
 }
