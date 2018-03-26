@@ -1,4 +1,7 @@
 
+version 1.0.20:
+  - fix path to moviemasher.js in filter definitions
+
 version 1.0.19:
   - support for npm install
   - fixed timeline rule's css
