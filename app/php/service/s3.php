@@ -16,7 +16,6 @@ function s3_file_source($input, $config){
 }
 function s3_file_import_url($import, $config){
   $uid = (empty($import['uid']) ? '' : $import['uid']);
-
   return path_concat($config['user_media_protocol'] . '://' . $config['user_media_host'], path_concat($config['user_media_url'], $uid));
 }
 function s3_file_export_url($import, $config){
@@ -34,9 +33,9 @@ function s3_file_config_error($config = array()){
   if ((! $err) && empty($config['user_media_host'])) $err = 'Configuration option user_media_host required';
   if (! $err){
     if (substr($config['user_media_host'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket']) {
-      if (empty($config['user_media_directory'])) $err = 'Configuration option user_media_directory required if user_media_host does not begin with s3_bucket';
-      else if (substr($config['user_media_directory'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket']) {
-        $err = 'Either user_media_host or user_media_directory must begin with s3_bucket';
+      if (empty($config['user_media_url'])) $err = 'Configuration option user_media_url required if user_media_host does not begin with s3_bucket';
+      else if (substr($config['user_media_url'], 0, strlen($config['s3_bucket'])) != $config['s3_bucket']) {
+        $err = 'Either user_media_host or user_media_url must begin with s3_bucket';
       }
     }
   }
@@ -55,7 +54,7 @@ function s3_file_destination($output, $config, $prefix = 's3'){
     'type' => $prefix,
     'bucket' => $config[$prefix . '_bucket'],
     'region' => $config[$prefix . '_region'],
-    'path' => path_concat(path_concat($config['user_media_url'], $output['uid']), $output['id']),
+    'path' => path_concat(path_concat($config['user_media_directory'], $output['uid']), $output['id']),
   );
 }
 function s3_file_import_init($import, $config) {
@@ -87,7 +86,7 @@ function s3_file_import_init($import, $config) {
       $formInputs = ['acl' => $config['s3_acl'], 'key' => $key];
       if (! $config['aws_access_key_id']) {
         $credentials = $s3->getCredentials()->wait();
-        $formInputs['x-amz-security-token'] = $credentials->getSecurityToken();
+        $formInputs['X-Amz-Security-Token'] = $credentials->getSecurityToken();
       }
       $conditions = [['bucket' => $config['s3_bucket']]];
       $expiration = date(DATE_FORMAT_TIMESTAMP, time() + 5 * 60);
