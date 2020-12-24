@@ -2,6 +2,7 @@
   "name": "@moviemasher/angular-moviemasher",
   "description": "Example deployment of moviemasher.js and moviemasher.rb utilizing AngularJS, Bootstrap and PHP",
   "version": "1.0.21",
+  "keywords": ['video editor', 'audio editor'],
   "author": {
     "name": "Movie Masher",
     "email": "support@moviemasher.com"
@@ -13,14 +14,14 @@
     "url": "git://github.com/moviemasher/angular-moviemasher.git"
   },
   "dependencies": {
-    "angular-animate": "=1.6.6",
-    "angular-bootstrap-colorpicker": "~3.0.8",
-    "angular-file-upload": "=2.5.0",
-    "angular-resource": "=1.6.6",
-    "angular-ui-bootstrap": "=2.3.0",
-    "angular": "=1.6.6",
-    "bootstrap": "=3.3.6",
     "@moviemasher/moviemasher.js": "=4.0.22",
+    "angular": "=1.8.2",
+    "angular-animate": "=1.8.2",
+    "angular-bootstrap-colorpicker": "~3.0.32",
+    "angular-file-upload": "=2.6.1",
+    "angular-resource": "=1.8.2",
+    "angular-ui-bootstrap": "=2.5.0",
+    "bootstrap": "=3.4.1",
     "opentype.js": "=0.7.3",
     "scriptjs": "=2.5.8"
   }

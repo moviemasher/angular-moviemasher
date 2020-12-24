@@ -20,19 +20,19 @@
   ],
   "dependencies": {
     "moviemasher.js": "4.0.22",
-    "angular-animate": "=1.6.6",
-    "angular-bootstrap-colorpicker": "~3.0.8",
-    "angular-ui-bootstrap": "=2.3.0",
-    "angular-file-upload": "=2.5.0",
-    "angular-resource": "=1.6.6",
-    "angular": "=1.6.6",
-    "bootstrap": "=3.3.6"
+    "angular-animate": "=1.8.2",
+    "angular-bootstrap-colorpicker": "~3.0.32",
+    "angular-ui-bootstrap": "=2.5.0",
+    "angular-file-upload": "=2.6.1",
+    "angular-resource": "=1.8.2",
+    "angular": "=1.8.2",
+    "bootstrap": "=3.4.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-copy": "^0.5.0",
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-jshint": "^0.12.0",
     "grunt-contrib-uglify": "^0.4.0",
     "jshint-stylish": "^0.2.0"
   },

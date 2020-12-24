@@ -1,5 +1,56 @@
+<a name="2.5.0"></a>
+# [2.5.0](https://github.com/angular-ui/bootstrap/compare/2.4.0...v2.5.0) (2017-01-28)
+
+
+### Bug Fixes
+
+* **angular:** add compatibility with Angular 1.6([0d79005](https://github.com/angular-ui/bootstrap/commit/0d79005)), closes [#6427](https://github.com/angular-ui/bootstrap/issues/6427) [#6360](https://github.com/angular-ui/bootstrap/issues/6360)
+* **carousel:** remove transition buffering([86ee770](https://github.com/angular-ui/bootstrap/commit/86ee770)), closes [#6367](https://github.com/angular-ui/bootstrap/issues/6367) [#5967](https://github.com/angular-ui/bootstrap/issues/5967)
+* **dropdown:** do nothing if not open when clicking([761db7b](https://github.com/angular-ui/bootstrap/commit/761db7b)), closes [#6414](https://github.com/angular-ui/bootstrap/issues/6414)
+* **tooltip:** unbind keypress listener on hide([f5b357f](https://github.com/angular-ui/bootstrap/commit/f5b357f)), closes [#6423](https://github.com/angular-ui/bootstrap/issues/6423) [#6405](https://github.com/angular-ui/bootstrap/issues/6405)
+
+
+### Features
+
+* **dropdown:** make dropdown-append-to-body configurable ([#6356](https://github.com/angular-ui/bootstrap/issues/6356))([7d3a750](https://github.com/angular-ui/bootstrap/commit/7d3a750))
+* **pagination:** Added menu and menuitem roles (closes [#6383](https://github.com/angular-ui/bootstrap/issues/6383)) ([#6386](https://github.com/angular-ui/bootstrap/issues/6386))([71dc691](https://github.com/angular-ui/bootstrap/commit/71dc691)), closes [#6383](https://github.com/angular-ui/bootstrap/issues/6383) [(#6386](https://github.com/(/issues/6386)
+
+
+
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/angular-ui/bootstrap/compare/2.3.2...v2.4.0) (2016-12-30)
+
+
+### Features
+
+* **dateparser:** allow overriding of parsers([5a3e44a](https://github.com/angular-ui/bootstrap/commit/5a3e44a)), closes [#6370](https://github.com/angular-ui/bootstrap/issues/6370) [#6373](https://github.com/angular-ui/bootstrap/issues/6373)
+
+
+
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/angular-ui/bootstrap/compare/2.3.1...v2.3.2) (2016-12-27)
+
+
+### Bug Fixes
+
+* **dropdown:** re-add close([955848c](https://github.com/angular-ui/bootstrap/commit/955848c)), closes [#6382](https://github.com/angular-ui/bootstrap/issues/6382) [#6321](https://github.com/angular-ui/bootstrap/issues/6321) [#6357](https://github.com/angular-ui/bootstrap/issues/6357) [#6364](https://github.com/angular-ui/bootstrap/issues/6364)
+
+
+
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/angular-ui/bootstrap/compare/2.3.0...v2.3.1) (2016-12-10)
+
+
+### Bug Fixes
+
+* **dateparser:** add new date format for angular 1.5+ only([f2722b5](https://github.com/angular-ui/bootstrap/commit/f2722b5)), closes [#6349](https://github.com/angular-ui/bootstrap/issues/6349)
+
+* **datepickerPopup:** change to toTimezone only([1962485](https://github.com/angular-ui/bootstrap/commit/1962485)), fixes [#6235](https://github.com/angular-ui/bootstrap/issues/6235)
+
+* **modal:** revert focus behavior on open([8a4f625](https://github.com/angular-ui/bootstrap/commit/8a4f625)), closes [#6295](https://github.com/angular-ui/bootstrap/issues/6295)
+
 <a name="2.3.0"></a>
-# [2.3.0](https://github.com/angular-ui/bootstrap/compare/2.2.0...v2.3.0) (2016-11-26)
+# [2.3.0](https://github.com/angular-ui/bootstrap/compare/2.2.0...2.3.0) (2016-11-26)
 
 
 ### Features
@@ -9,7 +60,7 @@
 
 
 <a name="2.2.0"></a>
-# [2.2.0](https://github.com/angular-ui/bootstrap/compare/2.1.4...v2.2.0) (2016-10-10)
+# [2.2.0](https://github.com/angular-ui/bootstrap/compare/2.1.4...2.2.0) (2016-10-10)
 
 
 ### Bug Fixes
@@ -26,7 +77,7 @@
 
 
 <a name="2.1.4"></a>
-## [2.1.4](https://github.com/angular-ui/bootstrap/compare/2.1.3...v2.1.4) (2016-09-24)
+## [2.1.4](https://github.com/angular-ui/bootstrap/compare/2.1.3...2.1.4) (2016-09-24)
 
 
 ### Bug Fixes
@@ -37,7 +88,7 @@
 
 
 <a name="2.1.3"></a>
-## [2.1.3](https://github.com/angular-ui/bootstrap/compare/2.1.2...v2.1.3) (2016-08-25)
+## [2.1.3](https://github.com/angular-ui/bootstrap/compare/2.1.2...2.1.3) (2016-08-25)
 
 
 ### Bug Fixes
@@ -47,7 +98,7 @@
 
 
 <a name="2.1.2"></a>
-## [2.1.2](https://github.com/angular-ui/bootstrap/compare/2.1.1...v2.1.2) (2016-08-22)
+## [2.1.2](https://github.com/angular-ui/bootstrap/compare/2.1.1...2.1.2) (2016-08-22)
 
 
 ### Bug Fixes
@@ -59,7 +110,7 @@
 
 
 <a name="2.1.1"></a>
-## [2.1.1](https://github.com/angular-ui/bootstrap/compare/2.1.0...v2.1.1) (2016-08-21)
+## [2.1.1](https://github.com/angular-ui/bootstrap/compare/2.1.0...2.1.1) (2016-08-21)
 
 
 ### Bug Fixes
@@ -70,7 +121,7 @@
 
 
 <a name="2.1.0"></a>
-# [2.1.0](https://github.com/angular-ui/bootstrap/compare/2.0.2...v2.1.0) (2016-08-19)
+# [2.1.0](https://github.com/angular-ui/bootstrap/compare/2.0.2...2.1.0) (2016-08-19)
 
 
 ### Bug Fixes
@@ -88,7 +139,7 @@
 
 
 <a name="2.0.2"></a>
-## [2.0.2](https://github.com/angular-ui/bootstrap/compare/2.0.1...v2.0.2) (2016-08-15)
+## [2.0.2](https://github.com/angular-ui/bootstrap/compare/2.0.1...2.0.2) (2016-08-15)
 
 
 ### Bug Fixes
@@ -99,7 +150,7 @@
 
 
 <a name="2.0.1"></a>
-## [2.0.1](https://github.com/angular-ui/bootstrap/compare/2.0.0...v2.0.1) (2016-08-02)
+## [2.0.1](https://github.com/angular-ui/bootstrap/compare/2.0.0...2.0.1) (2016-08-02)
 
 
 ### Bug Fixes
@@ -109,7 +160,7 @@
 
 
 <a name="2.0.0"></a>
-# [2.0.0](https://github.com/angular-ui/bootstrap/compare/1.3.3...v2.0.0) (2016-07-20)
+# [2.0.0](https://github.com/angular-ui/bootstrap/compare/1.3.3...2.0.0) (2016-07-20)
 
 
 ### Bug Fixes
@@ -189,7 +240,7 @@ This could affect selectors if they are being used.
 
 
 <a name="1.3.3"></a>
-## [1.3.3](https://github.com/angular-ui/bootstrap/compare/1.3.2...v1.3.3) (2016-05-23)
+## [1.3.3](https://github.com/angular-ui/bootstrap/compare/1.3.2...1.3.3) (2016-05-23)
 
 
 ### Bug Fixes
@@ -215,7 +266,7 @@ This could affect selectors if they are being used.
 
 
 <a name="1.3.2"></a>
-## [1.3.2](https://github.com/angular-ui/bootstrap/compare/1.3.1...v1.3.2) (2016-04-14)
+## [1.3.2](https://github.com/angular-ui/bootstrap/compare/1.3.1...1.3.2) (2016-04-14)
 
 
 ### Bug Fixes
@@ -241,7 +292,7 @@ This could affect selectors if they are being used.
 
 
 <a name="1.3.1"></a>
-## [1.3.1](https://github.com/angular-ui/bootstrap/compare/1.3.0...v1.3.1) (2016-04-05)
+## [1.3.1](https://github.com/angular-ui/bootstrap/compare/1.3.0...1.3.1) (2016-04-05)
 
 
 ### Bug Fixes
@@ -252,7 +303,7 @@ This could affect selectors if they are being used.
 
 
 <a name="1.3.0"></a>
-# [1.3.0](https://github.com/angular-ui/bootstrap/compare/1.2.5...v1.3.0) (2016-04-05)
+# [1.3.0](https://github.com/angular-ui/bootstrap/compare/1.2.5...1.3.0) (2016-04-05)
 
 
 ### Bug Fixes
@@ -295,7 +346,7 @@ attribute pass-throughs in the popup
 
 
 <a name="1.2.5"></a>
-## [1.2.5](https://github.com/angular-ui/bootstrap/compare/1.2.4...v1.2.5) (2016-03-20)
+## [1.2.5](https://github.com/angular-ui/bootstrap/compare/1.2.4...1.2.5) (2016-03-20)
 
 
 ### Bug Fixes
@@ -318,13 +369,13 @@ attribute pass-throughs in the popup
 
 
 <a name="1.2.4"></a>
-## [1.2.4](https://github.com/angular-ui/bootstrap/compare/1.2.3...v1.2.4) (2016-03-06)
+## [1.2.4](https://github.com/angular-ui/bootstrap/compare/1.2.3...1.2.4) (2016-03-06)
 
 
 
 
 <a name="1.2.3"></a>
-## [1.2.3](https://github.com/angular-ui/bootstrap/compare/1.2.2...v1.2.3) (2016-03-06)
+## [1.2.3](https://github.com/angular-ui/bootstrap/compare/1.2.2...1.2.3) (2016-03-06)
 
 
 ### Bug Fixes
@@ -343,7 +394,7 @@ attribute pass-throughs in the popup
 
 
 <a name="1.2.2"></a>
-## [1.2.2](https://github.com/angular-ui/bootstrap/compare/1.2.1...v1.2.2) (2016-03-03)
+## [1.2.2](https://github.com/angular-ui/bootstrap/compare/1.2.1...1.2.2) (2016-03-03)
 
 
 ### Bug Fixes
@@ -360,7 +411,7 @@ attribute pass-throughs in the popup
 
 
 <a name="1.2.1"></a>
-## [1.2.1](https://github.com/angular-ui/bootstrap/compare/1.2.0...v1.2.1) (2016-02-27)
+## [1.2.1](https://github.com/angular-ui/bootstrap/compare/1.2.0...1.2.1) (2016-02-27)
 
 
 ### Bug Fixes
@@ -370,7 +421,7 @@ attribute pass-throughs in the popup
 
 
 <a name="1.2.0"></a>
-# [1.2.0](https://github.com/angular-ui/bootstrap/compare/1.1.2...v1.2.0) (2016-02-26)
+# [1.2.0](https://github.com/angular-ui/bootstrap/compare/1.1.2...1.2.0) (2016-02-26)
 
 
 ### Bug Fixes
@@ -430,7 +481,7 @@ template
 
 
 <a name="1.1.2"></a>
-## [1.1.2](https://github.com/angular-ui/bootstrap/compare/1.1.1...v1.1.2) (2016-02-01)
+## [1.1.2](https://github.com/angular-ui/bootstrap/compare/1.1.1...1.1.2) (2016-02-01)
 
 
 ### Bug Fixes
@@ -448,7 +499,7 @@ template
 
 
 <a name="1.1.1"></a>
-## [1.1.1](https://github.com/angular-ui/bootstrap/compare/v1.1.0...v1.1.1) (2016-01-25)
+## [1.1.1](https://github.com/angular-ui/bootstrap/compare/1.1.0...1.1.1) (2016-01-25)
 
 
 ### Bug Fixes
@@ -498,7 +549,7 @@ template in one's app and provide the necessary CSS
 
 
 <a name="1.0.3"></a>
-# [1.0.3](https://github.com/angular-ui/bootstrap/compare/v1.0.2...v1.0.3) (2016-01-12)
+# [1.0.3](https://github.com/angular-ui/bootstrap/compare/1.0.2...1.0.3) (2016-01-12)
 
 
 ## Bug Fixes
@@ -508,7 +559,7 @@ template in one's app and provide the necessary CSS
 
 
 <a name="1.0.2"></a>
-# [1.0.2](https://github.com/angular-ui/bootstrap/compare/v1.0.1...v1.0.2) (2016-01-12)
+# [1.0.2](https://github.com/angular-ui/bootstrap/compare/1.0.1...1.0.2) (2016-01-12)
 
 
 ## Bug Fixes
@@ -518,7 +569,7 @@ template in one's app and provide the necessary CSS
 
 
 <a name="1.0.1"></a>
-# [1.0.1](https://github.com/angular-ui/bootstrap/compare/1.0.0...v1.0.1) (2016-01-12)
+# [1.0.1](https://github.com/angular-ui/bootstrap/compare/1.0.0...1.0.1) (2016-01-12)
 
 
 ## Bug Fixes
@@ -539,7 +590,7 @@ template in one's app and provide the necessary CSS
 
 
 <a name="1.0.0"></a>
-# [1.0.0](https://github.com/angular-ui/bootstrap/compare/0.14.3...v1.0.0) (2016-01-08)
+# [1.0.0](https://github.com/angular-ui/bootstrap/compare/0.14.3...1.0.0) (2016-01-08)
 
 
 ## Bug Fixes
@@ -684,7 +735,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 <a name="0.14.3"></a>
-# [0.14.3](https://github.com/angular-ui/bootstrap/compare/0.14.2...v0.14.3) (2015-10-23)
+# [0.14.3](https://github.com/angular-ui/bootstrap/compare/0.14.2...0.14.3) (2015-10-23)
 
 
 ## Bug Fixes
@@ -709,7 +760,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 <a name="0.14.2"></a>
-# [0.14.2](https://github.com/angular-ui/bootstrap/compare/0.14.1...v0.14.2) (2015-10-14)
+# [0.14.2](https://github.com/angular-ui/bootstrap/compare/0.14.1...0.14.2) (2015-10-14)
 
 
 ## Bug Fixes
@@ -721,7 +772,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 <a name="0.14.1"></a>
-# [0.14.1](https://github.com/angular-ui/bootstrap/compare/0.14.0...v0.14.1) (2015-10-11)
+# [0.14.1](https://github.com/angular-ui/bootstrap/compare/0.14.0...0.14.1) (2015-10-11)
 
 
 ## Bug Fixes
@@ -904,7 +955,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 <a name"0.13.3"></a>
-# 0.13.3 (2015-08-09)
+# [0.13.3](https://github.com/angular-ui/bootstrap/compare/0.13.2...0.13.3) (2015-08-09)
 
 
 ## Bug Fixes
@@ -991,7 +1042,7 @@ Closes #4080
 
 
 <a name"0.13.2"></a>
-# 0.13.2 (2015-08-02)
+# [0.13.2](https://github.com/angular-ui/bootstrap/compare/0.13.1...0.13.2) (2015-08-02)
 
 
 ## Bug Fixes
@@ -1037,7 +1088,7 @@ Closes #4080
 
 
 <a name"0.13.1"></a>
-# 0.13.1 (2015-07-23)
+# [0.13.1](https://github.com/angular-ui/bootstrap/compare/0.13.0...0.13.1) (2015-07-23)
 
 
 ## Bug Fixes
@@ -1098,7 +1149,7 @@ Closes #4080
 
 
 <a name="0.13.0"></a>
-# 0.13.0 (2015-05-02)
+# [0.13.0](https://github.com/angular-ui/bootstrap/compare/0.12.1...0.13.0) (2015-05-02)
 
 
 ## Bug Fixes
@@ -1197,7 +1248,8 @@ Closes #4080
 * **transition:** deprecate transition module ([8a552443](https://github.com/angular-ui/bootstrap/commit/8a552443741d1e5b4b29d9da9c7e9990fa37886c), closes [#3497](https://github.com/angular-ui/bootstrap/issues/3497))
 
 
-# 0.12.1 (2015-02-20)
+<a name="0.12.1"></a>
+# [0.12.1](https://github.com/angular-ui/bootstrap/compare/0.12.0...0.12.1) (2015-02-20)
 
 ## Bug Fixes
 
@@ -1205,7 +1257,7 @@ Closes #4080
   - incorrect position when text wraps ([5726e3ef](http://github.com/angular-ui/bootstrap/commit/5726e3ef))
 
 <a name="0.12.0"></a>
-# 0.12.0 (2014-11-16)
+# [0.12.0](https://github.com/angular-ui/bootstrap/compare/0.11.2...0.12.0) (2014-11-16)
 
 
 ## Bug Fixes
@@ -1258,11 +1310,13 @@ once* and can no longer be changed after initialization.
     ```
 
 
-# 0.11.2 (2014-09-26)
+<a name="0.11.2"></a>
+# [0.11.2](https://github.com/angular-ui/bootstrap/compare/0.11.1...0.11.2) (2014-09-26)
 
 Revert breaking change in **dropdown** ([1a998c4](http://github.com/angular-ui/bootstrap/commit/1a998c4))
 
-# 0.11.1 (2014-09-26)
+<a name="0.11.1"></a>
+# [0.11.1](https://github.com/angular-ui/bootstrap/compare/0.11.0...0.11.1) (2014-09-26)
 
 ## Features
 
@@ -1296,7 +1350,8 @@ Revert breaking change in **dropdown** ([1a998c4](http://github.com/angular-ui/b
   - allow multiple line expression ([c7db0df4](http://github.com/angular-ui/bootstrap/commit/c7db0df4))
   - replace ng-if with ng-show in matches popup ([a0be450d](http://github.com/angular-ui/bootstrap/commit/a0be450d))
 
-# 0.11.0 (2014-05-01)
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/angular-ui/bootstrap/compare/0.10.0...0.11.0) (2014-05-01)
 
 ## Features
 
@@ -1474,7 +1529,8 @@ Revert breaking change in **dropdown** ([1a998c4](http://github.com/angular-ui/b
   <tabset type="{{navtype}}" ...></tabset>
   ```
 
-# 0.10.0 (2014-01-13)
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/angular-ui/bootstrap/compare/0.9.0...0.10.0) (2014-01-13)
 
 _This release adds AngularJS 1.2 support_
 
@@ -1495,7 +1551,8 @@ _This release adds AngularJS 1.2 support_
 - **tooltip:**
   - performance and scope fixes ([c0df3201](http://github.com/angular-ui/bootstrap/commit/c0df3201))
 
-# 0.9.0 (2013-12-28)
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/angular-ui/bootstrap/compare/0.8.0...0.9.0) (2013-12-28)
 
 _This release adds Bootstrap3 support_
 
@@ -1538,7 +1595,8 @@ _This release adds Bootstrap3 support_
 - **tooltip:**
   - re-position tooltip after draw ([a99b3608](http://github.com/angular-ui/bootstrap/commit/a99b3608))
 
-# 0.8.0 (2013-12-28)
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/angular-ui/bootstrap/compare/0.7.0...0.8.0) (2013-12-28)
 
 ## Features
 
@@ -1605,7 +1663,8 @@ _This release adds Bootstrap3 support_
   <progress><bar ng-repeat="obj in objs" value="obj.var" type="{{obj.type}}"></bar></progress>
 ```
 
-# 0.7.0 (2013-11-22)
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/angular-ui/bootstrap/compare/0.6.0...0.7.0) (2013-11-22)
 
 ## Features
 
@@ -1653,7 +1712,8 @@ _This release adds Bootstrap3 support_
   - evaluate matches source against a correct scope ([fd21214d](http://github.com/angular-ui/bootstrap/commit/fd21214d))
   - support IE8 ([0e9f9980](http://github.com/angular-ui/bootstrap/commit/0e9f9980))
 
-# 0.6.0 (2013-09-08)
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/angular-ui/bootstrap/compare/0.6.0...0.7.0) (2013-09-08)
 
 ## Features
 
@@ -1732,7 +1792,8 @@ Check the documentation for the `$modal` service to migrate from `$dialog`
 
 The placment='mouse' is gone with no equivalent
 
-# 0.5.0 (2013-08-04)
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/angular-ui/bootstrap/compare/0.4.0...0.5.0) (2013-08-04)
 
 ## Features
 
@@ -1815,7 +1876,8 @@ The placment='mouse' is gone with no equivalent
   <pagination first-text="{{var1}}" ...></pagination>
 ```
 
-# 0.4.0 (2013-06-24)
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/angular-ui/bootstrap/compare/0.3.0...0.4.0) (2013-06-24)
 
 ## Features
 
@@ -1933,8 +1995,8 @@ The placment='mouse' is gone with no equivalent
     </tabset>
     ```
 
-
-# 0.3.0 (2013-04-30)
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/angular-ui/bootstrap/compare/0.2.0...0.3.0) (2013-04-30)
 
 ## Features
 
@@ -1975,7 +2037,8 @@ The placment='mouse' is gone with no equivalent
   - correctly higlight matches if query contains regexp-special chars ([467afcd6](https://github.com/angular-ui/bootstrap/commit/467afcd6))
   - fix matches pop-up positioning issues ([74beecdb](https://github.com/angular-ui/bootstrap/commit/74beecdb))
 
-# 0.2.0 (2013-03-03)
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/angular-ui/bootstrap/compare/0.1.0...0.2.0) (2013-03-03)
 
 ## Features
 
@@ -2009,6 +2072,7 @@ The placment='mouse' is gone with no equivalent
 - **typeahead:**
   -  update inputs value on mapping where label is not derived from the model ([a5f64de](https://github.com/angular-ui/bootstrap/commit/a5f64de))
 
+<a name="0.1.0"></a>
 # 0.1.0 (2013-02-02)
 
 _Very first, initial release_.

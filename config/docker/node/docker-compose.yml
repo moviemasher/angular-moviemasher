@@ -17,4 +17,5 @@ services:
     volumes:
       - "../../../node_modules/:/node_modules"
       - "../../../package.json:/package.json"
-    command: npm install --no-bin-links
+    command: npm install --verbose --no-bin-links
+
