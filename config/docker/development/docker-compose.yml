@@ -28,6 +28,8 @@ services:
     volumes:
       - "../../../tmp/error:/tmp/moviemasher/error"
       - "../../../tmp/render:/tmp/moviemasher/render"
+      - "../../../tmp/download:/tmp/moviemasher/download"
+      - "../../../tmp/log:/tmp/moviemasher/log"
       - "../../../../moviemasher.rb/:/mnt/moviemasher.rb"
     command: process_loop -v debug --render_save=1
     tty: true

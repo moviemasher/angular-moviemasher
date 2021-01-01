@@ -1,5 +1,5 @@
 <div draggable="true" class='amm-timeline-clip' ng-class="{'amm-selected':$amm.player.selected(clip)}" ng-style="amm_style_clip(clip, track)">
-  <div class="amm-timeline-clip-icon amm-mouseless" ng-if="amm_media_icon_url($amm.player.media(clip))">
+  <div class="amm-timeline-clip-icon amm-mouseless amm-timeline-clip-icon-{{$amm.player.media(clip).type}}" ng-if="amm_media_icon_url($amm.player.media(clip))">
     <img ng-src="{{amm_media_icon_url($amm.player.media(clip))}}" crossorigin='anonymous' />
   </div>
   <div class="amm-timeline-clip-label">

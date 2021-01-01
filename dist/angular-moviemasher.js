@@ -1,5 +1,5 @@
-/*! angular-moviemasher - v1.0.19 - 2020-12-17
-* Copyright (c) 2020 Movie Masher; Licensed  */
+/*! angular-moviemasher - v1.0.22 - 2021-01-01
+* Copyright (c) 2021 Movie Masher; Licensed  */
 /*globals MovieMasher:true, angular:true*/
 (function(){
   'use strict';
@@ -823,7 +823,7 @@
           }
           if (drop_ok) {
             eventObject.preventDefault();
-            eventObject.dataTransfer.dropEffect = (drag_data.multiple ? 'move' : 'link');
+            eventObject.dataTransfer.dropEffect = (drag_data.multiple ? 'move' : 'all');
           }
           return drag_data;
         };
@@ -839,14 +839,14 @@
             effects = $amm.player.selectedClipOrMash.effects;
             index = data.over_index;
             if (-1 === index) index = effects.length;
-            console.log('effects.drop', eventObject.timeStamp);
+            // console.log('effects.drop', eventObject.timeStamp);
             scope.$apply(function(){
               element.toggleClass('amm-drop-dragover', false);
               if (data.multiple) {
-                console.log('drop move', $amm.player.selectedEffects, 'effect', index);
+                // console.log('drop move', $amm.player.selectedEffects, 'effect', index);
                 $amm.player.move($amm.player.selectedEffects, 'effect', index);
               } else {
-                console.log('effect drop add', data.data.media, 'effect', index);
+                // console.log('effect drop add', data.data.media, 'effect', index);
                 $amm.player.add(data.data.media, 'effect', index);
               }
             });
@@ -1131,7 +1131,7 @@
           ob.left -= Math.round(element[0].getBoundingClientRect().width / 2);
           ob.left += scope.amm_track_controls_width() - controller.scrollLeft;
           ob.left = String(ob.left) + 'px';
-          console.log('amm_style_rule', ob.left);
+          //console.log('amm_style_rule', ob.left);
           return ob;
         };
       }
