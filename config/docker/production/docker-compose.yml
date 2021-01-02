@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:80"
   moviemasher_rb:
-    image: moviemasher/moviemasher.rb
+    image: moviemasher/moviemasher.rb:4.0.25
     volumes_from:
       - angular_moviemasher
     command: process_loop

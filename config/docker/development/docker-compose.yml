@@ -18,7 +18,7 @@ services:
       - "../../../tmp/user-media:/var/www/html/user-media"
       - "../../../tmp/user-data:/var/www/user-data"
   moviemasher_rb:
-    image: moviemasher/moviemasher.rb
+    image: moviemasher/moviemasher.rb:4.0.25
     container_name: angular_moviemasher_rb
     build:
       context: ../../../../moviemasher.rb/
