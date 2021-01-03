@@ -1,7 +1,7 @@
 version: '2'
 services:
   angular_moviemasher:
-    image: moviemasher/angular-moviemasher
+    image: moviemasher/angular-moviemasher:1.0.22
     container_name: angular_moviemasher
     build:
       context: ../../../
@@ -15,17 +15,18 @@ services:
       - "../../../app:/var/www/html/angular-moviemasher/app"
       - "../../../dist:/var/www/html/angular-moviemasher/dist"
       - "../../../node_modules:/var/www/html/angular-moviemasher/node_modules"
+      - "../../../tmp/user-media:/var/www/html/user-media"
+      - "../../../tmp/user-data:/var/www/user-data"
   moviemasher_rb:
-    image: moviemasher/moviemasher.rb
+    image: moviemasher/moviemasher.rb:4.0.25
     container_name: angular_moviemasher_rb
-    build:
-      context: ../../../../moviemasher.rb/
-      dockerfile: ./Dockerfile
     volumes_from:
       - angular_moviemasher
     volumes:
       - "../../../tmp/error:/tmp/moviemasher/error"
       - "../../../tmp/render:/tmp/moviemasher/render"
+      - "../../../tmp/download:/tmp/moviemasher/download"
+      - "../../../tmp/log:/tmp/moviemasher/log"
       - "../../../../moviemasher.rb/:/mnt/moviemasher.rb"
     command: process_loop -v debug --render_save=1
     tty: true

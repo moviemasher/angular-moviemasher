@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>iframe page</title>
+    <script>
+        function test() {
+            var file = document.getElementsByName("testUpload")[0].files[0];
+            console.log(file instanceof File);
+        }
+    </script>
+</head>
+
+<body>
+    <input type="file" name="testUpload" />
+    <button onclick="test();">test</button>
+</body>
+
+</html>

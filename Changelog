@@ -1,4 +1,9 @@
 
+version 1.0.22:
+  - update dependencies
+  - fix waveform icons
+  - fix Safari drag/drop issue
+
 version 1.0.21:
   - fix capitalization of X-Amz-Security-Token for s3 uploads
   - fix bucket path style check in s3 service module
