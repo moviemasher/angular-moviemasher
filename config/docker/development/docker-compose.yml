@@ -20,9 +20,6 @@ services:
   moviemasher_rb:
     image: moviemasher/moviemasher.rb:4.0.25
     container_name: angular_moviemasher_rb
-    build:
-      context: ../../../../moviemasher.rb/
-      dockerfile: ./Dockerfile
     volumes_from:
       - angular_moviemasher
     volumes:
