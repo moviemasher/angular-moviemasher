@@ -1,7 +1,7 @@
 version: '2'
 services:
   angular_moviemasher:
-    image: moviemasher/angular-moviemasher
+    image: moviemasher/angular-moviemasher:1.0.22
     ports:
       - "8080:80"
   moviemasher_rb:
