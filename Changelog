@@ -1,4 +1,7 @@
 
+version 1.0.23:
+  - update aws-sdk
+
 version 1.0.22:
   - update dependencies
   - fix waveform icons

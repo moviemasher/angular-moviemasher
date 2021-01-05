@@ -100,7 +100,9 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
                 throw new \LogicException('This multipart upload has already '
                     . 'been completed or aborted.'
                 );
-            } elseif (!$this->state->isInitiated()) {
+            }
+
+            if (!$this->state->isInitiated()) {
                 // Execute the prepare callback.
                 if (is_callable($this->config["prepare_data_source"])) {
                     $this->config["prepare_data_source"]();
@@ -135,13 +137,29 @@ abstract class AbstractUploadManager implements Promise\PromisorInterface
             // Complete the multipart upload.
             yield $this->execCommand('complete', $this->getCompleteParams());
             $this->state->setStatus(UploadState::COMPLETED);
-        })->otherwise(function (\Exception $e) {
-            // Throw errors from the operations as a specific Multipart error.
-            if ($e instanceof AwsException) {
-                $e = new $this->config['exception_class']($this->state, $e);
-            }
-            throw $e;
-        });
+        })->otherwise($this->buildFailureCatch());
+    }
+
+    private function transformException($e)
+    {
+        // Throw errors from the operations as a specific Multipart error.
+        if ($e instanceof AwsException) {
+            $e = new $this->config['exception_class']($this->state, $e);
+        }
+        throw $e;
+    }
+
+    private function buildFailureCatch()
+    {
+        if (interface_exists("Throwable")) {
+            return function (\Throwable $e) {
+                return $this->transformException($e);
+            };
+        } else {
+            return function (\Exception $e) {
+                return $this->transformException($e);
+            };
+        }
     }
 
     protected function getConfig()

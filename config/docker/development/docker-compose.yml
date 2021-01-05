@@ -1,7 +1,7 @@
 version: '2'
 services:
   angular_moviemasher:
-    image: moviemasher/angular-moviemasher:1.0.22
+    image: moviemasher/angular-moviemasher:1.0.23
     container_name: angular_moviemasher
     build:
       context: ../../../

@@ -136,10 +136,6 @@ class Marshaler
 
         // Handle string values.
         if ($type === 'string') {
-            if ($value === '') {
-                return $this->handleInvalid('empty strings are invalid');
-            }
-
             return ['S' => $value];
         }
 
@@ -313,7 +309,9 @@ class Marshaler
     {
         if ($this->options['ignore_invalid']) {
             return null;
-        } elseif ($this->options['nullify_invalid']) {
+        }
+
+        if ($this->options['nullify_invalid']) {
             return ['NULL' => true];
         }
 

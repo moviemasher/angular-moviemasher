@@ -123,8 +123,11 @@ abstract class RestSerializer
 
     private function applyHeader($name, Shape $member, $value, array &$opts)
     {
-        if ($member->getType() == 'timestamp') {
-            $value = TimestampShape::format($value, 'rfc822');
+        if ($member->getType() === 'timestamp') {
+            $timestampFormat = !empty($member['timestampFormat'])
+                ? $member['timestampFormat']
+                : 'rfc822';
+            $value = TimestampShape::format($value, $timestampFormat);
         }
         if ($member['jsonvalue']) {
             $value = json_encode($value);
@@ -157,8 +160,14 @@ abstract class RestSerializer
                 ? $opts['query'] + $value
                 : $value;
         } elseif ($value !== null) {
-            if ($member->getType() === 'boolean') {
+            $type = $member->getType();
+            if ($type === 'boolean') {
                 $value = $value ? 'true' : 'false';
+            } elseif ($type === 'timestamp') {
+                $timestampFormat = !empty($member['timestampFormat'])
+                    ? $member['timestampFormat']
+                    : 'iso8601';
+                $value = TimestampShape::format($value, $timestampFormat);
             }
 
             $opts['query'][$member['locationName'] ?: $name] = $value;
@@ -186,7 +195,9 @@ abstract class RestSerializer
                 $k = $isGreedy ? substr($matches[1], 0, -1) : $matches[1];
                 if (!isset($varspecs[$k])) {
                     return '';
-                } elseif ($isGreedy) {
+                }
+
+                if ($isGreedy) {
                     return str_replace('%2F', '/', rawurlencode($varspecs[$k]));
                 }
 
@@ -199,6 +210,12 @@ abstract class RestSerializer
         if (!empty($opts['query'])) {
             $append = Psr7\build_query($opts['query']);
             $relative .= strpos($relative, '?') ? "&{$append}" : "?$append";
+        }
+
+        // If endpoint has path, remove leading '/' to preserve URI resolution.
+        $path = $this->endpoint->getPath();
+        if ($path && $relative[0] === '/') {
+            $relative = substr($relative, 1);
         }
 
         // Expand path place holders using Amazon's slightly different URI
