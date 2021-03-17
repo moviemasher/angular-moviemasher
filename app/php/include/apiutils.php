@@ -209,9 +209,10 @@ if (! function_exists('api_job_render')) {
         'error' => '{job.error}',
         'log' => '{job.log}',
         'commands' => '{job.commands}',
+        'stream' => '{job.outputs.0.stream}',
       );
       if (! empty($output['include_progress'])) $result['callbacks'][] = service_export_progress_callback($progress_callback_payload, $config);
-      $result['callbacks'][] = service_export_complete_callback($complete_callback_payload, $config);
+      if (! empty($output['include_complete'])) $result['callbacks'][] = service_export_complete_callback($complete_callback_payload, $config);
       // add Output for rendered video or audio file, with no transfer tag of its own
       $job_output = array('type' => $type, 'required' => 1);
       $job_output['extension'] = $export_extension;
@@ -275,7 +276,7 @@ if (! function_exists('api_job_import')) {
       );
       if ('image' != $type) $complete_callback_payload['duration'] = '{job.duration}';
       if (! empty($output['include_progress'])) $result['callbacks'][] = service_import_progress_callback($progress_callback_payload, $config);
-      $result['callbacks'][] = service_import_complete_callback($complete_callback_payload, $config);
+      if (! empty($output['include_complete'])) $result['callbacks'][] = service_import_complete_callback($complete_callback_payload, $config);
       $input_tag['source'] = service_source($input, $config);
       $result['inputs'][] = $input_tag;
       // OUTPUTS

@@ -1,4 +1,3 @@
-
 <div class='amm-panel amm-player-panel'>
   <div class='amm-container'>
     <div class='amm-head'>
@@ -63,7 +62,6 @@
     </div>
     <div class='amm-browser' nv-file-drop uploader="uploader">
       <div ng-repeat="media in amm_media" class="amm-browser-media-container" amm-drag-media="media"></div>
-      </div>
     </div>
     <div class='amm-foot'>
       <span ng-if="amm_resources.import.init" ng-hide="amm_import_completed">
@@ -126,6 +124,11 @@
           <i class="glyphicon glyphicon-eye-open"></i>
           View
         </button>
+        <a download ng-href="{{$amm.selected_mash.source.replace('.mp4', '.json')}}" ng-disabled="!$amm.selected_mash.source" class="btn btn-default btn-sm">
+          <i class="glyphicon glyphicon-download-alt"></i>
+          JSON
+        </a>
+
         <button type="button" ng-disabled="(!$amm.can('render')) || (amm_export_completed>0&&amm_export_completed<1)" class="btn btn-default btn-sm" ng-click="$amm.render()">
           <i class="glyphicon glyphicon-hd-video"></i>
           Render

@@ -22,7 +22,7 @@ if (! $err) { // pull in other configuration and check for required input
   else if (! $json_object = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
   if ($config['log_api_response']) log_file($php_input, $config);
 }
-if (! $err) { 
+if (! $err) {
   $job = (empty($json_object['job']) ? '' : $json_object['job']);
   if (! $job ) $err = 'Parameter job required';
 }
@@ -37,7 +37,7 @@ if (! $err) { // see if job reported error
     if (! empty($export_data['error'])) $err = $export_data['error'];
     else $err = data_update_mash($export_data, $json_object['uid'], $config);
     $response['source'] = $export_data['source'];
-    $php_input = json_encode($response);  
+    $php_input = json_encode($response);
   }
 }
 if (! (empty($config) || empty($job) || empty($php_input))) {

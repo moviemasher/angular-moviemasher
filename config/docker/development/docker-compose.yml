@@ -1,7 +1,7 @@
 version: '2'
 services:
   angular_moviemasher:
-    image: moviemasher/angular-moviemasher:1.0.23
+    image: moviemasher/angular-moviemasher:1.0.24
     container_name: angular_moviemasher
     build:
       context: ../../../
@@ -17,8 +17,13 @@ services:
       - "../../../node_modules:/var/www/html/angular-moviemasher/node_modules"
       - "../../../tmp/user-media:/var/www/html/user-media"
       - "../../../tmp/user-data:/var/www/user-data"
+      - "./dynamic/user-media:/var/www/html/user-media/test"
+      - "./dynamic/user-data:/var/www/user-data/test"
   moviemasher_rb:
-    image: moviemasher/moviemasher.rb:4.0.25
+    image: moviemasher/moviemasher.rb:4.0.26
+    build:
+      context: ../../../../moviemasher.rb
+      dockerfile: ./Dockerfile
     container_name: angular_moviemasher_rb
     volumes_from:
       - angular_moviemasher

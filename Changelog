@@ -1,4 +1,7 @@
 
+version 1.0.24:
+  - update to moviemasher 4.0.26
+
 version 1.0.23:
   - update aws-sdk
 

@@ -7,3 +7,4 @@ source/*
 *.svg
 *.vfb
 *.markdown
+tmp/*

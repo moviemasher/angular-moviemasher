@@ -23,7 +23,7 @@ if (! $err) { // pull in other configuration and check for required input
   if (! $php_input = file_get_contents('php://input')) $err = 'JSON payload required';
   else if (! $request = @json_decode($php_input, TRUE)) $err = 'Could not parse JSON payload';
 }
-if (! $err) { 
+if (! $err) {
   if ($config['log_request']) log_file(print_r($request, 1), $config);
   $id = (empty($request['id']) ? '' : $request['id']);
   if (! $id ) $err = 'Parameter id required';
@@ -39,7 +39,8 @@ if (! $err) { // grab mash data from input or file
   }
 }
 if (! $err) { // post export transcode job
-  $result = api_export(array('id' => $id, 'mash' => $mash), array('include_progress' => 1), $config);
+  $options = array('include_progress' => 0, 'include_complete' => 1);
+  $result = api_export(array('id' => $id, 'mash' => $mash), $options, $config);
   if (! empty($result['error'])) $err = $result['error'];
   else $response['job'] = $result['id'];
 }
