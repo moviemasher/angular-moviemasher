@@ -304,14 +304,14 @@ if (! function_exists('api_job_import')) {
 
 
         // add output for waveform file
-        $result['outputs'][] = array(
-          'type' => 'waveform',
-          'forecolor' => $config['import_waveform_forecolor'],
-          'backcolor' => $config['import_waveform_backcolor'],
-          'name' => $config['import_waveform_basename'],
-          'dimensions' => $config['import_waveform_dimensions'],
-          'extension' => $config['import_waveform_extension'],
-        );
+//         $result['outputs'][] = array(
+//           'type' => 'waveform',
+//           'forecolor' => $config['import_waveform_forecolor'],
+//           'backcolor' => $config['import_waveform_backcolor'],
+//           'name' => $config['import_waveform_basename'],
+//           'dimensions' => $config['import_waveform_dimensions'],
+//           'extension' => $config['import_waveform_extension'],
+//         );
       }
       if ($type == 'video') {
         // add output for sequence files
